@@ -1,0 +1,13 @@
+actions:
+
+- name: API responds alive
+  bashTest:
+    script: |-
+      set -e
+      DOMAIN="${app_instance_name}-api.${namespace}.svc.cluster.local:8080"
+      wget $DOMAIN/alive
+    expect:
+      exitCode:
+        equals: 0
+      stderr: # I don't understand why this output shows up in stderr rather than stdout
+        contains: '200 OK'

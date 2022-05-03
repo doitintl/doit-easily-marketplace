@@ -42,7 +42,7 @@ as you see fit. We also provide a cli script to expose the API via a load balanc
 Set it up in a cluster in gcp, easier to run as the SA (rather than suggesting DLing the json key and all that)
 
 ## Application CRD 
-[Install the Application CRD][4] into the cluster  
+If you cluster doesn't have the Application CRD, you'll need it. [Install the Application CRD][4] into the cluster  
 `kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/application/master/deploy/kube-app-manager-aio.yaml`
 
 

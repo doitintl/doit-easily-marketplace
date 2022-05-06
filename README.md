@@ -1,6 +1,6 @@
 # Overview
 
-Doit-Easily is the Prius of GCP Marketplace [backend integrations][1] required for a GCP marketplace Saas Offering.
+Doit-Easily is the [backend integrations][1] required for a GCP marketplace Saas Offering.
 
 This backend integration is designed to be deployed into an existing GKE cluster. It offers Slack notifications and
 simple pubsub events to indicate events (create, update, destroy). It also provides an API to front
@@ -11,20 +11,23 @@ services for new customers. Optionally you can also auto approve entitlements (s
 Doit-Easily will also work to satisfy the requirements of the [Saas-Codelab][3].
 
 # Architecture
-TODO: add an image
+![Diagram](img/arch.png)
 
 # Components not included
-- Frontend Integration: we include a simple example, but only to showcase how to do this (TODO)  
+- Frontend Integration: we include a simple example, but only to showcase how to do this (TODO) 
+- Backend Integration UI: this solution DOES give a simple API which fronts the procurement API, but no UI is provided beyond the simplest example. (TODO) 
 - Ingress/Auth: because this solution will be deployed into an existing GKE cluster, we don't know how you might expose
 your services to end users. As such, the default installation of this product leaves a ClusterIP service for you to expose
-as you see fit. We also provide a cli script to expose the API via a load balancer and authenticated with IAP TODOTODOTODOTODOTODO
+as you see fit. We will expose using IAP/Ingress in the future (TODO)
 
 #Installation
 ## Prerequisites
 - Steps 1 & 2 from [this checklist][2] should be completed first.
 - Service Account with access to Procurement API & Marketplace Topic 
-  - [example create script][6]
-- Pull subscription on the procurement topic (see docs somewhere)
+  - [example create script for using SAAS-Codelab][6]
+  - Docs how to create [via producer portal][9]
+- Pull subscription on the procurement topic 
+  - Documented [here][8]
   - [example create script][7]
 - A GKE cluster
   - workload identity enabled
@@ -34,12 +37,14 @@ as you see fit. We also provide a cli script to expose the API via a load balanc
 ## Optional Prerequisites
 - Topic for publishing events 
   - [example create script][5]
-- Slack webhook URL for publishing notifications
+- Slack webhook URL for publishing notifications (see slack docs)
 
-
+## Deploy with MPDEV
+See [docs][10]
 
 # local setup
 Set it up in a cluster in gcp, easier to run as the SA (rather than suggesting DLing the json key and all that)
+Deploy it with `IS_CODELAB=true` to run in codelab mode
 
 ## Application CRD 
 If you cluster doesn't have the Application CRD, you'll need it. [Install the Application CRD][4] into the cluster  
@@ -53,3 +58,6 @@ If you cluster doesn't have the Application CRD, you'll need it. [Install the Ap
 [5]: ./required-infra/create-isv-backend-infra-3.sh
 [6]: ./required-infra/create-isv-public-infra-1.sh
 [7]: ./required-infra/create-isv-public-infra-2.sh
+[8]:https://cloud.google.com/marketplace/docs/partners/integrated-saas/technical-integration-setup
+[9]: https://cloud.google.com/marketplace/docs/partners/integrated-saas/backend-integration#producer-portal-service-accounts
+[10]: ./docs/install-mpdev.md

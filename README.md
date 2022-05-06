@@ -21,23 +21,24 @@ your services to end users. As such, the default installation of this product le
 as you see fit. We will expose using IAP/Ingress in the future (TODO)
 
 #Installation
+
 ## Prerequisites
 - Steps 1 & 2 from [this checklist][2] should be completed first.
-- Service Account with access to Procurement API & Marketplace Topic 
+- Create service Account with access to Procurement API & Marketplace Topic 
   - [example create script for using SAAS-Codelab][6]
   - Docs how to create [via producer portal][9]
-- Pull subscription on the procurement topic 
+- Create pull subscription on the procurement topic 
   - Documented [here][8]
   - [example create script][7]
-- A GKE cluster
+- Create A GKE cluster (or use existing)
   - workload identity enabled
   - Full access to API scopes
   - [example create script][5]
 
 ## Optional Prerequisites
-- Topic for publishing events 
+- Create Topic for publishing events 
   - [example create script][5]
-- Slack webhook URL for publishing notifications (see slack docs)
+- Create a Slack webhook URL for publishing notifications (see slack docs)
 
 ## Deploy with MPDEV
 See [docs][10]

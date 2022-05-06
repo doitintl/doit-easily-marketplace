@@ -1,4 +1,5 @@
-export GCP_PROJECT_ID="doit-easily-dev"
+export GCP_PROJECT_ID="isv-public"
+export GCP_BACKEND_PROJECT_ID="isv-public"
 export NETWORK_NAME="mp-network"
 export SUBNETWORK_NAME="mp-subnet"
 export ROUTER_NAME="mp-router"
@@ -12,6 +13,7 @@ export REGION="us-central1"
 export CLUSTER_NAME="mp-cluster1"
 export AUTHORIZED_NETWORKS_RANGE="$(curl -s ifconfig.me)/32"
 export EVENT_TOPIC_NAME="mp-create-events"
+export SERVICE_ACCOUNT_ID="saas-codelab" # change to more generic name
 
 gcloud compute networks create ${NETWORK_NAME} \
     --subnet-mode custom \
@@ -54,8 +56,6 @@ gcloud container clusters get-credentials ${CLUSTER_NAME} --region ${REGION} --p
 gcloud pubsub topics create ${EVENT_TOPIC_NAME} \
     --project "${GCP_PROJECT_ID}"
 
-export GCP_BACKEND_PROJECT_ID="doit-easily-dev"
-export SERVICE_ACCOUNT_ID="saas-codelab" # change to more generic name
 
 gcloud pubsub topics add-iam-policy-binding ${EVENT_TOPIC_NAME} \
     --member "serviceAccount:${SERVICE_ACCOUNT_ID}@${GCP_PROJECT_ID}.iam.gserviceaccount.com" \

@@ -1,9 +1,9 @@
-export GCP_PROJECT_ID="doit-public"
-export GCP_BACKEND_PROJECT_ID="doit-easily-dev"
+export GCP_PROJECT_ID="isv-public"
+export GCP_BACKEND_PROJECT_ID="isv-public"
 export K8S_NAMESPACE="marketplace"
 export SERVICE_ACCOUNT_ID="saas-codelab" # change to more generic name
 export KEY_FILE=mp-sa-key.json
-export TOPIC_NAME="projects/cloudcommerceproc-prod/topics/DEMO-doit-public" # TODO: make generic
+export TOPIC_NAME="projects/cloudcommerceproc-prod/topics/DEMO-isv-public"
 
 # Run this after Google has granted permissions to the marketplace-sa
 

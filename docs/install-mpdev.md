@@ -9,10 +9,10 @@
     NAMESPACE="dev"
     IS_CODELAB="true"
     MARKETPLACE_PROJECT="ISV-public"
-    BACKEND_PROJECT="ISV-public"
+    BACKEND_PROJECT="ISV-public" # originally setup to run in separate projects, not doing this due to org policy issues
     LOG_LEVEL="debug"
-    SLACK_WEBHOOK="REPLACE_WITH_A_REAL_SLACK_HOOK"
-    EVENT_TOPIC="projects/ISV-public/topics/backend-integration-dev-events"
+    SLACK_WEBHOOK="REPLACE_WITH_A_REAL_SLACK_HOOK" # leave blank if not using
+    EVENT_TOPIC="projects/ISV-public/topics/backend-integration-dev-events" # leave blank if not using
     SUBSCRIPTION_ID="projects/ISV-public/subscriptions/backend-integration-dev"
     GOOGLE_SERVICE_ACCOUNT_EMAIL="saas-codelab@ISV-public.iam.gserviceaccount.com"
     DEPLOYMENT_SERVICE_ACCOUNT="mp-ksa"
@@ -23,6 +23,6 @@
 
 3. Verify the backend by curling the API
    1. list entitlements   
-   `curl localhost:8080/entitlement`
+      `curl localhost:8080/entitlement`
    2. approve entitlement  
       `curl --request POST localhost:8080/entitlement/approve --data '{"entitlement_id":"some-id-from-prior-request"}' --header "Content-Type: application/json"`

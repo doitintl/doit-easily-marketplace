@@ -1,10 +1,12 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-t', 'gcr.io/doit-public/doit-easily/deployer:$TAG_NAME', '-f', 'deployer/Dockerfile', '.' ]
+  args: [ 'build', '-t', 'gcr.io/doit-public/doit-easily/deployer:$_TAG', '-f', 'deployer/Dockerfile', '.' ]
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/doit-public/doit-easily/deployer:$TAG_NAME']
+  args: ['push', 'gcr.io/doit-public/doit-easily/deployer:$_TAG']
 - name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-t', 'gcr.io/doit-public/doit-easily/tester:$TAG_NAME', '-f', 'apptest/tester/Dockerfile', 'apptest/tester/' ]
+  args: [ 'build', '-t', 'gcr.io/doit-public/doit-easily/tester:$_TAG', '-f', 'apptest/tester/Dockerfile', 'apptest/tester/' ]
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/doit-public/doit-easily/tester:$TAG_NAME']
+  args: ['push', 'gcr.io/doit-public/doit-easily/tester:$_TAG']
+substitutions:
+  _TAG: ${TAG_NAME/v/}
 #  todo can we run verifier? it requires a cluster...

@@ -1,0 +1,27 @@
+properties:
+  marketplace_project:
+    type: string
+    default: doit-public
+  backend_project:
+    type: string
+    default: doit-dev-easily
+  log_level:
+    type: string
+    default: debug
+  slack_webhook:
+    type: string
+    default: ""
+  event_topic:
+    type: string
+    default: ""
+  subscription_id:
+    type: string
+    default: projects/doit-public/subscriptions/doit-easily-dev
+  google_service_account_email:
+    type: string
+    default: saas-codelab@doit-public.iam.gserviceaccount.com
+  testerImage:
+    type: string
+    default: $REGISTRY/tester:$TAG
+    x-google-property:
+      type: IMAGE

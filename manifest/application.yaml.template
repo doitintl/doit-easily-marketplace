@@ -11,7 +11,7 @@ metadata:
 spec:
   descriptor:
     type: DoiT Easily
-    version: '0.0.1'
+    version: $imageTag
     description: |-
       A description of this application. A marketplace backend integration solution.
   selector:

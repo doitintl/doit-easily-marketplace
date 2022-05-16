@@ -56,9 +56,9 @@ If you cluster doesn't have the Application CRD, you'll need it. [Install the Ap
 [2]: https://cloud.google.com/marketplace/docs/partners/integrated-saas#checklist
 [3]: https://codelabs.developers.google.com/codelabs/gcp-marketplace-integrated-saas/#0
 [4]: https://cloud.google.com/solutions/using-gke-applications-page-cloud-console#preparing_gke
-[5]: ./required-infra/create-isv-backend-infra-3.sh
-[6]: ./required-infra/create-isv-public-infra-1.sh
-[7]: ./required-infra/create-isv-public-infra-2.sh
+[5]: ./required-infra/3-create-isv-backend-infra.sh
+[6]: ./required-infra/1-create-isv-public-infra.sh
+[7]: ./required-infra/2-create-isv-public-infra.sh
 [8]:https://cloud.google.com/marketplace/docs/partners/integrated-saas/technical-integration-setup
 [9]: https://cloud.google.com/marketplace/docs/partners/integrated-saas/backend-integration#producer-portal-service-accounts
 [10]: ./docs/install-mpdev.md

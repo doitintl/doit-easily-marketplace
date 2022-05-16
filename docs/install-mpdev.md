@@ -16,10 +16,11 @@
     SUBSCRIPTION_ID="projects/ISV-public/subscriptions/backend-integration-dev"
     GOOGLE_SERVICE_ACCOUNT_EMAIL="saas-codelab@ISV-public.iam.gserviceaccount.com"
     DEPLOYMENT_SERVICE_ACCOUNT="mp-ksa"
-    # TODO: this needs to be our marketplace image once published
-    IMAGE="gcr.io/doit-public/doit-easily/deployer:v0.0.1-alpha5"
 
-    mpdev install  --deployer=$IMAGE --parameters="{\"app_instance_name\":\"${APP_INSTANCE_NAME}\",\"namespace\":\"${NAMESPACE}\",\"is_codelab\":${IS_CODELAB},\"marketplace_project\":\"${MARKETPLACE_PROJECT}\",\"backend_project\":\"${BACKEND_PROJECT}\",\"log_level\":\"${LOG_LEVEL}\",\"slack_webhook\":\"${SLACK_WEBHOOK}\",\"event_topic\":\"${EVENT_TOPIC}\",\"subscription_id\":\"${SUBSCRIPTION_ID}\",\"google_service_account_email\":\"${GOOGLE_SERVICE_ACCOUNT_EMAIL}\",\"deployment_service_account\":\"${DEPLOYMENT_SERVICE_ACCOUNT}\"}"
+    # support running this as an executable
+    TAG=${1:-"v0.0.0"}
+    echo $TAG
+    mpdev install  --deployer=gcr.io/doit-public/doit-easily/deployer:${TAG} --parameters="{\"app_instance_name\":\"${APP_INSTANCE_NAME}\",\"namespace\":\"${NAMESPACE}\",\"is_codelab\":${IS_CODELAB},\"marketplace_project\":\"${MARKETPLACE_PROJECT}\",\"backend_project\":\"${BACKEND_PROJECT}\",\"log_level\":\"${LOG_LEVEL}\",\"slack_webhook\":\"${SLACK_WEBHOOK}\",\"event_topic\":\"${EVENT_TOPIC}\",\"subscription_id\":\"${SUBSCRIPTION_ID}\",\"google_service_account_email\":\"${GOOGLE_SERVICE_ACCOUNT_EMAIL}\",\"deployment_service_account\":\"${DEPLOYMENT_SERVICE_ACCOUNT}\"}"
 
 3. Verify the backend by curling the API
    1. list entitlements   

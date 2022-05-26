@@ -93,6 +93,8 @@ spec:
           value: $event_topic
         - name: SLACK_WEBHOOK
           value: $slack_webhook
+        - name: AUTO_APPROVE_ENTITLEMENTS
+          value: "$auto_approve_entitlements"
         ports:
         - containerPort: 8080
         resources:

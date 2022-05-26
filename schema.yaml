@@ -40,6 +40,9 @@ properties:
     type: string
   subscription_id:
     type: string
+  auto_approve_entitlements:
+    type: boolean
+    default: false
   deployment_service_account:
     type: string
     x-google-marketplace:

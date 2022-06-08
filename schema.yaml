@@ -3,7 +3,7 @@ x-google-marketplace:
   applicationApiVersion: v1beta1
   # The published version is required and MUST match the tag
   # of the deployer image
-  publishedVersion: '0.0.1-alpha12'
+  publishedVersion: '0.0.1-alpha13'
   publishedVersionMetadata:
     releaseNote: >-
       A first release.
@@ -25,7 +25,7 @@ properties:
     x-google-marketplace:
       type: NAMESPACE
   is_codelab:
-    type: string
+    type: boolean
     default: true
   marketplace_project:
     type: string
@@ -41,7 +41,7 @@ properties:
   subscription_id:
     type: string
   auto_approve_entitlements:
-    type: string
+    type: boolean
     default: false
   deployment_service_account:
     type: string

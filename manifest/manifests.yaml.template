@@ -25,6 +25,7 @@ spec:
       containers:
       - name: $app_instance_name-container
         image: $imageRepo/app:$imageTag
+        imagePullPolicy: Always
         env:
         - name: MARKETPLACE_PROJECT
           value: $marketplace_project

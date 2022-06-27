@@ -24,7 +24,7 @@ spec:
       serviceAccountName: $deployment_service_account
       containers:
       - name: $app_instance_name-container
-        image: $imageRepo/app:$imageTag
+        image: $imageRepo:$imageTag
         imagePullPolicy: Always
         env:
         - name: MARKETPLACE_PROJECT
@@ -76,7 +76,7 @@ spec:
       serviceAccountName: $deployment_service_account
       containers:
       - name: $app_instance_name-processor
-        image: $imageRepo/app:$imageTag
+        image: $imageRepo:$imageTag
         imagePullPolicy: Always
         command: ["python", "processor.py"]
         env:

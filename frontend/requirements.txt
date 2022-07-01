@@ -1,0 +1,4 @@
+Flask==2.0.2
+pyjwt[crypto]==2.3.0
+requests==2.27.1
+gunicorn==20.1.0

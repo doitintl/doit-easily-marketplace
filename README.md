@@ -2,46 +2,35 @@
 
 Doit-Easily is the [backend integrations][1] required for a GCP marketplace Saas Offering.
 
-This backend integration is designed to be deployed into an existing GKE cluster. It offers Slack notifications and
-simple pubsub events to indicate events (create, update, destroy). It also provides an API to front
-the Procurement API, handling all required auth and configuration to work with the Procurement API. This allows you
-to create a simple UI to view and approve entitlement creation requests, and manually approve them before provisioning
-services for new customers. Optionally you can also auto approve entitlements (skipping manual approval).
+# Overview
+![Diagram](img/simple-arch.png)
 
-Doit-Easily will also work to satisfy the requirements of the [Saas-Codelab][3].
+## Components
 
-# Architecture
-![Diagram](img/arch.png)
+### GCP owned
+* marketplace listing: The marketplace listing your customer's use to subscribe to your service. Used for public and private offers.
+* procurement api: REST API to inform Google about entitlement and account statuses
+* service api: REST API to inform Google about usage for usage based billing
+* isv-public topic: pub/sub topic where Google publishes entitlment events (creation requested, update requested, etc)
 
-# Components not included
-- Frontend Integration: we include a simple example, but only to showcase how to do this (TODO) 
-- Backend Integration UI: this solution DOES give a simple API which fronts the procurement API, but no UI is provided beyond the simplest example. (TODO) 
-- Ingress/Auth: because this solution will be deployed into an existing GKE cluster, we don't know how you might expose
-your services to end users. As such, the default installation of this product leaves a ClusterIP service for you to expose
-as you see fit. We will expose using IAP/Ingress in the future (TODO)
+### ISV owned
+* frontend-integration: public website where customers are redirected after subscribing to your listing. Does JWT validation and gives you an opportunity to collect additional customer information (for storing in your own DB)
+* backend-integration: service to receive and respond to entitlement events from Google. Provides a simplified API to interact with the procurement API
+* isv-public subscription: subscription to the "isv-public topic"
+* isv provision service: an optional service (not provided by this repository) which listens to events from the backend-integration. This service would provision resources in your backend for SaaS customers
+* usage-reporter: an optional service (only required for usage based billing, not provided by this repository) which reports usage metrics to Google's Service API
+* service account: the doit-easily service account which runs your backend-integration. This service account has roles to interact with the procurement API and subscribe to the isv-public topic.
 
-#Installation
 
-## Prerequisites
-- Steps 1 & 2 from [this checklist][2] should be completed first.
-- Create service Account with access to Procurement API & Marketplace Topic 
-  - [example create script for using SAAS-Codelab][6]
-  - Docs how to create [via producer portal][9]
-- Create pull subscription on the procurement topic 
-  - Documented [here][8]
-  - [example create script][7]
-- Create A GKE cluster (or use existing)
-  - workload identity enabled
-  - Full access to API scopes
-  - [example create script][5]
+This backend integration can be deployed in several ways. Into GKE, or into Cloud Run. We recommend Cloud Run.
 
-## Optional Prerequisites
-- Create Topic for publishing events 
-  - [example create script][5]
-- Create a Slack webhook URL for publishing notifications (see slack docs)
+## Installation into Cloud Run
 
-## Deploy with MPDEV
-See [docs][10]
+See instructions [here](docs/install-cloudrun.md)
+
+## Installation into GKE
+See instructions [here](docs/install-gke.md)
+
 
 # local setup
 Set it up in a cluster in gcp, easier to run as the SA (rather than suggesting DLing the json key and all that)

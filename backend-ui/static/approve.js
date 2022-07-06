@@ -16,6 +16,9 @@ async function approve(entitlement_id) {
         // window.alert(text);
         window.location.reload();
       }
+      else {
+        window.alert('Something went wrong... Please try again!');
+      }
     } catch (err) {
       console.log(`Error when submitting approval: ${err}`);
       window.alert('Something went wrong... Please try again!');
@@ -39,6 +42,9 @@ async function reject(entitlement_id) {
         console.log(text)
         // window.alert(text);
         window.location.reload();
+      }
+      else {
+        window.alert('Something went wrong... Please try again!');
       }
     } catch (err) {
       console.log(`Error when submitting rejection: ${err}`);

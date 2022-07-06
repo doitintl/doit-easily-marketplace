@@ -3,7 +3,7 @@ x-google-marketplace:
   applicationApiVersion: v1beta1
   # The published version is required and MUST match the tag
   # of the deployer image
-  publishedVersion: '0.1.3-alpha3'
+  publishedVersion: '0.1.3-alpha4'
   publishedVersionMetadata:
     releaseNote: >-
       Initial Release of Doit Easily backend integration.

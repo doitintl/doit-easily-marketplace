@@ -47,7 +47,8 @@ def entitlements():
             entitlement_response['entitlements']) if 'entitlements' in entitlement_response else []
 
         return render_template("noauth.html", **page_context)
-    except Exception:
+    except Exception as e:
+        print(e)
         return {"error": "Loading failed"}, 500
 
 
@@ -57,8 +58,9 @@ def approve():
         #     call the backend api /entitlement/approve endpoint
         msg_json = request.json
         response = requests.post(f"{API_URL}/entitlement/approve", json={"entitlement_id": msg_json['entitlement_id']})
-        return "{}", response.status_code
-    except Exception:
+        return {}, response.status_code
+    except Exception as e:
+        print(e)
         return {"error": "Loading failed"}, 500
 
 
@@ -68,8 +70,9 @@ def reject():
         #     call the backend api /entitlement/reject endpoint
         msg_json = request.json
         response = requests.post(f"{API_URL}/entitlement/reject", json={"entitlement_id": msg_json['entitlement_id']})
-        return "{}", response.status_code
-    except Exception:
+        return {}, response.status_code
+    except Exception as e:
+        print(e)
         return {"error": "Loading failed"}, 500
 
 

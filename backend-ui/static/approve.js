@@ -12,7 +12,8 @@ async function approve(entitlement_id) {
       });
       if (response.ok) {
         const text = await response.json();
-        window.alert(text);
+        console.log(text)
+        // window.alert(text);
         window.location.reload();
       }
     } catch (err) {
@@ -35,7 +36,8 @@ async function reject(entitlement_id) {
       });
       if (response.ok) {
         const text = await response.json();
-        window.alert(text);
+        console.log(text)
+        // window.alert(text);
         window.location.reload();
       }
     } catch (err) {

@@ -50,7 +50,7 @@
                 <th>State</th>
                 <th>Update Time</th>
                 <th>Usage Reporting ID</th>
-                <th>Approval</th>
+                <th>Approve/Reject</th>
             </tr>
             </thead>
             <tbody>
@@ -67,8 +67,8 @@
                     <td>{{ entity['state'] }}</td>
                     <td>{{ entity['updateTime'] }}</td>
                     <td>{{ entity['usageReportingId'] }}</td>
-                    <td><button class="btn" onClick="approve('{{ entity['account'].split('/')[-1] }}')">Approve</button></td>
-                    <td><button class="btn" onClick="reject('{{ entity['account'].split('/')[-1] }}')">Reject</button></td>
+                    <td><button class="btn" onClick="approve('{{ entity['name'].split('/')[-1] }}')">Approve</button>
+                    <button class="btn" onClick="reject('{{ entity['name'].split('/')[-1] }}')">Reject</button></td>
                 </tr>
             {% endfor %}
             </tbody>

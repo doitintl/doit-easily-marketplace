@@ -70,7 +70,9 @@ def reject():
         #     call the backend api /entitlement/reject endpoint
         msg_json = request.json
         print(f"rejecting: {msg_json['entitlement_id']}")
-        response = requests.post(f"{API_URL}/entitlement/reject", json={"entitlement_id": msg_json['entitlement_id']})
+        response = requests.post(f"{API_URL}/entitlement/reject",
+                                 json={"entitlement_id": msg_json['entitlement_id'],
+                                       "reason": msg_json["reason"]})
         print(f"response: {response}")
         return {}, response.status_code
     except Exception as e:

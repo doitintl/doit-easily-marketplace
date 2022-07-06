@@ -8,6 +8,8 @@ URL_PREFIX = os.environ.get("URL_PREFIX", "")
 
 # :embarassed: don't look at me, I'm ugly
 # this is super hacky and lets us set the url prefix on the static js code. we should not do this.
+# this entire app should become an SPA and the backend should the backend API rather than a separate server.
+# for now this hack lets us set the url prefix to whatever the customer needs based on their ingress settings
 with open("static/approve.js", 'r') as file:
     filedata = file.read()
 filedata = filedata.replace('{URL_PREFIX}', URL_PREFIX)

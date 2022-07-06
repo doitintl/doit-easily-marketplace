@@ -56,8 +56,8 @@ def approve():
     try:
         #     call the backend api /entitlement/approve endpoint
         msg_json = request.json
-        requests.post(f"{API_URL}/entitlement/approve", json={"entitlement_id": msg_json['entitlement_id']})
-        return "{}", 200
+        response = requests.post(f"{API_URL}/entitlement/approve", json={"entitlement_id": msg_json['entitlement_id']})
+        return "{}", response.status_code
     except Exception:
         return {"error": "Loading failed"}, 500
 
@@ -67,8 +67,8 @@ def reject():
     try:
         #     call the backend api /entitlement/reject endpoint
         msg_json = request.json
-        requests.post(f"{API_URL}/entitlement/reject", json={"entitlement_id": msg_json['entitlement_id']})
-        return "{}", 200
+        response = requests.post(f"{API_URL}/entitlement/reject", json={"entitlement_id": msg_json['entitlement_id']})
+        return "{}", response.status_code
     except Exception:
         return {"error": "Loading failed"}, 500
 

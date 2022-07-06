@@ -1,0 +1,10 @@
+infra
+k8s
+venv
+test
+__pycache__
+.gitignore
+datamodel.json
+deploy.md
+README.md
+Makefile

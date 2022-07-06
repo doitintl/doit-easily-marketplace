@@ -54,7 +54,9 @@ def entitlements():
 def approve():
     try:
         #     call the backend api /entitlement/approve endpoint
-        pass
+        msg_json = request.json
+        print(f"call the api at {API_URL}/entitlement/approve id: {msg_json['entitlement_id']}")
+        return "", 200
     except Exception:
         return {"error": "Loading failed"}, 500
 
@@ -63,7 +65,9 @@ def approve():
 def reject():
     try:
         #     call the backend api /entitlement/reject endpoint
-        pass
+        msg_json = request.json
+        print(f"call the api at {API_URL}/entitlement/reject  id: {msg_json['entitlement_id']}")
+        return "", 200
     except Exception:
         return {"error": "Loading failed"}, 500
 

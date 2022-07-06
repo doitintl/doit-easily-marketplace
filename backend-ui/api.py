@@ -2,11 +2,23 @@ import os
 import requests
 from flask import Flask, request, render_template
 
-app = Flask(__name__, static_folder="static", static_url_path="/be")
 
 API_URL = os.environ["API_URL"]
 assert API_URL
+URL_PREFIX = os.environ.get("URL_PREFIX", "")
 
+# :embarassed: don't look at me, I'm ugly
+# this is super hacky and lets us set the url prefix on the static js code. we should not do this.
+with open("static/approve.js", 'r') as file :
+  filedata = file.read()
+filedata = filedata.replace('{URL_PREFIX}', URL_PREFIX)
+with open("static/approve.js", 'w') as file:
+  file.write(filedata)
+
+
+app = Flask(__name__, static_folder="static", static_url_path=URL_PREFIX)
+
+# assert URL_PREFIX starts with a /
 
 def get_entitlements(state):
     try:
@@ -22,7 +34,7 @@ def get_entitlements(state):
 
 
 # NOTE: we could just make this an SPA...then we don't need a server at all
-@app.route("/be/entitlements")
+@app.route(f"{URL_PREFIX}/entitlements")
 def entitlements():
     try:
         state = request.args.get('state', "ACTIVATION_REQUESTED")
@@ -30,9 +42,28 @@ def entitlements():
         print("loading index")
         entitlement_response = get_entitlements(state=state)
         print(f"entitlements: {entitlement_response}")
-        page_context["entitlements"] = list(entitlement_response['entitlements']) if 'entitlements' in entitlement_response else []
+        page_context["entitlements"] = list(
+            entitlement_response['entitlements']) if 'entitlements' in entitlement_response else []
 
         return render_template("noauth.html", **page_context)
+    except Exception:
+        return {"error": "Loading failed"}, 500
+
+
+@app.route(f"{URL_PREFIX}/approve")
+def approve():
+    try:
+        #     call the backend api /entitlement/approve endpoint
+        pass
+    except Exception:
+        return {"error": "Loading failed"}, 500
+
+
+@app.route(f"{URL_PREFIX}/reject")
+def reject():
+    try:
+        #     call the backend api /entitlement/reject endpoint
+        pass
     except Exception:
         return {"error": "Loading failed"}, 500
 

@@ -68,6 +68,7 @@
                     <td>{{ entity['updateTime'] }}</td>
                     <td>{{ entity['usageReportingId'] }}</td>
                     <td><button class="btn" onClick="approve('{{ entity['account'].split('/')[-1] }}')">Approve</button></td>
+                    <td><button class="btn" onClick="reject('{{ entity['account'].split('/')[-1] }}')">Reject</button></td>
                 </tr>
             {% endfor %}
             </tbody>

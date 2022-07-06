@@ -25,7 +25,7 @@ async function approve(entitlement_id) {
     }
 }
 
-async function reject(entitlement_id) {
+async function reject(entitlement_id, reason) {
     try {
       // const token = await firebase.auth().currentUser.getIdToken();
       //no auth because the entire site needs to be secured behind IAP
@@ -35,7 +35,7 @@ async function reject(entitlement_id) {
           'Content-Type': 'application/json',
           // Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({entitlement_id})
+        body: JSON.stringify({entitlement_id, reason})
       });
       if (response.ok) {
         const text = await response.json();

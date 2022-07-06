@@ -38,7 +38,6 @@
     <div style="width: 25px">
         <table class="striped responsive-table">
             <thead>
-
             <tr>
                 <th>Account ID</th>
                 <th>Create Time</th>
@@ -68,7 +67,7 @@
                     <td>{{ entity['updateTime'] }}</td>
                     <td>{{ entity['usageReportingId'] }}</td>
                     <td><button class="btn" onClick="approve('{{ entity['name'].split('/')[-1] }}')">Approve</button>
-                    <button class="btn" onClick="reject('{{ entity['name'].split('/')[-1] }}')">Reject</button></td>
+                    <button class="btn" onClick="reject('{{ entity['name'].split('/')[-1] }}', 'cancelled from UI')">Reject</button></td>
                 </tr>
             {% endfor %}
             </tbody>

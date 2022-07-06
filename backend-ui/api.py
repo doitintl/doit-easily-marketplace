@@ -2,21 +2,20 @@ import os
 import requests
 from flask import Flask, request, render_template
 
-
 API_URL = os.environ["API_URL"]
 assert API_URL
 URL_PREFIX = os.environ.get("URL_PREFIX", "")
 
 # :embarassed: don't look at me, I'm ugly
 # this is super hacky and lets us set the url prefix on the static js code. we should not do this.
-with open("static/approve.js", 'r') as file :
-  filedata = file.read()
+with open("static/approve.js", 'r') as file:
+    filedata = file.read()
 filedata = filedata.replace('{URL_PREFIX}', URL_PREFIX)
 with open("static/approve.js", 'w') as file:
-  file.write(filedata)
-
+    file.write(filedata)
 
 app = Flask(__name__, static_folder="static", static_url_path=URL_PREFIX)
+
 
 # assert URL_PREFIX starts with a /
 
@@ -55,8 +54,8 @@ def approve():
     try:
         #     call the backend api /entitlement/approve endpoint
         msg_json = request.json
-        print(f"call the api at {API_URL}/entitlement/approve id: {msg_json['entitlement_id']}")
-        return "", 200
+        requests.post(f"{API_URL}/entitlement/approve", json={"entitlement_id": msg_json['entitlement_id']})
+        return "{}", 200
     except Exception:
         return {"error": "Loading failed"}, 500
 
@@ -66,8 +65,8 @@ def reject():
     try:
         #     call the backend api /entitlement/reject endpoint
         msg_json = request.json
-        print(f"call the api at {API_URL}/entitlement/reject  id: {msg_json['entitlement_id']}")
-        return "", 200
+        requests.post(f"{API_URL}/entitlement/reject", json={"entitlement_id": msg_json['entitlement_id']})
+        return "{}", 200
     except Exception:
         return {"error": "Loading failed"}, 500
 

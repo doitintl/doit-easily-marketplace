@@ -50,7 +50,7 @@ def entitlements():
         return {"error": "Loading failed"}, 500
 
 
-@app.route(f"{URL_PREFIX}/approve")
+@app.route(f"{URL_PREFIX}/approve", methods=["POST"])
 def approve():
     try:
         #     call the backend api /entitlement/approve endpoint
@@ -61,7 +61,7 @@ def approve():
         return {"error": "Loading failed"}, 500
 
 
-@app.route(f"{URL_PREFIX}/reject")
+@app.route(f"{URL_PREFIX}/reject", methods=["POST"])
 def reject():
     try:
         #     call the backend api /entitlement/reject endpoint

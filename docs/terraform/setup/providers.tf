@@ -1,7 +1,7 @@
 provider "google-beta" {
-  project = "ISV-public"
+  project = local.project_id
 }
 provider "google" {
-  project = "ISV-public"
+  project = local.project_id
 }
 

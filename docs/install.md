@@ -38,11 +38,12 @@ gcloud iam service-accounts create doit-easily \
     --display-name="doit-easily" \
     --project=$COMPANY_NAME-public
 ```
-6. In the Producer Portal, add the service account to the Technical Integration -> Billing Integration page for both the Procurement API and Pub/Sub integrations.
-7. In the Producer Portal, copy the Pub/Sub topic string for later user.   
+6. Apply IAMs for the SA above (todo, which ones?)
+7. In the Producer Portal, add the service account to the Technical Integration -> Billing Integration page for both the Procurement API and Pub/Sub integrations.
+8. In the Producer Portal, copy the Pub/Sub topic string for later user.   
     It should be in the format `projects/cloudcommerceproc-prod/topics/PARTNER_NAME-public`
-1. In Slack, create a slack webhook store this secret in Secret Manager.
-2. Create a topic for notification events (optional)
+9. In Slack, create a slack webhook store this secret in Secret Manager.
+10. Create a topic for notification events (optional)
 ```
 gcloud pubsub topics create saas-events --project=$COMPANY_NAME-public
 ```

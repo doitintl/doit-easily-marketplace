@@ -33,3 +33,9 @@ resource "google_service_account" "doit_easily_backend_integration_sa" {
   description = "Doit Easily backend integration"
   project = local.project_id
 }
+
+resource "google_service_account_iam_member" "doit_easily_token_creator" {
+  member             = "serviceAccount:${google_service_account.doit_easily_backend_integration_sa.email}"
+  role               = "roles/iam.serviceAccountTokenCreator"
+  service_account_id = google_service_account.doit_easily_backend_integration_sa.id
+}

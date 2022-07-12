@@ -8,7 +8,7 @@ provider "google" {
 
 #get an access token for the doit-easily SA
 data "google_service_account_access_token" "prod_token" {
-  target_service_account = data.google_service_account.doit_easily_backend_integration_sa.email
+  target_service_account = "doit-easily-mp-sa@doit-public.iam.gserviceaccount.com"# data.google_service_account.doit_easily_backend_integration_sa.email
   scopes                 = ["userinfo-email", "cloud-platform"]
   lifetime               = "1200s"
 }

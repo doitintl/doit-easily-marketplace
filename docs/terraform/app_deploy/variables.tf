@@ -11,7 +11,6 @@ variable "cloudrun_location" {
 variable "doit_easily_version" {
   description = "The version of doit-easily to deploy"
 }
-
 variable "slack_webhook" {
   default = ""
   description = "Env variable for cloud run service. The slack hook to send event notifications to (new entitlement requests only)"

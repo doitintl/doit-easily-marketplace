@@ -38,13 +38,14 @@ gcloud iam service-accounts create doit-easily \
 
 3. Submit your product information using this [Google Form](1)
 4. Create a new SaaS listing in the [Producer Portal](2)
-4. Start the process of submitting pricing & product information. This can be done in parallel to the technical integration
+5. Start the process of submitting pricing & product information. This can be done in parallel to the technical integration
 
-7. In the Producer Portal, add the service account `doit-easily@$COMPANY_NAME-public.gserviceaccount.com` to the Technical Integration -> Billing Integration page for both the Procurement API and Pub/Sub integrations.
-8. In the Producer Portal, copy the Pub/Sub topic string for later user.   
+6. In the Producer Portal, add the service account `doit-easily@$COMPANY_NAME-public.gserviceaccount.com` to the Technical Integration -> Billing Integration page for both the Procurement API and Pub/Sub integrations.
+7. In the Producer Portal, copy the Pub/Sub topic string for later user.   
     It should be in the format `projects/cloudcommerceproc-prod/topics/PARTNER_NAME-public`
-9. In Slack, create a slack webhook store this secret in Secret Manager.
-10. Create a topic for notification events (optional)
+8. In Slack, create a slack webhook store this secret in Secret Manager.
+9. Create a topic for notification events (optional) 
+NOTE: using terraform, this is handled during app deploy
 ```
 gcloud pubsub topics create saas-events --project=$COMPANY_NAME-public
 ```

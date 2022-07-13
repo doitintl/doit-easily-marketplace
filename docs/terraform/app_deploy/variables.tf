@@ -38,6 +38,14 @@ variable "auto_approve_entitlements" {
   default = false
   description = "Env variable for cloud run service. Causes the processor to automatically approve entitlement creation requests"
 }
+variable "enable_push_endpoint" {
+  default = false
+  description = "Env variable for cloud run service. Causes the processor to enable the pubsub endpoint for push subscriptions"
+}
+variable "log_level" {
+  default = "info"
+  description = "Env variable for cloud run service. The log level"
+}
 
 
 
@@ -48,4 +56,7 @@ locals {
   demo_prefix = var.is_codelab ? "DEMO-" : ""
   topic = "projects/cloudcommerceproc-prod/topics/${local.demo_prefix}${var.marketplace_project}"
   project_id = var.backend_project == "" ? var.marketplace_project : var.backend_project
+  #  this module only handles a single installation, so either codelab SA or the one we created before....
+  service_account_id = var.is_codelab ? "saas-codelab" : "doit-easily"
+  codelab_suffix = var.is_codelab ? "-codelab" : ""
 }

@@ -1,6 +1,6 @@
 #the SA that the doit-easily cloud run service runs as (created during project creation)
 data "google_service_account" "doit_easily_backend_integration_sa" {
-  account_id = "doit-easily"
+  account_id = local.service_account_id
   project = var.marketplace_project
 }
 

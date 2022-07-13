@@ -34,8 +34,23 @@ resource "google_service_account" "doit_easily_backend_integration_sa" {
   project = local.project_id
 }
 
+#allow doit-easily to create tokens as itself (required for push pubsub subscription authentication)
 resource "google_service_account_iam_member" "doit_easily_token_creator" {
   member             = "serviceAccount:${google_service_account.doit_easily_backend_integration_sa.email}"
   role               = "roles/iam.serviceAccountTokenCreator"
   service_account_id = google_service_account.doit_easily_backend_integration_sa.id
+}
+
+#the SA used for the saas-codelab
+resource "google_service_account" "saas_codelab_backend_integration_sa" {
+  account_id = "saas-codelab"
+  description = "Saas codelab backend integration"
+  project = local.project_id
+}
+
+#allow doit-easily to create tokens as itself (required for push pubsub subscription authentication)
+resource "google_service_account_iam_member" "saas_codelab_token_creator" {
+  member             = "serviceAccount:${google_service_account.saas_codelab_backend_integration_sa.email}"
+  role               = "roles/iam.serviceAccountTokenCreator"
+  service_account_id = google_service_account.saas_codelab_backend_integration_sa.id
 }

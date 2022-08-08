@@ -42,25 +42,13 @@ Note: Note: These steps can be accomplished by applying this [Terraform][8]
 ![Diagram](../img/proc-url-screen-cap.png)  
 
 11. Test the solution by viewing the "Full Preview" from the listing in the producer portal. You can subscribe to the solution from this preview. 
+    1. TODO: add instructions how to setup a test billing account
 12. Submit the product details, pricing details, and technical integration for review by Google
 13. Publish your listing
 
 
 TODO:
-- [] add links to the latest image versions for all images
-    * backend
-    * backend ui
-    * frontend
-- [] add code samples or screenshots for all steps
 - [] the backend-ui could be an SPA in a bucket rather than a cloud run service
-- [] TODO: are we going to give gcloud AND terraform instructions? can we pick one?
-
-NOTE: we're ending up with a matrix of install instructions, its turning into a lot of documenation and we should pick one or two!
-
-| | GKE | Cloud Run |
-|--|--|--|
-|Gcloud | | 
-|Terraform | | 
 
 [1]: https://docs.google.com/forms/d/e/1FAIpQLSfddn4mwKnqtLNQ-m7IgRZ-bgTz4BOsrEDWCf3XBjc_ogKNnA/viewform
 [2]: https://console.cloud.google.com/producer-portal

@@ -16,14 +16,15 @@ Note: These steps can be accomplished by applying this [Terraform][6] or [gcloud
 4. Create a service account to run your integration workloads
 
 ### Create a listing and start submitting details
-Note: The following steps are completed in your web browser and Producer Portal
-3. Submit your product information using this [Google Form][1]
-4. Create a new SaaS listing in the [Producer Portal][2]
-5. Start the process of submitting pricing & product information. This can be done in parallel to the technical integration
-6. In the Producer Portal (see screenshot below) 
-   1. link the service account to call the Procurement API and Cloud Pub/Sub Integration
+Note: The following steps are completed in your web browser and Producer Portal 
+
+3. Submit your product information using this [Google Form][1]  
+4. Create a new SaaS listing in the [Producer Portal][2]  
+5. Start the process of submitting pricing & product information. This can be done in parallel to the technical integration  
+6. In the Producer Portal (see screenshot below)   
+   1. link the service account to call the Procurement API and Cloud Pub/Sub Integration  
    2. copy the Pub/Sub topic string for later user.   
-       It should be in the format `projects/cloudcommerceproc-prod/topics/ISV-public`
+       It should be in the format `projects/cloudcommerceproc-prod/topics/ISV-public`  
 
 ![Diagram](../img/proc-api-screen-cap.png)
 

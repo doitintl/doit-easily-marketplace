@@ -31,13 +31,16 @@ Note: The following steps are completed in your web browser and Producer Portal
 9. (optional) In Slack, create a slack webhook store this secret in Secret Manager.
 
 ### App Deploy 
-Note: Note: These steps can be accomplished by applying this [Terraform][8] 
-8. Deploy the application in Cloud Run. When finished, continue below
+Note: Note: These steps can be accomplished by applying this [Terraform][8]   
+8. Deploy the application in Cloud Run. When finished, continue below  
 
 ### Finish and test the integration
 10. In the Producer Portal, add the frontend integration URL to the Technical Integration -> Frontend Integration `Sign up URL`
      1. optional, use a custom domain by setting up a loadbalancer in front of cloudrun
-     1. optional, add the SSO Login URL for your console, and support SSO
+     2. optional, add the SSO Login URL for your console, and support SSO
+
+![Diagram](../img/proc-url-screen-cap.png)  
+
 11. Test the solution by viewing the "Full Preview" from the listing in the producer portal. You can subscribe to the solution from this preview. 
 12. Submit the product details, pricing details, and technical integration for review by Google
 13. Publish your listing

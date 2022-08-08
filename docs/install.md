@@ -4,8 +4,8 @@ This process is designed to be the distilled instructions found [here][3], plus 
 ## Notes on the terraform modules
 There are two complete Terraform modules in this directory, `setup` and `app_deploy`. These modules correspond with installation
 steps below. You can directly apply these entire modules by adding a `.tfvars` file with appropriate variables configured. 
-Or you can copy the pertinent files to your own terraform modules and 
-
+Or you can copy the pertinent files to your own terraform modules and apply them that way. I recommend still using the requested
+variables.
 
 ## The Process to install Doit-Easily
 
@@ -29,8 +29,8 @@ Note: The following steps are completed in your web browser and Producer Portal
 
 9. (optional) In Slack, create a slack webhook store this secret in Secret Manager.
 
-### App Deploy
-Note: Note: These steps can be accomplished by applying this [Terraform][8]
+### App Deploy 
+Note: Note: These steps can be accomplished by applying this [Terraform][8] 
 8. Deploy the application in Cloud Run. When finished, continue below
 
 ### Finish and test the integration

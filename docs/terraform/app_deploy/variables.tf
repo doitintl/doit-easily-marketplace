@@ -1,5 +1,5 @@
 variable "event_topic_name" {
-  description = "Optional. The name of the event-topic to publish events to."
+  description = "(optional) The name of the event-topic to publish events to. This is the topic the ISV listens on to know when to create their infra. Env variable for cloud run service"
   default = ""
 }
 
@@ -13,11 +13,7 @@ variable "doit_easily_version" {
 }
 variable "slack_webhook" {
   default = ""
-  description = "Env variable for cloud run service. The slack hook to send event notifications to (new entitlement requests only)"
-}
-variable "event_topic" {
-  default = ""
-  description = "Env variable for cloud run service. The topic to publish create/update/delete events on. This is the topic the ISV listens on to know when to create their infra"
+  description = "(optional) Env variable for cloud run service. The slack hook to send event notifications to (new entitlement requests only)"
 }
 variable "is_codelab" {
   default = false

@@ -13,7 +13,7 @@ resource "google_cloud_run_service" "doit_easily_cloudrun_service" {
         }
         env {
           name  = "EVENT_TOPIC"
-          value = var.event_topic
+          value = var.event_topic_name != "" ? google_pubsub_topic.event_topic.id : ""
         }
         env {
           name  = "IS_CODELAB"

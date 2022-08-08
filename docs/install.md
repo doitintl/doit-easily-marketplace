@@ -26,7 +26,12 @@ Note: The following steps are completed in your web browser and Producer Portal
    2. copy the Pub/Sub topic string for later user.   
        It should be in the format `projects/cloudcommerceproc-prod/topics/ISV-public`  
 
+<details>
+<summary>Screen Capture</summary>
+
+### Capture
 ![Diagram](../img/proc-api-screen-cap.png)
+</details>
 
 9. (optional) In Slack, create a slack webhook store this secret in Secret Manager.
 
@@ -39,7 +44,12 @@ Note: Note: These steps can be accomplished by applying this [Terraform][8]
      1. optional, use a custom domain by setting up a loadbalancer in front of cloudrun
      2. optional, add the SSO Login URL for your console, and support SSO
 
-![Diagram](../img/proc-url-screen-cap.png)  
+<details>
+<summary>Screen Capture</summary>
+
+### Capture
+![Diagram](../img/proc-url-screen-cap.png)
+</details>  
 
 11. Test the solution by viewing the "Full Preview" from the listing in the producer portal. You can subscribe to the solution from this preview. 
     1. TODO: add instructions how to setup a test billing account

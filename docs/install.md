@@ -1,56 +1,39 @@
 # Install Doit Easily
-This process is designed to be the distilled instructions found [here](3), plus instructions to deploy Doit-Easily
+This process is designed to be the distilled instructions found [here][3], plus instructions to deploy Doit-Easily
 
-## The Process
-1. Create a project to hold your listings and backend integration workloads. The project name should be in the format `<PARTNER_NAME>-public`.
-Terraform to complete steps 1-3 can be found [here](6)
-    ```
-    export COMPANY_NAME=your company name
-    gcloud projects create $COMPANY_NAME-public
-    ```
+## Notes on the terraform modules
+There are two complete Terraform modules in this directory, `setup` and `app_deploy`. These modules correspond with installation
+steps below. You can directly apply these entire modules by adding a `.tfvars` file with appropriate variables configured. 
+Or you can copy the pertinent files to your own terraform modules and 
 
-3. Grant the following roles for Google access
-```
-    gcloud projects add-iam-policy-binding $COMPANY_NAME-public \
-    --member="user:cloud-commerce-marketplace-onboarding@twosync-src.google.com" \
-    --role=roles/editor
 
-    gcloud projects add-iam-policy-binding $COMPANY_NAME-public \
-    --member="user:cloud-commerce-marketplace-onboarding@twosync-src.google.com" \
-    --role=roles/servicemanagement.admin
+## The Process to install Doit-Easily
 
-    gcloud projects add-iam-policy-binding $COMPANY_NAME-public \
-    --member="user:cloud-commerce-procurement@system.gserviceaccount.com" \
-    --role=roles/servicemanagement.serviceConsumer
-
-    gcloud projects add-iam-policy-binding $COMPANY_NAME-public \
-    --member="user:cloud-commerce-procurement@system.gserviceaccount.com" \
-    --role=roles/servicemanagement.serviceController
-```
+### Setup
+Note: These steps can be accomplished by applying this [Terraform][6] or [gcloud][7]
+1. Create a project to hold your listings and backend integration workloads. The project name should be in the format `ISV-public`.
+3. Grant Google procurement user access to your listing project
 4. Create a service account to run your integration workloads
 
-```
-gcloud iam service-accounts create doit-easily \
-    --description="Doit Easily backend integration" \
-    --display-name="doit-easily" \
-    --project=$COMPANY_NAME-public
-```
-
-3. Submit your product information using this [Google Form](1)
-4. Create a new SaaS listing in the [Producer Portal](2)
+### Create a listing and start submitting details
+Note: The following steps are completed in your web browser and Producer Portal
+3. Submit your product information using this [Google Form][1]
+4. Create a new SaaS listing in the [Producer Portal][2]
 5. Start the process of submitting pricing & product information. This can be done in parallel to the technical integration
+6. In the Producer Portal (see screenshot below) 
+   1. link the service account to call the Procurement API and Cloud Pub/Sub Integration
+   2. copy the Pub/Sub topic string for later user.   
+       It should be in the format `projects/cloudcommerceproc-prod/topics/ISV-public`
 
-6. In the Producer Portal, add the service account `doit-easily@$COMPANY_NAME-public.gserviceaccount.com` to the Technical Integration -> Billing Integration page for both the Procurement API and Pub/Sub integrations.
-7. In the Producer Portal, copy the Pub/Sub topic string for later user.   
-    It should be in the format `projects/cloudcommerceproc-prod/topics/PARTNER_NAME-public`
-8. In Slack, create a slack webhook store this secret in Secret Manager.
-9. Create a topic for notification events (optional) 
-NOTE: using terraform, this is handled during app deploy
-```
-gcloud pubsub topics create saas-events --project=$COMPANY_NAME-public
-```
-8. Deploy the application in [GKE](4) or in [Cloud Run](5). When finished, continue here
+![Diagram](../img/proc-api-screen-cap.png)
 
+9. (optional) In Slack, create a slack webhook store this secret in Secret Manager.
+
+### App Deploy
+Note: Note: These steps can be accomplished by applying this [Terraform][8]
+8. Deploy the application in Cloud Run. When finished, continue below
+
+### Finish and test the integration
 10. In the Producer Portal, add the frontend integration URL to the Technical Integration -> Frontend Integration `Sign up URL`
      1. optional, use a custom domain by setting up a loadbalancer in front of cloudrun
      1. optional, add the SSO Login URL for your console, and support SSO
@@ -79,5 +62,7 @@ NOTE: we're ending up with a matrix of install instructions, its turning into a 
 [2]: https://console.cloud.google.com/producer-portal
 [3]: https://cloud.google.com/marketplace/docs/partners/integrated-saas#checklist
 [4]: install-gke.md
-[5]: install.md
+[5]: install-cloudrun.md
 [6]: terraform/setup
+[7]: gcloud/setup
+[8]: terraform/app_deploy

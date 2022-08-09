@@ -1,5 +1,11 @@
 # Install the backend into an existing cluster
 
+## Application CRD 
+If you cluster doesn't have the Application CRD, you'll need it. [Install the Application CRD][4] into the cluster  
+`kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/application/master/deploy/kube-app-manager-aio.yaml`
+
+
+
 1. Have the mpdev tool installed
 2. Run the following script, updating variables as appropriate
 

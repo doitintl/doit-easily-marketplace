@@ -36,7 +36,7 @@ Note: The following steps are completed in your web browser and Producer Portal
 9. (optional) In Slack, create a slack webhook store this secret in Secret Manager.
 
 ### App Deploy 
-Note: Note: These steps can be accomplished by applying this [Terraform][8]   
+Note: These steps can be accomplished by applying this [Terraform][8]   
 8. Deploy the application in Cloud Run. When finished, continue below  
 
 ### Finish and test the integration

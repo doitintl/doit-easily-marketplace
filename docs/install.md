@@ -12,7 +12,7 @@ variables.
 ### Setup
 Note: These steps can be accomplished by applying this [Terraform][6] or [gcloud][7]
 1. Create a project to hold your listings and backend integration workloads. The project name should be in the format `ISV-public`.
-3. Grant Google procurement user access to your listing project ([detail](9))
+3. Grant Google procurement user access to your listing project ([detail][9])
 4. Create a service account to run your integration workloads
 
 ### Create a listing and start submitting details

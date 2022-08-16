@@ -42,11 +42,74 @@ variable "log_level" {
   default = "info"
   description = "Env variable for cloud run service. The log level"
 }
+variable "audience" {
+#  default = "info"
+  description = "Env variable for cloud run service. The audience for JWT validation"
+}
+
+variable "project_id" {
+  type = string
+  description = "The project ID to deploy this solution into"
+}
+
+variable "region" {
+  description = "Location for load balancer and Cloud Run resources"
+  type        = string
+}
+
+variable "ssl" {
+  description = "Run load balancer on HTTPS and provision managed certificate with provided `domain`."
+  type        = bool
+  default     = true
+}
+
+variable "domain" {
+  description = "Domain name to run the load balancer on. Used if `ssl` is `true`."
+  type        = string
+}
+
+variable "lb_name" {
+  description = "Name for load balancer and associated resources"
+  type        = string
+}
+
+variable "enable_logging" {
+    description = "Whether or not to enable logging on the api loadbalancer"
+    type = bool
+    default = false
+}
+
+variable "log_sample_rate" {
+  description = "This field can only be specified if logging is enabled for this backend service. This configures the sampling rate of requests to the load balancer"
+  type = number
+  default = 0
+}
 
 
 
+variable "brand_name" {
+  description = "The name of the oauth brand"
+}
 
+variable "project_number" {
+  description = "The project number"
+}
 
+variable "brand_support_email" {
+  description = "The email for oauth support"
+}
+
+variable "iap_client_display_name" {
+  description = "The display name of the oauth client"
+}
+
+variable "managed_zone_name" {
+  description = "The name of the managed zone to insert an A record"
+}
+
+variable "external_ip_name" {
+  description = "The name of the external IP resource"
+}
 
 locals {
   demo_prefix = var.is_codelab ? "DEMO-" : ""

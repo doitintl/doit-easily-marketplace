@@ -43,6 +43,10 @@ resource "google_cloud_run_service" "doit_easily_cloudrun_service" {
           name  = "LOG_LEVEL"
           value = var.log_level
         }
+        env {
+          name  = "AUDIENCE"
+          value = var.audience
+        }
       }
       service_account_name = data.google_service_account.doit_easily_backend_integration_sa.email
     }

@@ -1,7 +1,0 @@
-steps:
-- name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-t', 'gcr.io/doit-public/doit-easily/backend-ui:$_TAG', '-f', 'backend-ui/Dockerfile', 'backend-ui/.' ]
-images:
-  - 'gcr.io/doit-public/doit-easily/backend-ui:$_TAG'
-substitutions:
-  _TAG: ${TAG_NAME/backend-ui\/v/}

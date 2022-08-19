@@ -1,0 +1,9 @@
+# for running the app in docker locally, create a file local.toml with a marketplace_project value,
+# then build the default dockerfile with:
+#    docker build -t doit-easily:latest .
+# then build this dockerfile with
+#       docker build -t doit-easily-local:latest -f Dockerfile.local .
+# then you can run the doit-easily-local image on your machine.
+FROM doit-easily:latest
+
+COPY local.toml /config/custom-settings.toml

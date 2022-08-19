@@ -1,9 +1,15 @@
 # Install the backend into an existing cluster
 
+## Application CRD 
+If you cluster doesn't have the Application CRD, you'll need it. [Install the Application CRD][4] into the cluster  
+`kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/application/master/deploy/kube-app-manager-aio.yaml`
+
+
+
 1. Have the mpdev tool installed
 2. Run the following script, updating variables as appropriate
 
-
+```
     #!#!/usr/bin/env bash
     APP_INSTANCE_NAME="backend-integration"
     NAMESPACE="dev"
@@ -21,7 +27,7 @@
     TAG=${1:-"v0.0.0"}
     echo $TAG
     mpdev install  --deployer=gcr.io/doit-public/doit-easily/deployer:${TAG} --parameters="{\"app_instance_name\":\"${APP_INSTANCE_NAME}\",\"namespace\":\"${NAMESPACE}\",\"is_codelab\":${IS_CODELAB},\"marketplace_project\":\"${MARKETPLACE_PROJECT}\",\"backend_project\":\"${BACKEND_PROJECT}\",\"log_level\":\"${LOG_LEVEL}\",\"slack_webhook\":\"${SLACK_WEBHOOK}\",\"event_topic\":\"${EVENT_TOPIC}\",\"subscription_id\":\"${SUBSCRIPTION_ID}\",\"google_service_account_email\":\"${GOOGLE_SERVICE_ACCOUNT_EMAIL}\",\"deployment_service_account\":\"${DEPLOYMENT_SERVICE_ACCOUNT}\"}"
-
+```
 3. Verify the backend by curling the API
    1. list entitlements   
       `curl localhost:8080/entitlement`

@@ -1,38 +1,52 @@
-# Overview
+# Doit-Easily
 
-Doit-Easily is the [backend integrations][1] required for a GCP marketplace Saas Offering.
+Doit-Easily is the [backend integrations][1] required for a GCP marketplace SaaS Offering.
 
-# Overview
+## Architectural diagram
+
 ![Diagram](img/simple-arch.png)
 
 ## Components
 
 ### GCP owned
-* **marketplace listing**: The marketplace listing your customer's use to subscribe to your service. Used for public and private offers.
-* **procurement api**: REST API to inform Google about entitlement and account statuses
-* **service api**: REST API to inform Google about usage for usage based billing
-* **isv-public topic**: pub/sub topic where Google publishes entitlment events (creation requested, update requested, etc)
+
+* **marketplace listing**: The marketplace listing that your customers use to subscribe to your service. Used for public and private offers.
+
+* **procurement api**: REST API to inform Google about entitlements and account statuses.
+
+* **service api**: REST API to inform Google about usage for usage-based billing.
+
+* **isv-public topic**: Pub/sub topic where Google publishes entitlement events (creation requested, update requested, etc.).
 
 ### ISV owned
-* **frontend-integration**: public website where customers are redirected after subscribing to your listing. Does JWT validation and gives you an opportunity to collect additional customer information (for storing in your own DB)
-* **backend-integration**: service to receive and respond to entitlement events from Google. Provides a simplified API to interact with the procurement API
-* **isv-public subscription**: subscription to the "isv-public topic"
-* **isv provision service**: an optional service (not provided by this repository) which listens to events from the backend-integration. This service would provision resources in your backend for SaaS customers
-* **usage-reporter**: an optional service (only required for usage based billing, not provided by this repository) which reports usage metrics to Google's Service API
-* **service account**: the doit-easily service account which runs your backend-integration. This service account has roles to interact with the procurement API and subscribe to the isv-public topic.
 
+* **frontend-integration**: The public website where customers are redirected to after subscribing to your listing. It conducts JWT validation and gives you an opportunity to collect additional customer information (for storing in your own DB).
 
-This backend integration can be deployed in several ways. Into GKE, or into Cloud Run. We recommend Cloud Run.
+* **backend-integration**: The service to receive and respond to entitlement events from Google. Provides a simplified API to interact with the procurement API.
 
-## Installation into Cloud Run or GKE
+* **isv-public subscription**: Subscription to the "isv-public topic".
 
-See instructions [here](docs/install.md)
+* **isv provision service**: An optional service (not provided by this repository) that listens to events from the backend-integration. This service would provision resources in your backend for SaaS customers.
 
-# local setup
-Set it up in a cluster in gcp, easier to run as the SA (rather than suggesting DLing the json key and all that)
-Deploy it with `IS_CODELAB=true` to run in codelab mode
+* **usage-reporter**: An optional service (only required for usage-based billing, not provided by this repository) that reports usage metrics to Google's Service API.
 
+* **service account**: The doit-easily service account that runs your backend-integration. This service account has roles to interact with the procurement API and subscribe to the isv-public topic.
 
+## Installation
+
+This backend integration can be deployed in multiple ways, as explained below.
+
+### Cloud Run or GKE
+
+We recommend deploying the backend integration into Cloud Run.
+
+See [Installation instructions](docs/install.md).
+
+### Local setup
+
+Set it up in a cluster in gcp, easier to run as the SA (rather than suggesting DLing the json key and all that).
+
+Deploy it with `IS_CODELAB=true` to run in the codelab mode.
 
 [1]: https://cloud.google.com/marketplace/docs/partners/integrated-saas/backend-integration
 [2]: https://cloud.google.com/marketplace/docs/partners/integrated-saas#checklist

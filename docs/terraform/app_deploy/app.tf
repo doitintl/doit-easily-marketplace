@@ -6,7 +6,7 @@ resource "google_cloud_run_service" "doit_easily_cloudrun_service" {
   template {
     spec {
       containers {
-        image = "gcr.io/doit-public/doit-easily:${var.doit_easily_version}"
+        image = var.doit_easily_image
         env {
           name  = "SLACK_WEBHOOK"
           value = var.slack_webhook

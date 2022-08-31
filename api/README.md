@@ -3,13 +3,13 @@
 Application repo for Doit-Easily. A simple python app for interacting with the Procurement API and Marketplace Topic messages.
 The application is a single docker image with two running modes, api & processor.
 
-## Processor
-
-In this running mode the app listens for messages on a pull subscription and processes the messages.
-
 ## API
 
 In this running mode the app runs a Flask server and acts as a proxy for the Procurement API.
+
+## Processor
+
+In this running mode the app listens for messages on a pull subscription and processes the messages.
 
 ## Configuration
 
@@ -43,24 +43,7 @@ auto_approve_entitlements = true
 - IS_CODELAB - Internal. Flag to run in codelab mode. Enables approving accounts because codelab has no frontend integration
 - MOCK_PROCUREMENT - Internal. Flag to run in mock procurement mode.
 
-# CICD
+# Building the Image
+From the api directory
 
-Image building & publishing done via Cloud Build triggers on tags created on any branch. See cloudbuild.yaml and
-Cloud Build Console in the Doit-Public project.
-
-# Local development
-
-Running this app locally is a pain. So rather than do that, run it in GCP. A set of manifests can be found in the `k8s`
-directory. You need a cluster with workload identity, and a subscription. Basically you run the codelab app.
-
-# Related Repositories
-
-- https://github.com/doitintl/doit-easily - application repo for Doit Easily.
-- https://github.com/doitintl/doit-easily-marketplace - "public" repo showing how to deploy our GKE solution.
-- https://github.com/doitintl/doit-easily-integration - "public" repo showing how to deploy additional integrations (frontend and backend-ui).
-- https://github.com/doitintl/doit-easily-saas - private repo for deploying Doit-Easily backend integration.
-
-Releasing a new version
-
-1. build the docker image by tagging the repo
-2. build the deployer by bumping the version in schema.yaml and tagging the repo
+    docker build -t doit-easily:latest .

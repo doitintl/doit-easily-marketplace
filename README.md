@@ -36,17 +36,10 @@ Doit-Easily is the [backend integrations][1] required for a GCP marketplace SaaS
 
 This backend integration can be deployed in multiple ways, as explained below.
 
-### Cloud Run or GKE
-
-We recommend deploying the backend integration into Cloud Run.
+### Cloud Run
 
 See [Installation instructions](docs/install.md).
 
-### Local setup
-
-Set it up in a cluster in gcp, easier to run as the SA (rather than suggesting DLing the json key and all that).
-
-Deploy it with `IS_CODELAB=true` to run in the codelab mode.
 
 [1]: https://cloud.google.com/marketplace/docs/partners/integrated-saas/backend-integration
 [2]: https://cloud.google.com/marketplace/docs/partners/integrated-saas#checklist

@@ -34,17 +34,18 @@ The following steps are completed in your web browser and Producer Portal.
 
 1. Start the process of submitting pricing & product information. This can be done in parallel to the technical integration.  
 
-1. In the Producer Portal (see screenshot below):
+1. In the Producer Portal (see screen capture below):
 
    1. Link the service account to call the Procurement API and Cloud Pub/Sub Integration.
 
    1. Copy the Pub/Sub topic string for later users.
        Use the format `projects/cloudcommerceproc-prod/topics/ISV-public`.
 
-   <details>
-   <summary>Screen Capture</summary>
-   ![Diagram](../img/proc-api-screen-cap.png)
-   </details>
+       <details>  
+        <summary>Screen Capture</summary>  
+      
+        ![Diagram](../img/proc-api-screen-cap.png)  
+       </details>
 
 1. (Optional) In Slack, create a Slack webhook to store this secret in Secret Manager.
 
@@ -64,6 +65,7 @@ Note: These steps can be accomplished by applying this [Terraform][8].
 
    <details>
    <summary>Screen Capture</summary>
+
    ![Diagram](../img/proc-url-screen-cap.png)
    </details>  
 
@@ -74,9 +76,6 @@ Note: These steps can be accomplished by applying this [Terraform][8].
 1. Submit the product details, pricing details, and technical integration for review by Google.
 
 1. Publish your listing.
-
-TODO:
-- [] the backend-ui could be an SPA in a bucket rather than a Cloud Run service.
 
 [1]: https://docs.google.com/forms/d/e/1FAIpQLSfddn4mwKnqtLNQ-m7IgRZ-bgTz4BOsrEDWCf3XBjc_ogKNnA/viewform
 [2]: https://console.cloud.google.com/producer-portal

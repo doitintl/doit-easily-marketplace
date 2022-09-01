@@ -8,7 +8,7 @@ variable "cloudrun_location" {
   default = "us-west1"
 }
 
-variable "doit_easily_version" {
+variable "doit_easily_image" {
   description = "The version of doit-easily to deploy"
 }
 variable "slack_webhook" {

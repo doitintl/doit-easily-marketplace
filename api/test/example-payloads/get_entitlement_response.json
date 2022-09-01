@@ -1,0 +1,15 @@
+{
+  "entitlement": {
+    "product": "flexsave-dev.endpoints.doit-public.cloud.goog",
+    "usageReportingId": "project_number:625643682501",
+    "id": "b8273d26-21f1-4402-bedb-28f351ea9822",
+    "createTime": "2022-07-18T09:39:24.803455Z",
+    "account": "providers/doit-public/accounts/eda2a6ce-2e2d-44ff-985f-37e6c51af7d1",
+    "provider": "doit-public",
+    "name": "providers/doit-public/entitlements/b8273d26-21f1-4402-bedb-28f351ea9822",
+    "updateTime": "2022-07-18T09:41:17.971091Z",
+    "plan": "flexsave",
+    "productExternalName": "flexsave-dev.endpoints.doit-public.cloud.goog",
+    "state": "ENTITLEMENT_CANCELLED"
+  }
+}

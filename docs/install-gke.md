@@ -8,7 +8,7 @@ If you cluster doesn't have the Application CRD yet, you need to [install the Ap
 
 1. Install the `mpdev` tool.
 
-2. Run the following script, updating variables as appropriate.
+2. Update variables as appropriate and then run the following script.
 
    ```
     #!#!/usr/bin/env bash

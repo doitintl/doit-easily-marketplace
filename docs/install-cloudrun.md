@@ -1,6 +1,6 @@
 # Install the app into Cloud Run
 
-The `app_deploy` terraform module installs the following features:
+The `app_deploy` terraform module will install & configure the following components/features:
 
 * Deploy the backend integration into Cloud Run (must run as the service account `doit-easily` created previously).
 

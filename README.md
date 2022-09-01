@@ -24,13 +24,12 @@ Doit-Easily is the [backend integrations][1] required for a GCP marketplace Saas
 
 This backend integration can be deployed in several ways. Into GKE, or into Cloud Run. We recommend Cloud Run.
 
-## Installation into Cloud Run or GKE
+## Installation into Cloud Run
 
 See instructions [here](docs/install.md)
 
 # local setup
-Set it up in a cluster in gcp, easier to run as the SA (rather than suggesting DLing the json key and all that)
-Deploy it with `IS_CODELAB=true` to run in codelab mode
+Run it in Cloudrun with the codelab enabled
 
 
 

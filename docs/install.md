@@ -33,9 +33,11 @@ Note: The following steps are completed in your web browser and Producer Portal
 ![Diagram](../img/proc-api-screen-cap.png)
 </details>
 
-9. (optional) In Slack, create a slack webhook store this secret in Secret Manager.
 
 ### App Deploy 
+
+7. (optional) In Slack, create a slack webhook store this secret in Secret Manager.
+8. Build docker images
 Note: These steps can be accomplished by applying this [Terraform][8]   
 8. Deploy the application in Cloud Run. When finished, continue below  
 
@@ -56,9 +58,6 @@ Note: These steps can be accomplished by applying this [Terraform][8]
 12. Submit the product details, pricing details, and technical integration for review by Google
 13. Publish your listing
 
-
-TODO:
-- [] the backend-ui could be an SPA in a bucket rather than a cloud run service
 
 [1]: https://docs.google.com/forms/d/e/1FAIpQLSfddn4mwKnqtLNQ-m7IgRZ-bgTz4BOsrEDWCf3XBjc_ogKNnA/viewform
 [2]: https://console.cloud.google.com/producer-portal

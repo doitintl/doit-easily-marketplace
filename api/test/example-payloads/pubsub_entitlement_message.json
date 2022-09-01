@@ -1,0 +1,9 @@
+{
+    "eventId": "ENTITLEMENT_CANCELLED-709a3d39-d3a3-4a2c-a8c8-4d508db342f5",
+    "eventType": "ENTITLEMENT_CANCELLED",
+    "entitlement": {
+        "id": "c91aecd0-de62-43fc-88fd-ab0b77c57c7c",
+        "updateTime": "2022-07-18T09: 42: 51.275760Z"
+    },
+    "providerId": "doit-public"
+}

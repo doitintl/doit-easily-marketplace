@@ -1,0 +1,6 @@
+[default]
+marketplace_project = "foo"
+auto_approve_entitlements = false
+
+[mock-auto-approve]
+auto_approve_entitlements = true

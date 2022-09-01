@@ -1,8 +1,13 @@
 # Install the app into Cloud Run
 
-The `app_deploy` terraform module installs the following features
-* deploy the backend integration into cloud run (must run as the service account `doit-easily` created previously)  
-* create a push subscription on the topic `projects/cloudcommerceproc-prod/topics/ISV-public`, using the cloud run backend integration URL for the push endpoint  
-* deploy the backend UI into cloud run (optional if `AUTO_APPROVE_ENTITLEMENTS` is set true)  
-* deploy the frontend UI into cloud run (optional, you can deploy your own frontend integration if you want)
-* enable authentication for the backend (IAP)
+The `app_deploy` terraform module will install & configure the following components/features:
+
+* Deploy the backend integration into Cloud Run (must run as the service account `doit-easily` created previously).
+
+* Create a push subscription on the topic `projects/cloudcommerceproc-prod/topics/ISV-public`, using the Cloud Run backend integration URL for the push endpoint.
+
+* Deploy the backend UI into Cloud Run (optional if `AUTO_APPROVE_ENTITLEMENTS` is set to `true`).
+
+* Deploy the frontend UI into Cloud Run (optional, you can also deploy your own frontend integration).
+
+* Enable authentication for the backend (IAP).

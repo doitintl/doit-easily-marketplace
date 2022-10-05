@@ -9,7 +9,7 @@ resource "google_pubsub_topic_iam_member" "event_topic_doit_easily_publisher" {
   count = var.event_topic_name != "" ? 1 : 0
   member = "serviceAccount:${data.google_service_account.doit_easily_backend_integration_sa.email}"
   role   = "roles/pusub.publisher"
-  topic  = google_pubsub_topic.event_topic
+  topic  = google_pubsub_topic.event_topic[0].id
 }
 
 #the subscription that get entitlement messages from Google

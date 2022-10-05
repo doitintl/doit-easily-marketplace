@@ -2,6 +2,7 @@
 
 data "google_dns_managed_zone" "dns_zone" {
   name     = var.managed_zone_name
+  project = var.managed_zone_project
 }
 
 resource "google_compute_global_address" "external_ip" {

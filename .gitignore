@@ -2,3 +2,5 @@
 .terraform
 img
 docs
+.terraform*
+venv

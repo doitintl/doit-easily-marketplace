@@ -1,7 +1,8 @@
 steps:
   - name: python:3.7
     entrypoint: pip
-    args: [ "install", "-r", "requirements.txt","-r", "test/requirements.txt", "--user" ]
+    args: [ "install", "-r", "api/requirements.txt","-r", "api/test/requirements.txt", "--user" ]
   - name: python:3.7
+    dir: "api"
     args: [ "python","-m","unittest","discover", "test"]
     id: unittest

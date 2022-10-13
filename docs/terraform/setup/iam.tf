@@ -31,7 +31,7 @@ resource "google_project_iam_member" "cloud-commerce-procurement_serviceControll
 resource "google_service_account" "doit_easily_backend_integration_sa" {
   account_id = "doit-easily"
   description = "Doit Easily backend integration"
-  project = local.project_id
+  project = var.project_id
 }
 
 #allow doit-easily to create tokens as itself (required for push pubsub subscription authentication)
@@ -52,7 +52,7 @@ resource "google_service_account_iam_member" "doit_easily_sa_user" {
 resource "google_service_account" "saas_codelab_backend_integration_sa" {
   account_id = "saas-codelab"
   description = "Saas codelab backend integration"
-  project = local.project_id
+  project = var.project_id
 }
 
 #allowsaas-codelab to create tokens as itself (required for push pubsub subscription authentication)

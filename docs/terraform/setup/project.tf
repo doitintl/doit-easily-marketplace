@@ -1,7 +1,7 @@
 
 resource "google_project" "isv-public" {
-  name       = local.project_id
-  project_id = local.project_id
+  name       = var.project_id
+  project_id = var.project_id
   folder_id = var.folder_id
 }
 

@@ -1,5 +1,6 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
+  dir: 'api'
   args: [ 'build', '-t', 'us-west1-docker.pkg.dev/doit-public/doit-easily/doit-easily:$_TAG', '.' ]
 images:
   - 'gcr.io/doit-public/doit-easily:$_TAG'

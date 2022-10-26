@@ -107,6 +107,10 @@ variable "managed_zone_name" {
   description = "The name of the managed zone to insert an A record"
 }
 
+variable "managed_zone_project" {
+  description = "The project id of the managed zone"
+}
+
 variable "external_ip_name" {
   description = "The name of the external IP resource"
 }

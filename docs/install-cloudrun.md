@@ -11,3 +11,9 @@ The `app_deploy` terraform module will install & configure the following compone
 * Deploy the frontend UI into Cloud Run (optional, you can also deploy your own frontend integration).
 
 * Enable authentication for the backend (IAP).
+
+
+## Important Notes About the Terraform
+
+## DNS Zone
+This terraform assumes you have a DNS zone already created. See [loadbalancer.tf](../docs/terraform/app_deploy/loadbalancer.tf) (line 3). If you need a new zone created, you'll need to modify the terraform to create the zone rather than reference one that exists.

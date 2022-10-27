@@ -11,6 +11,7 @@ from Entitlement import handle_entitlement
 from config import settings
 from google.cloud import pubsub_v1
 import jwt, requests
+from cryptography.x509 import load_pem_x509_certificate
 
 app = Flask(__name__)
 

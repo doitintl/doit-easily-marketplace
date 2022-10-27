@@ -10,6 +10,7 @@ from Entitlement import handle_entitlement
 
 from config import settings
 from google.cloud import pubsub_v1
+import jwt, requests
 
 app = Flask(__name__)
 
@@ -48,11 +49,57 @@ def entitlements():
     except Exception as e:
         print(e)
         return {"error": "Loading failed"}, 500
+        
 
-
-@app.route("/login", methods=["GET"])
+@app.route("/login", methods=["POST"])
 def login():
-    return {"Hello,": "world"}, 200
+    encoded = request.form.get("x-gcp-marketplace-token")
+    print(f'encoded token {encoded}')
+    if not encoded:
+        return "invalid header", 401
+    header = jwt.get_unverified_header(encoded)
+    key_id = header["kid"]
+    # only to get the iss value
+    unverified_decoded = jwt.decode(encoded, options={"verify_signature": False})
+    url = unverified_decoded["iss"]
+
+    # Verify that the iss claim is https://www.googleapis.com/robot/v1/metadata/x509/cloud-commerce-partner@system.gserviceaccount.com.
+    if url != "https://www.googleapis.com/robot/v1/metadata/x509/cloud-commerce-partner@system.gserviceaccount.com":
+        print('oh no! bad public key url')
+        return "", 401
+
+    # get the cert from the iss url, and resolve it to a public key
+    certs = requests.get(url=url).json()
+    cert = certs[key_id]
+    cert_obj = load_pem_x509_certificate(bytes(cert, 'utf-8'))
+    public_key = cert_obj.public_key()
+
+    # Verify that the JWT signature is using the public key from Google.
+    try:
+        decoded = jwt.decode(encoded, public_key, algorithms=["RS256"], audience=settings.AUDIENCE, )
+    except jwt.exceptions.InvalidAudienceError:
+        #     Verify that the aud claim is the correct domain for your product.
+        print('oh no! audience mismatch')
+        return "audience mismatch", 401
+    except jwt.exceptions.ExpiredSignatureError:
+        #  Verify that the JWT has not expired, by checking the exp claim.
+        print('oh no! jwt expired')
+        return "JWT expired", 401
+
+    # Verify that sub is not empty.
+    if decoded["sub"] is None or decoded["sub"] == "":
+        print('oh no! sub is empty')
+        return "sub empty", 401
+
+    # JWT validated, approve account
+    print(f'approving account {decoded["sub"]}')
+    try:
+        response = procurement_api.approve_account(decoded["sub"])
+        logger.info("procurement api approve complete", response=response)
+        return "You're account has been approved. You can close this window.", 200
+    except Exception as e:
+        logger.error(e)
+        return {"error": "failed to approve account"}, 500
 
 
 # curl localhost:5000/v1/entitlement?state=CREATION_REQUESTED|ACTIVE|PLAN_CHANGE_REQUESTED|PLAN_CHANGED|PLAN_CHANGE_CANCELLED|CANCELLED|PENDING_CANCELLATION|CANCELLATION_REVERTED|DELETED

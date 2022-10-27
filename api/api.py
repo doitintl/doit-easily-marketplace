@@ -51,7 +51,7 @@ def entitlements():
         return {"error": "Loading failed"}, 500
         
 
-@app.route("/login", methods=["POST", "GET"])
+@app.route("/login", methods=["POST"])
 def login():
     encoded = request.form.get("x-gcp-marketplace-token")
     print(f'encoded token {encoded}')

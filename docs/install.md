@@ -69,9 +69,7 @@ Note: These steps can be accomplished by applying this [Terraform][8].
    ![Diagram](../img/proc-url-screen-cap.png)
    </details>  
 
-1. To test the integration, select **Full Preview** from the listing in the producer portal. You can subscribe to the solution from this preview.
-
-    TODO: add instructions on how to set up a test billing account
+1. To test the integration, see our [detailed doc on testing](10)
 
 1. Submit the product details, pricing details, and technical integration for review by Google.
 
@@ -86,3 +84,4 @@ Note: These steps can be accomplished by applying this [Terraform][8].
 [7]: gcloud/setup
 [8]: terraform/app_deploy
 [9]: terraform/setup/iam.tf
+[10]: testing.md

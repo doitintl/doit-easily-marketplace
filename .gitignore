@@ -1,6 +1,6 @@
 .idea
 .terraform
 img
-docs
 .terraform*
 venv
+*.tfvars

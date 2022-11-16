@@ -10,3 +10,7 @@ variable "folder_id" {
   description = "The numerical id of the folder to put this project in."
   default = ""
 }
+
+variable "billing_id" {
+  description = "The billing id of the billing account"  
+}

@@ -24,8 +24,6 @@ Note: These steps can be accomplished by applying this [Terraform][6] or [gcloud
 
 1. Create a service account to run your integration workloads.
 
-note: after creating the project you will need to manually associate it with your billing account
-
 ## Create a listing and start submitting details
 
 The following steps are completed in your web browser and Producer Portal.

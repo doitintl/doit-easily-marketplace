@@ -20,7 +20,7 @@ resource "google_pubsub_subscription" "doit_easily_subscription" {
   #  this must be deployed into the marketplace project
   project  = var.marketplace_project
   push_config {
-    push_endpoint = "${google_cloud_run_service.doit_easily_cloudrun_service.status[0].url}/notification"
+    push_endpoint = "${google_cloud_run_service.doit_easily_cloudrun_service.status[0].url}/v1/notification"
     oidc_token {
       service_account_email = data.google_service_account.doit_easily_backend_integration_sa.email
     }

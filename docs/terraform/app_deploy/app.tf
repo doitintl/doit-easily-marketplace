@@ -95,6 +95,12 @@ resource "google_secret_manager_secret" "settings_toml" {
   }
 }
 
+resource "google_secret_manager_secret_version" "settings_toml" {
+  secret      = google_secret_manager_secret.settings_toml.id
+  secret_data = file("${path.module}/custom-settings.toml")
+}
+
+
 resource "google_secret_manager_secret_iam_binding" "setting_toml_accessors" {
   secret_id = google_secret_manager_secret.settings_toml.id
   members = ["serviceAccount:${local.service_account_email}"]

@@ -20,7 +20,7 @@ In this running mode the app listens for messages on a pull subscription and pro
 
 The configuration is managed by [DynaConf](https://www.dynaconf.com) and should be configured in the following way:
 
-A file in TOML format stores the configuration and it should be mount inside the container as a volume. The default location is `/app/custom-settings.toml`, but can be changed by setting the `DOITEZ_SETTINGS_FILE` environment variable.
+A file in TOML format stores the configuration and it should be mount inside the container as a volume. The default location is `/config/custom-settings.toml`, but can be changed by setting the `DOITEZ_SETTINGS_FILE` environment variable.
 
 The configuration uses a layered system for multi environments:
 

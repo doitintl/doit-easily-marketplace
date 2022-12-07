@@ -10,7 +10,7 @@ resource "google_compute_global_address" "external_ip" {
 }
 # Add the IP to the DNS
 resource "google_dns_record_set" "api" {
-  name         = "api.${data.google_dns_managed_zone.dns_zone.dns_name}"
+  name         = "${var.domain}."
   type         = "A"
   ttl          = 300
   managed_zone = data.google_dns_managed_zone.dns_zone.name
@@ -24,7 +24,7 @@ module "api-lb" {
   project = var.project_id
 
   ssl                             = true
-  managed_ssl_certificate_domains = ["api.${data.google_dns_managed_zone.dns_zone.dns_name}"]
+  managed_ssl_certificate_domains = [var.domain]
   https_redirect                  = true
 #  labels                          = { "example-label" = "cloud-run-example" }
   address                         = google_compute_global_address.external_ip.address

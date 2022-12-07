@@ -3,6 +3,7 @@ marketplace_project = '@none None' # This should be set to the name of the proje
 auto_approve_entitlements = false  # This should be set to true if you want to auto-approve entitlements.
 event_topic = '@none None'         # Optional. The name of the topic to publish events to.
 slack_webhook = '@none None'       # Optional. The webhook URL to send Slack messages to.
+audience = 'api.dns_zone_name'
 
 [global] # global will override everything
 is_codelab = false

@@ -3,6 +3,11 @@
 Application repo for Doit-Easily. A simple python app for interacting with the Procurement API and Marketplace Topic messages.
 The application is a single docker image with two running modes, api & processor.
 
+# Building the Image
+From the api directory you can build and publish the app using the following command. You need to have a gcr or artifact registry to push the image to. Proper IAMs configurations are required to submit the build and publish the image.
+
+    gcloud builds submit  --tag <registry path>/doit-easily:1.0  .
+
 ## API
 
 In this running mode the app runs a Flask server and acts as a proxy for the Procurement API.
@@ -15,7 +20,7 @@ In this running mode the app listens for messages on a pull subscription and pro
 
 The configuration is managed by [DynaConf](https://www.dynaconf.com) and should be configured in the following way:
 
-A file in TOML format stores the configuration and it should be mount inside the container as a volume. The default location is `/app/custom-settings.toml`, but can be changed by setting the `DOITEZ_SETTINGS_FILE` environment variable.
+A file in TOML format stores the configuration and it should be mount inside the container as a volume. The default location is `/config/custom-settings.toml`, but can be changed by setting the `DOITEZ_SETTINGS_FILE` environment variable.
 
 The configuration uses a layered system for multi environments:
 
@@ -43,7 +48,4 @@ auto_approve_entitlements = true
 - IS_CODELAB - Internal. Flag to run in codelab mode. Enables approving accounts because codelab has no frontend integration
 - MOCK_PROCUREMENT - Internal. Flag to run in mock procurement mode.
 
-# Building the Image
-From the api directory
 
-    docker build -t doit-easily:latest .

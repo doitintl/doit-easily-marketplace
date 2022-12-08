@@ -10,11 +10,28 @@ resource "google_compute_global_address" "external_ip" {
 }
 # Add the IP to the DNS
 resource "google_dns_record_set" "api" {
-  name         = "api.${data.google_dns_managed_zone.dns_zone.dns_name}"
+  name         = "${var.domain}."
   type         = "A"
   ttl          = 300
   managed_zone = data.google_dns_managed_zone.dns_zone.name
   rrdatas      = [google_compute_global_address.external_ip.address]
+}
+
+resource "google_compute_url_map" "url_map" {
+  name            = "api-lb-url-map"
+  default_service = module.api-lb.backend_services["default"].self_link
+  host_rule {
+    hosts        = ["*"]
+    path_matcher = "allpaths"
+  }
+  path_matcher {
+    name = "allpaths"
+    default_service = module.api-lb.backend_services["default"].self_link
+    path_rule {
+      paths   = ["/login"]
+      service = module.api-lb.backend_services["frontend"].self_link
+    }
+  }
 }
 
 module "api-lb" {
@@ -24,9 +41,11 @@ module "api-lb" {
   project = var.project_id
 
   ssl                             = true
-  managed_ssl_certificate_domains = ["api.${data.google_dns_managed_zone.dns_zone.dns_name}"]
+  managed_ssl_certificate_domains = [var.domain]
   https_redirect                  = true
 #  labels                          = { "example-label" = "cloud-run-example" }
+  url_map                         = google_compute_url_map.url_map.self_link
+  create_url_map = false
   address                         = google_compute_global_address.external_ip.address
   create_address                  = false
   backends = {
@@ -46,6 +65,28 @@ module "api-lb" {
         enable               = true
         oauth2_client_id     = google_iap_client.iap_client.client_id
         oauth2_client_secret = google_iap_client.iap_client.secret
+      }
+      log_config = {
+        enable      = true
+        sample_rate = 1
+      }
+    }
+
+    frontend = {
+      description = "public endpoint for frontend integration"
+      groups      = [
+        {
+          group = google_compute_region_network_endpoint_group.api_lb_neg.id
+        }
+      ]
+      enable_cdn              = false
+      security_policy         = null
+      custom_request_headers  = null
+      custom_response_headers = null
+      iap_config              = {
+        enable               = false
+        oauth2_client_id     = ""
+        oauth2_client_secret = ""
       }
       log_config = {
         enable      = true

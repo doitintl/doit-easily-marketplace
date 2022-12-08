@@ -2,7 +2,7 @@
 resource "google_cloud_run_service" "doit_easily_cloudrun_service" {
   location = var.cloudrun_location
   name     = "doit-easily${local.codelab_suffix}"
-  project = local.project_id
+  project = var.project_id
   template {
     spec {
       containers {
@@ -21,11 +21,7 @@ resource "google_cloud_run_service" "doit_easily_cloudrun_service" {
         }
         env {
           name  = "MARKETPLACE_PROJECT"
-          value = var.marketplace_project
-        }
-        env {
-          name  = "BACKEND_PROJECT"
-          value = var.backend_project
+          value = var.project_id
         }
         env {
           name  = "SUBSCRIPTION_ID"
@@ -47,9 +43,26 @@ resource "google_cloud_run_service" "doit_easily_cloudrun_service" {
           name  = "AUDIENCE"
           value = var.audience
         }
+        volume_mounts {
+          name       = "toml-config"
+          mount_path = "/config/"
+        }
       }
-      service_account_name = data.google_service_account.doit_easily_backend_integration_sa.email
+      volumes {
+        name = "toml-config"
+        secret {
+          secret_name = "settings-toml"
+          #          default_mode = 292 # 0444
+          items {
+            key  = "latest"
+            path = "custom-settings.toml" # name of file
+            #            mode = 256 # 0400
+          }
+        }
+      }
+      service_account_name = local.service_account_email
     }
+  }
     metadata {
       annotations = {
         # For valid annotation values and descriptions, see
@@ -57,7 +70,6 @@ resource "google_cloud_run_service" "doit_easily_cloudrun_service" {
         "run.googleapis.com/ingress" = "internal-and-cloud-load-balancing"
       }
     }
-  }
 }
 
 
@@ -65,12 +77,33 @@ resource "google_cloud_run_service" "doit_easily_cloudrun_service" {
 resource "google_cloud_run_service_iam_binding" "doit_easily-mp_sa_invoker" {
   members = [
     "allUsers",
-    "serviceAccount:${data.google_service_account.doit_easily_backend_integration_sa.email}",
+    "serviceAccount:${local.service_account_email}",
   ]
   role     = "roles/run.invoker"
   service  = google_cloud_run_service.doit_easily_cloudrun_service.name
   location = var.cloudrun_location
-  project  = local.project_id
+  project  = var.project_id
 }
 
 #we need to do this for IAP in cloudrun https://cloud.google.com/iap/docs/identity-howto per https://cloud.google.com/iap/docs/enabling-cloud-run#before_you_begin
+
+resource "google_secret_manager_secret" "settings_toml" {
+  project = var.project_id
+  secret_id = "settings-toml"
+  replication {
+    automatic = true
+  }
+}
+
+resource "google_secret_manager_secret_version" "settings_toml" {
+  secret      = google_secret_manager_secret.settings_toml.id
+  secret_data = file("${path.module}/custom-settings.toml")
+}
+
+
+resource "google_secret_manager_secret_iam_binding" "setting_toml_accessors" {
+  secret_id = google_secret_manager_secret.settings_toml.id
+  members = ["serviceAccount:${local.service_account_email}"]
+  project = var.project_id
+  role = "roles/secretmanager.secretAccessor"
+}

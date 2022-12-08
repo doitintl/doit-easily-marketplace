@@ -24,6 +24,8 @@ Note: These steps can be accomplished by applying this [Terraform][6] or [gcloud
 
 1. Create a service account to run your integration workloads.
 
+1. Verify that the user applying the app deploy terraform has `serviceAccountTokenCreator` role on the `doit-easily` SA created in this step
+
 ## Create a listing and start submitting details
 
 The following steps are completed in your web browser and Producer Portal.
@@ -52,6 +54,8 @@ The following steps are completed in your web browser and Producer Portal.
 ## Deploy the App
 
 Note: These steps can be accomplished by applying this [Terraform][8].
+
+#### Please see the [README][11] for important instructions about deploying the app and its prerequisites.
 
 1. Deploy the application in Cloud Run. When finished, continue below.
 
@@ -85,3 +89,4 @@ Note: These steps can be accomplished by applying this [Terraform][8].
 [8]: terraform/app_deploy
 [9]: terraform/setup/iam.tf
 [10]: testing.md
+[11]: terraform/app_deploy/README.md

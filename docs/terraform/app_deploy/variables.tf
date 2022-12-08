@@ -9,7 +9,7 @@ variable "cloudrun_location" {
 }
 
 variable "doit_easily_image" {
-  description = "The version of doit-easily to deploy"
+  description = "The image path of doit-easily to deploy"
 }
 variable "slack_webhook" {
   default = ""
@@ -19,13 +19,10 @@ variable "is_codelab" {
   default = false
   description = "Env variable for cloud run service. Flag to run in codelab mode. Enables approving accounts because codelab has no frontend integration"
 }
-variable "marketplace_project" {
+variable "project_id" {
   description = "Env variable for cloud run service. The project id where your listing resides (and marketplace subscription)"
 }
-variable "backend_project" {
-  default = ""
-  description = "Env variable for cloud run service. The project this backend runs in. Can be the same as the MARKETPLACE_PROJECT"
-}
+
 variable "subscription_id" {
   default = ""
   description = "Env variable for cloud run service. The id of the subscription to listen on in processor mode (in GKE or pulling messages)"
@@ -44,12 +41,7 @@ variable "log_level" {
 }
 variable "audience" {
 #  default = "info"
-  description = "Env variable for cloud run service. The audience for JWT validation"
-}
-
-variable "project_id" {
-  type = string
-  description = "The project ID to deploy this solution into"
+  description = "Env variable for cloud run service. The audience for JWT validation. Should be the domain portion of your URL"
 }
 
 variable "region" {
@@ -117,9 +109,8 @@ variable "external_ip_name" {
 
 locals {
   demo_prefix = var.is_codelab ? "DEMO-" : ""
-  topic = "projects/cloudcommerceproc-prod/topics/${local.demo_prefix}${var.marketplace_project}"
-  project_id = var.backend_project == "" ? var.marketplace_project : var.backend_project
+  topic = "projects/cloudcommerceproc-prod/topics/${local.demo_prefix}${var.project_id}"
   #  this module only handles a single installation, so either codelab SA or the one we created before....
-  service_account_id = var.is_codelab ? "saas-codelab" : "doit-easily"
+  service_account_email = var.is_codelab ? "saas-codelab@${var.project_id}.iam.gserviceaccount.com" : "doit-easily@${var.project_id}.iam.gserviceaccount.com"
   codelab_suffix = var.is_codelab ? "-codelab" : ""
 }

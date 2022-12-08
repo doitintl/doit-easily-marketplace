@@ -29,3 +29,4 @@ Before running this terraform verify the following:
 
 ### After deploying the app
 * grant users access to log into the backend UI via IAP
+* update the secret `settings-toml` with valid values

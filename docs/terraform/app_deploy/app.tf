@@ -54,7 +54,7 @@ resource "google_cloud_run_service" "doit_easily_cloudrun_service" {
           secret_name = "settings-toml"
           #          default_mode = 292 # 0444
           items {
-            key  = "1"
+            key  = "latest"
             path = "custom-settings.toml" # name of file
             #            mode = 256 # 0400
           }

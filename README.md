@@ -1,6 +1,10 @@
 # Doit-Easily
 
-Doit-Easily is the [backend integrations][1] required for a GCP marketplace SaaS Offering.
+Doit-Easily demonstrates the [backend integrations][1] required for a GCP marketplace SaaS Offering.
+
+Note: This solution is not an official product and is not supported by DoiT, but is a sample provided for your reference. Direct use of this code in production is discouraged, but you may fork, modify and run this code as needed (subject to the license).
+
+This application is heavily inspired by [gcp-marketplace-integrated-saas](https://github.com/googlecodelabs/gcp-marketplace-integrated-saas) repo
 
 ## Architectural diagram
 
@@ -34,7 +38,7 @@ Doit-Easily is the [backend integrations][1] required for a GCP marketplace SaaS
 
 ## Installation
 
-This backend integration can be deployed in multiple ways, as explained below.
+This backend integration can be deployed as explained below.
 
 ### Cloud Run
 

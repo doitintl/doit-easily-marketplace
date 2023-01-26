@@ -1,6 +1,6 @@
 # Doit-Easily
 
-Doit-Easily is the [backend integrations][1] required for a GCP marketplace SaaS Offering.
+Doit-Easily is the [backend integrations][1] required for a GCP marketplace listing.
 
 ## Architectural diagram
 

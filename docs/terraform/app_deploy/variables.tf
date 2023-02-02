@@ -107,9 +107,14 @@ variable "external_ip_name" {
   description = "The name of the external IP resource"
 }
 
+variable "topic_name" {
+  default=""
+  description = "IF your topic name does not match your project name, you can set it here"
+}
+
 locals {
   demo_prefix = var.is_codelab ? "DEMO-" : ""
-  topic = "projects/cloudcommerceproc-prod/topics/${local.demo_prefix}${var.project_id}"
+  topic = "projects/cloudcommerceproc-prod/topics/${local.demo_prefix}${var.topic_name != "" ? var.topic_name : var.project_id}"
   #  this module only handles a single installation, so either codelab SA or the one we created before....
   service_account_email = var.is_codelab ? "saas-codelab@${var.project_id}.iam.gserviceaccount.com" : "doit-easily@${var.project_id}.iam.gserviceaccount.com"
   codelab_suffix = var.is_codelab ? "-codelab" : ""

@@ -19,6 +19,12 @@ resource "google_project_iam_member" "cloud-commerce-procurement_admin" {
   role    = "roles/servicemanagement.admin"
 }
 
+resource "google_project_iam_member" "cloud-commerce-servicemanagement_configeditor" {
+  project = google_project.isv-public.id
+  member  = "serviceAccount:cloud-commerce-procurement@system.gserviceaccount.com"
+  role    = "roles/servicemanagement.configEditor"
+}
+
 #the SA that the doit-easily cloud run service runs as
 resource "google_service_account" "doit_easily_backend_integration_sa" {
   account_id = "doit-easily"

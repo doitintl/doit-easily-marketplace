@@ -81,7 +81,11 @@ class ProcurementApi(object):
         return (
             f"providers/{PROJECT_PREFIX}{self.project_id}/entitlements/{entitlement_id}"
         )
-
+    
+    def get_entitlement_id(self, name):
+        # name is of format "providers/{providerId}/entitlements/{entitlement_id}"
+        return name.split("/")[-1]
+    
     @on_exception(expo, RateLimitException, max_tries=8)
     @limits(calls=15, period=FIFTEEN_MINUTES)
     def get_entitlement(self, entitlement_id):
@@ -139,14 +143,15 @@ class ProcurementApi(object):
 
     @on_exception(expo, RateLimitException, max_tries=8)
     @limits(calls=15, period=FIFTEEN_MINUTES)
-    def list_entitlements(self, state="ACTIVATION_REQUESTED"):
+    def list_entitlements(self, state="ACTIVATION_REQUESTED", account_id=None):
+        account_filter = f" account={account_id}" if account_id else ""
         # todo, maybe need to handle paging at some point
         request = (
             self.service.providers()
             .entitlements()
             .list(
                 parent=f"providers/{PROJECT_PREFIX}{self.project_id}",
-                filter=f"state={state}",
+                filter=f"state={state}{account_filter}",
             )
         )
         try:
@@ -155,3 +160,25 @@ class ProcurementApi(object):
         except HttpError as err:
             logger.error(f"error calling procurement api", exception=err)
             raise err
+
+def is_account_approved(account: dict) -> bool:
+    """Helper function to inspect the account to see if its approved"""
+
+    approval = None
+    for account_approval in account["approvals"]:
+        if account_approval["name"] == "signup":
+            approval = account_approval
+            break
+    logger.debug(f"found approval", approval=approval)
+
+    if approval:
+        if approval["state"] == "PENDING":
+            logger.info("account is pending")
+            return False
+        elif approval["state"] == "APPROVED":
+            logger.info("account is approved")
+            return True
+    else:
+        logger.debug("no approval found")
+        # The account has been deleted
+        return False

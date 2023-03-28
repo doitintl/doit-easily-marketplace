@@ -5,7 +5,7 @@ from middleware import logger
 from config import settings
 
 # https://cloud.google.com/marketplace/docs/partners/integrated-saas/backend-integration#create-account
-def handle_account(account_msg: dict, procurement_api: ProcurementApi) -> bool:
+def handle_account(account_msg: dict, procurement_api: ProcurementApi):
     """Handles incoming Pub/Sub messages about account resources."""
 
     account_id = account_msg["id"]
@@ -41,6 +41,3 @@ def handle_account(account_msg: dict, procurement_api: ProcurementApi) -> bool:
         else:
             logger.debug("no approval found")
             # The account has been deleted
-
-    # Always ack account messages. We only care about the above scenarios.
-    return True

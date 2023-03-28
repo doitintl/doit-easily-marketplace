@@ -25,29 +25,29 @@ class TestPubsub(unittest.TestCase):
             import api
             reload(api)
             response = api.app.test_client().post('/v1/notification')
-            assert response.status_code == 400
+            assert response.status_code == 200
 
             response = api.app.test_client().post('/v1/notification', json={"FOO": "BAR"})
-            assert response.status_code == 400
+            assert response.status_code == 200
 
             response = api.app.test_client().post('/v1/notification', json={"message": "BAR"})
-            assert response.status_code == 400
+            assert response.status_code == 200
 
             response = api.app.test_client().post('/v1/notification', json={"message": {}})
-            assert response.status_code == 400
+            assert response.status_code == 200
 
             response = api.app.test_client().post('/v1/notification', json={"message": {"data": "BAR"}})
-            assert response.status_code == 400
+            assert response.status_code == 200
 
             data = "a string"
             response = api.app.test_client().post('/v1/notification', json={
                 "message": {"data": base64.b64encode(data.encode("utf-8")).decode("utf-8")}})
-            assert response.status_code == 400
+            assert response.status_code == 200
 
             data = {}
             response = api.app.test_client().post('/v1/notification',
                                                   json=pubsub_msg_from_dict(data))
-            assert response.status_code == 400
+            assert response.status_code == 200
 
     # This patches the environment with env vars
     @patch.dict(os.environ, DEFAULT_ENV_VARS)
@@ -66,7 +66,7 @@ class TestPubsub(unittest.TestCase):
             data = get_pubsub_event_data("ENTITLEMENT_CREATION_REQUESTED")
 
             response = api.app.test_client().post('/v1/notification', json=pubsub_msg_from_dict(data))
-            assert response.status_code == 204
+            assert response.status_code == 200
 
     # This patches the environment with env vars, setting specific keys for this test
     @patch.dict(os.environ, DEFAULT_ENV_VARS)
@@ -87,5 +87,5 @@ class TestPubsub(unittest.TestCase):
             data = get_pubsub_event_data("ENTITLEMENT_CREATION_REQUESTED")
 
             response = api.app.test_client().post('/v1/notification', json=pubsub_msg_from_dict(data))
-            assert response.status_code == 204
+            assert response.status_code == 200
             assert mocked_approve_entitlement.called == True

@@ -222,7 +222,7 @@ def handle_subscription_message():
         else:
             logger.warn("no account or entitlement in message")
 
-        return "{}", 204
+        return "{}", 200
     except Exception as e:
         logger.error("an exception occurred", exception=traceback.format_exc())
         return "{}", 200

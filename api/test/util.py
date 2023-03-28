@@ -35,10 +35,28 @@ def get_entitlement_response(state, product = "foo"):
     }
 
 
-def get_account_response():
+def get_approved_account_response():
     return {
         "account": "providers/doit-public/accounts/eda2a6ce-2e2d-44ff-985f-37e6c51af7d1",
-        "state": "ACCOUNT_ACTIVE"
+        "state": "ACCOUNT_ACTIVE",
+        "approvals": [
+            {                
+                "name": "signup",
+                "state": "APPROVED"
+}
+        ]
+    }
+
+def get_pending_account_response():
+    return {
+        "account": "providers/doit-public/accounts/eda2a6ce-2e2d-44ff-985f-37e6c51af7d1",
+        "state": "ACCOUNT_ACTIVE",
+        "approvals": [
+            {
+                "name": "signup",
+                "state": "PENDING"
+             }
+        ]
     }
 
 

@@ -46,6 +46,5 @@ auto_approve_entitlements = true
 - EVENT_TOPIC - The topic to publish create/update/delete events on. This is the topic the ISV listens on to know when to create their infra
 - BACKEND_PROJECT - The project this backend runs in. Can be the same as the MARKETPLACE_PROJECT
 - IS_CODELAB - Internal. Flag to run in codelab mode. Enables approving accounts because codelab has no frontend integration
-- MOCK_PROCUREMENT - Internal. Flag to run in mock procurement mode.
 
 

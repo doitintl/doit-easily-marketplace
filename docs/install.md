@@ -82,7 +82,6 @@ Note: These steps can be accomplished by applying this [Terraform][8].
 [1]: https://docs.google.com/forms/d/e/1FAIpQLSfddn4mwKnqtLNQ-m7IgRZ-bgTz4BOsrEDWCf3XBjc_ogKNnA/viewform
 [2]: https://console.cloud.google.com/producer-portal
 [3]: https://cloud.google.com/marketplace/docs/partners/integrated-saas#checklist
-[4]: install-gke.md
 [5]: install-cloudrun.md
 [6]: terraform/setup
 [7]: gcloud/setup

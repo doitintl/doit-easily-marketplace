@@ -11,10 +11,6 @@ variable "cloudrun_location" {
 variable "doit_easily_image" {
   description = "The image path of doit-easily to deploy"
 }
-variable "slack_webhook" {
-  default = ""
-  description = "(optional) Env variable for cloud run service. The slack hook to send event notifications to (new entitlement requests only)"
-}
 variable "is_codelab" {
   default = false
   description = "Env variable for cloud run service. Flag to run in codelab mode. Enables approving accounts because codelab has no frontend integration"
@@ -23,25 +19,9 @@ variable "project_id" {
   description = "Env variable for cloud run service. The project id where your listing resides (and marketplace subscription)"
 }
 
-variable "subscription_id" {
-  default = ""
-  description = "Env variable for cloud run service. The id of the subscription to listen on in processor mode (in GKE or pulling messages)"
-}
-variable "auto_approve_entitlements" {
-  default = false
-  description = "Env variable for cloud run service. Causes the processor to automatically approve entitlement creation requests"
-}
-variable "enable_push_endpoint" {
-  default = false
-  description = "Env variable for cloud run service. Causes the processor to enable the pubsub endpoint for push subscriptions"
-}
 variable "log_level" {
-  default = "info"
+  default = "debug"
   description = "Env variable for cloud run service. The log level"
-}
-variable "audience" {
-#  default = "info"
-  description = "Env variable for cloud run service. The audience for JWT validation. Should be the domain portion of your URL"
 }
 
 variable "region" {
@@ -110,6 +90,10 @@ variable "external_ip_name" {
 variable "topic_name" {
   default=""
   description = "IF your topic name does not match your project name, you can set it here"
+}
+
+variable "secret_version" {
+  description = "The version of the Secret Manager secret which holds your toml file"
 }
 
 locals {

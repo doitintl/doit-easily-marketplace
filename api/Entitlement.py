@@ -5,7 +5,7 @@ from unittest.mock import MagicMock
 import requests
 from google.pubsub_v1 import PublisherClient
 
-from procurement_api import ProcurementApi
+from procurement_api import ProcurementApi, is_account_approved
 from middleware import logger
 
 from dynaconf import Dynaconf
@@ -26,11 +26,8 @@ def notify(type, entitlement, event_topic, publisher):
             publisher.publish(event_topic, data)
         else:
             logger.warn("no event_topic configured, setup messages dropped")
-
-        return True
     except Exception as e:
         logger.error("failed to publish to topic", topic=event_topic, error=e)
-        return False
 
 
 def send_slack_message(webhook_url, entitlement: dict):
@@ -72,8 +69,7 @@ def handle_entitlement(
     event_type: str,
     procurement_api: ProcurementApi,
     settings: Dynaconf,
-    publisher: PublisherClient = None,
-) -> bool:
+    publisher: PublisherClient = None):
     """Handles incoming Pub/Sub messages about entitlement resources."""
     logger.debug("handle_entitlement", event_dict=event, event_type=event_type)
     entitlement_id = event["id"]
@@ -88,8 +84,8 @@ def handle_entitlement(
     if not entitlement:
         # Do nothing. The entitlement has to be canceled to be deleted, so
         # this has already been handled by a cancellation message.
-        logger.debug("entitlement not found in procurement api, ack and do nothing")
-        return True
+        logger.debug("entitlement not found in procurement api, nothing to do")
+        return
 
     # Get the product name from the entitlement object
     product_name = entitlement["product"]
@@ -106,14 +102,14 @@ def handle_entitlement(
 
     account_id = procurement_api.get_account_id(entitlement["account"])
     account = procurement_api.get_account(account_id)
-    if account["state"] != "ACCOUNT_ACTIVE":
-        # The account is not active, wait for the account to be active
-        # before processing this customers entitlement requests
-        logger.debug(
-            "customer is not ACTIVE, nack entitlement message",
-            account_state=account["state"],
+    logger.debug("account found", account=account)
+
+    if not is_account_approved(account):
+        # The account is not active so we cannot approve their entitlement. 
+        logger.warn(
+            "customer account is not approved, account must be approved using the frontend integration",
         )
-        return False
+        return
 
     entitlement_state = entitlement["state"]
     logger.debug(f"entitlement state", state=entitlement_state)
@@ -132,11 +128,12 @@ def handle_entitlement(
             if product_settings.slack_webhook:
                 send_slack_message(product_settings.slack_webhook, entitlement)
             # Nothing to do here, as the approval comes from the UI
-            return True
+            return
 
     elif event_type == "ENTITLEMENT_ACTIVE":
         if entitlement_state == "ENTITLEMENT_ACTIVE":
-            return notify("create", entitlement, product_settings.event_topic, publisher)
+            notify("create", entitlement, product_settings.event_topic, publisher)
+            return
 
     elif event_type == "ENTITLEMENT_PLAN_CHANGE_REQUESTED":
         if entitlement_state == "ENTITLEMENT_PENDING_PLAN_CHANGE_APPROVAL":
@@ -145,16 +142,17 @@ def handle_entitlement(
             procurement_api.approve_entitlement_plan_change(
                 entitlement_id, entitlement["newPendingPlan"]
             )
-            return True
+            return
 
     elif event_type == "ENTITLEMENT_PLAN_CHANGED":
         if entitlement_state == "ENTITLEMENT_ACTIVE":
-            return notify("upgrade", entitlement, product_settings.event_topic, publisher)
+            notify("upgrade", entitlement, product_settings.event_topic, publisher)
+            return
 
     elif event_type == "ENTITLEMENT_PLAN_CHANGE_CANCELLED":
         # Do nothing. We approved the original change, but we never recorded
         # it or changed the service level since it hadn't taken effect yet.
-        return True
+        return
 
     elif event_type == "ENTITLEMENT_CANCELLED":
         if entitlement_state == "ENTITLEMENT_CANCELLED":
@@ -163,18 +161,18 @@ def handle_entitlement(
     elif event_type == "ENTITLEMENT_PENDING_CANCELLATION":
         # Do nothing. We want to cancel once it's truly canceled. For now
         # it's just set to not renew at the end of the billing cycle.
-        return True
+        return
 
     elif event_type == "ENTITLEMENT_CANCELLATION_REVERTED":
         # Do nothing. The service was already active, but now it's set to
         # renew automatically at the end of the billing cycle.
-        return True
+        return
 
     elif event_type == "ENTITLEMENT_DELETED":
         # Do nothing. The entitlement has to be canceled to be deleted, so
         # this has already been handled by a cancellation message.
-        return True
+        return
 
     # TODO: handle ENTITLEMENT_OFFER_ENDED for private offers?
     #  Indicates that a customer's private offer has ended. The offer either triggers an ENTITLEMENT_CANCELLED event or remains active with non-discounted pricing.
-    return False
+    return

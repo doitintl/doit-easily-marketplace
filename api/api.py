@@ -3,6 +3,7 @@ import os
 import json
 from flask import request, Flask, render_template
 from middleware import logger
+import traceback
 
 from procurement_api import ProcurementApi
 from Account import handle_account
@@ -36,26 +37,26 @@ def entitlements():
     try:
         state = request.args.get('state', "ACTIVATION_REQUESTED")
         page_context = {}
-        print("loading index")
+        logger.debug("loading index")
         state = request.args.get("state", "ACTIVATION_REQUESTED")
         if state not in entitlement_states:
             entitlement_response = procurement_api.list_entitlements()
         else:
             entitlement_response = procurement_api.list_entitlements(state=state)
-        print(f"entitlements: {entitlement_response}")
+        logger.debug(f"entitlements: {entitlement_response}")
         page_context["entitlements"] = list(
             entitlement_response['entitlements']) if 'entitlements' in entitlement_response else []
 
         return render_template("index.html", **page_context)
     except Exception as e:
-        print(e)
+        logger.error(e)
         return {"error": "Loading failed"}, 500
         
 
 @app.route("/login", methods=["POST"])
 def login():
     encoded = request.form.get("x-gcp-marketplace-token")
-    print(f'encoded token {encoded}')
+    logger.debug(f'encoded token {encoded}')
     if not encoded:
         return "invalid header", 401
     header = jwt.get_unverified_header(encoded)
@@ -66,7 +67,7 @@ def login():
 
     # Verify that the iss claim is https://www.googleapis.com/robot/v1/metadata/x509/cloud-commerce-partner@system.gserviceaccount.com.
     if url != "https://www.googleapis.com/robot/v1/metadata/x509/cloud-commerce-partner@system.gserviceaccount.com":
-        print('oh no! bad public key url')
+        logger.error('oh no! bad public key url')
         return "", 401
 
     # get the cert from the iss url, and resolve it to a public key
@@ -80,26 +81,35 @@ def login():
         decoded = jwt.decode(encoded, public_key, algorithms=["RS256"], audience=settings.AUDIENCE, )
     except jwt.exceptions.InvalidAudienceError:
         #     Verify that the aud claim is the correct domain for your product.
-        print('oh no! audience mismatch')
+        logger.error('oh no! audience mismatch')
         return "audience mismatch", 401
     except jwt.exceptions.ExpiredSignatureError:
         #  Verify that the JWT has not expired, by checking the exp claim.
-        print('oh no! jwt expired')
+        logger.error('oh no! jwt expired')
         return "JWT expired", 401
 
     # Verify that sub is not empty.
     if decoded["sub"] is None or decoded["sub"] == "":
-        print('oh no! sub is empty')
+        logger.error('oh no! sub is empty')
         return "sub empty", 401
 
     # JWT validated, approve account
-    print(f'approving account {decoded["sub"]}')
+    logger.debug(f'approving account {decoded["sub"]}')
     try:
         response = procurement_api.approve_account(decoded["sub"])
-        logger.info("procurement api approve complete", response=response)
+        logger.info("procurement api approve complete", response={})
+        if settings.auto_approve_entitlements:
+            # look for any pending entitlement creation requests and approve them
+            pending_creation_requests = procurement_api.list_entitlements(account_id=decoded["sub"])
+            logger.debug("pending requests", pending_creation_requests=pending_creation_requests)
+            for pcr in pending_creation_requests["entitlements"]:
+                logger.debug("pending creation request", pcr=pcr)
+                entitlement_id = procurement_api.get_entitlement_id(pcr["name"])
+                logger.info("approving entitlement", entitlement_id=entitlement_id)
+                procurement_api.approve_entitlement(entitlement_id)
         return "You're account has been approved. You can close this window.", 200
     except Exception as e:
-        logger.error(e)
+        logger.error("an exception occurred approving accounts", exception=traceback.format_exc())
         return {"error": "failed to approve account"}, 500
 
 
@@ -114,6 +124,7 @@ def index():
         else:
             return procurement_api.list_entitlements(state=state)
     except Exception:
+        logger.error("an exception occurred listing entitlements", exception=traceback.format_exc())
         return {"error": "Procurement API call failed"}, 500
 
 
@@ -125,7 +136,7 @@ def entitlement_approve(entitlement_id):
         procurement_api.approve_entitlement(entitlement_id)
         return "{}", 200
     except Exception as e:
-        logger.error(e)
+        logger.error("an exception occurred approving entitlement", exception=traceback.format_exc())
         return {"error": "approve failed"}, 500
 
 
@@ -140,7 +151,7 @@ def entitlement_reject(entitlement_id):
         )
         return "{}", 200
     except Exception as e:
-        logger.error(e)
+        logger.error("an exception occurred rejecting entitlement", exception=traceback.format_exc())
         return {"error": "reject failed"}, 500
 
 
@@ -153,7 +164,7 @@ def account_approve(account_id):
         logger.info("procurement api approve complete", response=response)
         return "{}", 200
     except Exception as e:
-        logger.error(e)
+        logger.error("an exception occurred approving account", exception=traceback.format_exc())
         return {"error": "approve failed"}, 500
 
 
@@ -166,23 +177,23 @@ def account_reset(account_id):
         logger.info("procurement api reset complete", response=response)
         return "{}", 200
     except Exception as e:
-        logger.error(e)
+        logger.error("exception resetting account", exception=traceback.format_exc())
         return {"error": "approve failed"}, 500
 
 
 # A notification handler route that decodes messages from Pub/Sub
 @app.route("/v1/notification", methods=["POST"])
 def handle_subscription_message():
-    logger.warn("event received")
+    logger.debug("event received")
     try:
         envelope = request.json
         if not envelope:
             logger.warn("no Pub/Sub message received")
-            return "{}", 400
+            return "{}", 200
 
         if not isinstance(envelope, dict) or "message" not in envelope:
             logger.warn("invalid Pub/Sub message format")
-            return "{}", 400
+            return "{}", 200
 
         message = envelope["message"]
         if isinstance(message, dict) and "data" in message:
@@ -191,40 +202,30 @@ def handle_subscription_message():
                 message_json = json.loads(base64.b64decode(message["data"]).decode("utf-8").strip())
             except Exception as e:
                 logger.debug("failure getting data", exception=e)
-                # returning a 400 because this means the request was malformed
-                return "{}", 400
+                return "{}", 200
             logger.debug("message_json", message_json=message_json)
         else:
             logger.warn("no JSON in message")
-            return "{}", 400
+            return "{}", 200
 
         if "entitlement" in message_json:
             # handle the entitlement message
-            should_ack = handle_entitlement(
+            handle_entitlement(
                 message_json["entitlement"],
                 message_json["eventType"],
                 procurement_api,
                 settings,
                 publisher,
             )
-            logger.debug("should_ack", should_ack=should_ack)
         elif "account" in message_json:
-            should_ack = handle_account(message_json["account"], procurement_api)
-            logger.debug("should_ack", should_ack=should_ack)
+            handle_account(message_json["account"], procurement_api)
         else:
             logger.warn("no account or entitlement in message")
-            # this really shouldn't happen
-            return "{}", 400
 
-        if should_ack:
-            logger.debug("ack done")
-            return "{}", 204
-        else:
-            logger.debug("nack done")
-            return "{}", 500
+        return "{}", 200
     except Exception as e:
-        logger.debug("exception nack done", exception=e)
-        return "{}", 500
+        logger.error("an exception occurred", exception=traceback.format_exc())
+        return "{}", 200
 
 
 @app.route("/alive")

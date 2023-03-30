@@ -1,7 +1,7 @@
 # Testing your listing
 To test your listing you should create a direct billing account and project associated to the billing account. This BA and project should only be used for testing your listing. 
 
-After you've created the BA, you need to register it with Google so that any charges are refunded. You need to have the role `` on the BA to subscribe to your listing
+After you've created the BA, you need to register it with Google so that any charges are refunded. You need to have the role `roles/billing.admin` on the BA to subscribe to your listing
 
 ## Register a billing account for testing your listing
 1. In the producer portal, select "Reports" in the left menu

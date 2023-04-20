@@ -8,40 +8,8 @@ resource "google_cloud_run_service" "doit_easily_cloudrun_service" {
       containers {
         image = var.doit_easily_image
         env {
-          name  = "SLACK_WEBHOOK"
-          value = var.slack_webhook
-        }
-        env {
-          name  = "EVENT_TOPIC"
-          value = var.event_topic_name != "" ? google_pubsub_topic.event_topic[0].id : ""
-        }
-        env {
-          name  = "IS_CODELAB"
-          value = var.is_codelab
-        }
-        env {
-          name  = "MARKETPLACE_PROJECT"
-          value = var.project_id
-        }
-        env {
-          name  = "SUBSCRIPTION_ID"
-          value = var.subscription_id
-        }
-        env {
-          name  = "AUTO_APPROVE_ENTITLEMENTS"
-          value = var.auto_approve_entitlements
-        }
-        env {
-          name  = "ENABLE_PUSH_ENDPOINT"
-          value = var.enable_push_endpoint
-        }
-        env {
           name  = "LOG_LEVEL"
           value = var.log_level
-        }
-        env {
-          name  = "AUDIENCE"
-          value = var.audience
         }
         volume_mounts {
           name       = "toml-config"
@@ -54,7 +22,7 @@ resource "google_cloud_run_service" "doit_easily_cloudrun_service" {
           secret_name = "settings-toml"
           #          default_mode = 292 # 0444
           items {
-            key  = "latest"
+            key  = var.secret_version
             path = "custom-settings.toml" # name of file
             #            mode = 256 # 0400
           }
@@ -98,6 +66,7 @@ resource "google_secret_manager_secret" "settings_toml" {
 resource "google_secret_manager_secret_version" "settings_toml" {
   secret      = google_secret_manager_secret.settings_toml.id
   secret_data = file("${path.module}/custom-settings.toml")
+  enabled = false
 }
 
 

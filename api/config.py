@@ -22,9 +22,7 @@ settings.validators.register(
     # optional. If set, google pubsub will be used.
     Validator("event_topic", eq=None) | Validator("event_topic", is_type_of=str),
     # not optional. If set, codelab mode is enabled.
-    Validator("is_codelab", must_exist=True, is_type_of=bool), # TODO: make it more restrictive
-    # not optional. If set, mock procurement is enabled.
-    Validator("mock_procurement", must_exist=True, is_type_of=bool),
+    Validator("is_codelab", must_exist=True, is_type_of=bool),
 )
 
 settings.validators.validate_all()

@@ -7,4 +7,3 @@ audience = 'api.dns_zone_name'
 
 [global] # global will override everything
 is_codelab = false
-mock_procurement = false # TODO: Remove mock_procurement

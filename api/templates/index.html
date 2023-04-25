@@ -1,85 +1,185 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang=en xmlns:th="http://www.thymeleaf.org">
+
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Entitlement Requests</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <link rel="icon" href="{{ url_for('static', filename='img/marketplace.svg') }}" type="image/x-icon">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|DM+Sans">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="{{ url_for('static', filename = 'approve.js') }}"></script>
-    <link rel="icon"
-          href="data:image/svg+xml;charset=UTF-8;base64,PHN2ZyBmaWxsPSIjMzM2N0Q2IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDMyIDMyIiB3aWR0aD0iMTAwJSIgZml0PSIiIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIG1lZXQiIGZvY3VzYWJsZT0iZmFsc2UiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTE3LjYwNyAwdjcuMzAzaC03LjMwNHoiIGZpbGwtb3BhY2l0eT0iLjYiPjwvcGF0aD48cGF0aCBkPSJNMTcuNjA3IDcuMzAzdjcuMzA0bC03LjMwNC03LjMwNHoiIGZpbGwtb3BhY2l0eT0iLjgiPjwvcGF0aD48cGF0aCBkPSJNMTAuMDUgMjEuOThsLjA0My0uMTc2IDEuMzItMi4zOUgyMi4zNGMxLjEgMCAyLjA2OC0uNjAyIDIuNTY3LTEuNTFsNS42Ni0xMC4yODMtMi41NS0xLjRIMjhsLTEuNjEgMi45My00LjA1IDcuMzRIMTIuMDQ0bC0uMTktLjM5LTMuMjg2LTYuOTQtMS4zOTMtMi45NC0xLjM4LTIuOTNIMXYyLjkzaDIuOTMzbDUuMjggMTEuMTQtMS45OCAzLjU5YTIuODMgMi44MyAwIDAgMC0uMzY2IDEuNDFBMi45NDIgMi45NDIgMCAwIDAgOS44IDI1LjI4aDE3LjZ2LTIuOTMzSDEwLjQxNmEuMzczLjM3MyAwIDAgMS0uMzY3LS4zNjd6IiBmaWxsLW9wYWNpdHk9Ii42IiBmaWxsLXJ1bGU9Im5vbnplcm8iPjwvcGF0aD48cGF0aCBkPSJNMTEuNzM2IDI2LjVBMi43NDYgMi43NDYgMCAwIDAgOSAyOS4yNSAyLjc0NiAyLjc0NiAwIDAgMCAxMS43MzYgMzJhMi43NTggMi43NTggMCAwIDAgMi43NS0yLjc1IDIuNzU4IDIuNzU4IDAgMCAwLTIuNzUtMi43NXptMTIgMEEyLjc0NiAyLjc0NiAwIDAgMCAyMSAyOS4yNSAyLjc0NiAyLjc0NiAwIDAgMCAyMy43MzYgMzJhMi43NTggMi43NTggMCAwIDAgMi43NS0yLjc1IDIuNzU4IDIuNzU4IDAgMCAwLTIuNzUtMi43NXoiPjwvcGF0aD48cGF0aCBkPSJNMTcuNjA3IDBsNy4zMDMgNy4zMDNoLTcuMzAzeiIgZmlsbC1vcGFjaXR5PSIuOCI+PC9wYXRoPjxwYXRoIGQ9Ik0yNC45MSA3LjMwM2wtNy4zMDMgNy4zMDRWNy4zMDN6Ij48L3BhdGg+PC9zdmc+"
-</head>
-<body class="yellow lighten-5">
-<nav class="teal darken-3">
-    <div class="nav-wrapper container">
-        <a class="brand-logo center" href="#!">Entitlements</a>
-    </div>
-</nav>
-<div>
-    <h4 class="header center">Entitlement Requests</h4>
-{#    <div class="input-field">#}
-{#        <select name="entitlement_state" id="entitlement_state">#}
-{#            <option value="CREATION_REQUESTED">CREATION_REQUESTED</option>#}
-{#            <option value="ACTIVE">ACTIVE</option>#}
-{#            <option value="PLAN_CHANGE_REQUESTED">PLAN_CHANGE_REQUESTED</option>#}
-{#            <option value="PLAN_CHANGED">PLAN_CHANGED</option>#}
-{#            <option value="PLAN_CHANGE_CANCELLED">PLAN_CHANGE_CANCELLED</option>#}
-{#            <option value="PENDING_CANCELLATION">PENDING_CANCELLATION</option>#}
-{#            <option value="CANCELLATION_REVERTED">CANCELLATION_REVERTED</option>#}
-{#            <option value="CANCELLED">CANCELLED</option>#}
-{#            <option value="CANCELLING">CANCELLING</option>#}
-{#            <option value="RENEWED">RENEWED</option>#}
-{#            <option value="OFFER_ENDED">OFFER_ENDED</option>#}
-{#            <option value="DELETED">DELETED</option>#}
-{#        </select>#}
-{#        <label>Entitlement State:</label>#}
-{#        <button onclick="go()" class="waves-effect waves-light btn">show</button>#}
-{#    </div>#}
-    <div style="width: 25px">
-        <table class="striped responsive-table">
-            <thead>
-            <tr>
-                <th>Account ID</th>
-                <th>Create Time</th>
-                <th>Name</th>
-                <th>Plan</th>
-                <th>Product</th>
-                <th>Product Ext Name</th>
-                <th>Provider</th>
-                <th>State</th>
-                <th>Update Time</th>
-                <th>Usage Reporting ID</th>
-                <th>Approve/Reject</th>
-            </tr>
-            </thead>
-            <tbody>
 
-            {% for entity in entitlements %}
-                <tr>
-                    <td>{{ entity['account'] }}</td>
-                    <td>{{ entity['createTime'] }}</td>
-                    <td>{{ entity['name'] }}</td>
-                    <td>{{ entity['plan'] }}</td>
-                    <td>{{ entity['product'] }}</td>
-                    <td>{{ entity['productExternalName'] }}</td>
-                    <td>{{ entity['provider'] }}</td>
-                    <td>{{ entity['state'] }}</td>
-                    <td>{{ entity['updateTime'] }}</td>
-                    <td>{{ entity['usageReportingId'] }}</td>
-                    <td><button class="btn" onClick="approve('{{ entity['name'].split('/')[-1] }}')">Approve</button>
-                    <button class="btn" onClick="reject('{{ entity['name'].split('/')[-1] }}', 'cancelled from UI')">Reject</button></td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+    <style>
+        :root {
+            --border-color: #d0d0d0;
+            --icon_size: 36px;
+            --sticky-bg-color: #fff;
+        }
+
+        body {
+            font-family: "Open Sans";
+            padding: 0px 20px;
+        }
+
+        .container {
+            max-width: 1080px;
+        }
+
+        li a span {
+            color: black;
+            font: 900 1.2em "DM Sans";
+        }
+
+        .scroll {
+            margin: 20px 0 10px 0;
+            overflow: auto;
+            width: 100%;
+        }
+
+        .scroll table th:first-child,
+        table td:first-child {
+            background-color: var(--sticky-bg-color);
+            border-right: 1px solid var(--border-color);
+            left: 0;
+            position: sticky;
+        }
+
+        .scroll table th:last-child,
+        table td:last-child {
+            position: sticky;
+            right: 0;
+            background-color: var(--sticky-bg-color);
+            border-left: 1px solid var(--border-color);
+        }
+
+        .scroll td,
+        .scroll th {
+            padding: 12px;
+            white-space: nowrap;
+        }
+
+        .nav-img {
+            height: var(--icon_size);
+            margin-top: 10px;
+            margin-bottom: -10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="layout" class="container">
+
+        <nav class="white">
+            <div class="nav-wrapper">
+                <ul class="left black-text">
+                    <li>
+                        <a class="tooltipped" data-delay="50" data-position="bottom" data-tooltip="GitHub"
+                            href="https://github.com/doitintl/doit-easily-marketplace/issues" target="_blank">
+                            <img src="{{ url_for('static', filename='img/github-mark.svg') }}" class="nav-img"
+                                alt="GitHub" />
+                        </a>
+                    </li>
+                    <li>
+                        <a class="tooltipped" data-delay="50" data-position="bottom" data-tooltip="Home" href="">
+                            <span>Entitlement Requests</span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="right">
+                    <li>
+                        <a class="tooltipped" data-delay="50" data-position="bottom" data-tooltip="DoiT"
+                            href="https://www.doit.com/" target="_blank">
+                            <img src="{{ url_for('static', filename='img/doit.svg') }}" class="nav-img" alt="DoiT" />
+                        </a>
+                    </li>
+                    <li>
+                        <a class="tooltipped" data-delay="50" data-position="bottom" data-tooltip="Google Marketplace"
+                            href="https://cloud.google.com/marketplace/sell" target="_blank">
+                            <img src="{{ url_for('static', filename='img/marketplace.svg') }}" class="nav-img"
+                                alt="Google Marketplace" />
+                        </a>
+                    </li>
+                    <li>
+                        <a class="tooltipped" data-delay="50" data-position="bottom" data-tooltip="Expand / Contract"
+                            onclick="expand()">
+                            <img src="{{ url_for('static', filename='img/expand.svg') }}" class="nav-img"
+                                alt="Expand / Contract" />
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="row">
+            <div class="scroll">
+                <table class="bordered highlight">
+                    <thead>
+                        <tr>
+                            <th>Account ID</th>
+                            <th>Name</th>
+                            <th>Plan</th>
+                            <th>State</th>
+                            <th>Product</th>
+                            <th>Product Ext Name</th>
+                            <th>Provider</th>
+                            <th>Create Time</th>
+                            <th>Update Time</th>
+                            <th>Usage Reporting ID</th>
+                            <th>Approve/Reject</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entity in entitlements %}
+                        <tr>
+                            <td>{{ entity['account'] }}</td>
+                            <td>{{ entity['name'] }}</td>
+                            <td>{{ entity['plan'] }}</td>
+                            <td>{{ entity['state'] }}</td>
+                            <td>{{ entity['product'] }}</td>
+                            <td>{{ entity['productExternalName'] }}</td>
+                            <td>{{ entity['provider'] }}</td>
+                            <td>{{ entity['createTime'] }}</td>
+                            <td>{{ entity['updateTime'] }}</td>
+                            <td>{{ entity['usageReportingId'] }}</td>
+                            <td>
+                                <button class="btn-floating tooltipped" data-delay="50" data-position="bottom"
+                                    data-tooltip="Approve" onClick="approve('{{ entity['name'].split('/')[-1] }}')">
+                                    <i class="material-icons">check</i>
+                                </button>
+                                <button class="btn-floating red tooltipped" data-delay="50" data-position="bottom"
+                                    data-tooltip="Decline"
+                                    onClick="reject('{{ entity['name'].split('/')[-1] }}', 'cancelled from UI')">
+                                    <i class="material-icons">clear</i>
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
-</div>
-<script>
-  {#document.getElementById('signInButton').addEventListener("click", toggle);#}
-  document.addEventListener('DOMContentLoaded', function () {
-    var elems = document.querySelectorAll('select');
-    var instances = M.FormSelect.init(elems, {});
-  });
-</script>
+
+    <script>
+        M.AutoInit();
+
+        function expand() {
+            var element = document.getElementById("layout");
+            element.classList.toggle("container");
+        }
+
+        // document.addEventListener('DOMContentLoaded', function () {
+        //     var elems = document.querySelectorAll('select');
+        //     var instances = M.FormSelect.init(elems, {});
+        // });
+    </script>
 </body>
-</html>

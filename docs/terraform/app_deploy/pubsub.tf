@@ -25,4 +25,8 @@ resource "google_pubsub_subscription" "doit_easily_subscription" {
       service_account_email = local.service_account_email
     }
   }
+  expiration_policy {
+    # never expire the subscription
+    ttl = ""
+  }
 }

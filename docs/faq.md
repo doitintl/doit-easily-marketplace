@@ -48,7 +48,7 @@ To repurchase the product, use the account reset endpoint on the backend server 
 
 The SA that runs your server needs billing admin permissions on the billing account.
 
-## I get the error "" when I click "Manage on Provider" from my listing. What's going on?
+## I get the error "This method is not allowed for the requested URL" when I click "Manage on Provider" from my listing. What's going on?
 
 The Login URL entered in the Frontend Integration is where the subscriber will be forwarded when they click "manage on provider" from the listing. 
  

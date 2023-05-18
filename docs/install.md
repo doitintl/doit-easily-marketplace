@@ -65,7 +65,7 @@ Note: These steps can be accomplished by applying this [Terraform][8].
 
      1. (Optional.) Use a custom domain by setting up a load balancer in front of Cloud Run.
 
-     2. (Optional.) Add the SSO Login URL for your console, and support SSO.
+     2. (Optional.) Add the SSO Login URL for your console, and support SSO. OR link to your website and disable SSO
 
    <details>
    <summary>Screen Capture</summary>

@@ -1,4 +1,4 @@
-# Testing your listing
+# Testing your listing manually
 To test your listing you should create a direct billing account and project associated to the billing account. This BA and project should only be used for testing your listing. 
 
 After you've created the BA, you need to register it with Google so that any charges are refunded. You need to have the role `roles/billing.admin` on the BA to subscribe to your listing
@@ -22,3 +22,10 @@ After you've created the BA, you need to register it with Google so that any cha
 5. If you've previously subscribed and created the procurement acccount you can test the JWT flow by doing the following:  
     a. Add your frontend integration URL to the SSO login field (See step `1.ii` from `Finish and Test Your Integration`)  
     b. After subscribing to the listing, test the JWT validation flow by clicking "Manage on Provider" from the "Full Preview"  
+
+
+# Automated Integration Testing
+Google requires you to run their automated integration testing before publishing your listing. This test is run from the "Technical Integration" section in your listing (in the Producer Portal).
+
+1. Make sure to grant the role `Commerce Producer Viewer role (roles/commerceproducer.viewer)` to the service account `cloud-commerce-saastester@system.gserviceaccount.com` before running the test
+2. If you are not automatically approving Entitlement Creation Requests, make sure to approve the requests Google submits.

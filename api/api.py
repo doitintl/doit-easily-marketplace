@@ -54,7 +54,6 @@ def entitlements():
         
 
 @app.route("/login", methods=["POST"])
-@app.route("/activate", methods=["POST"])
 def login():
     encoded = request.form.get("x-gcp-marketplace-token")
     logger.debug(f'encoded token {encoded}')

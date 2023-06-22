@@ -3,7 +3,7 @@
 
 Doit-Easily demonstrates the [backend integrations][1] required for a GCP marketplace SaaS Offering.
 
-Note: This solution is not an official product and is not supported by DoiT, but is a sample provided for your reference. Direct use of this code in production is discouraged, but you may fork, modify and run this code as needed (subject to the license).
+**Note: This solution is not an official product and is not supported by DoiT, but is a sample provided for your reference. Direct use of this code in production is discouraged, but you may fork, modify and run this code as needed (subject to the license).**
 
 This application is heavily inspired by [gcp-marketplace-integrated-saas](https://github.com/googlecodelabs/gcp-marketplace-integrated-saas) repo
 

@@ -57,3 +57,8 @@ If Yes: they will be forwarded with a POST and a JWT per this [doc](https://clou
 If No: they will be forwarded with a GET  
  
 Doit-Easily does not support a GET to the frontend integration. How you want to handle this scenario is up to you. You can enter your console URL in the Login URL field. Or enable SSO, and replace the frontend integration with a page which handles a POST, validates the JWT, and logs the user into your console.
+
+## I cannot grant `cloud-commerce-procurement@system.gserviceaccount.com` the `roles/servicemanagement.serviceConsumer` or `roles/servicemanagement.serviceController` role. There are no service endpoints available.
+
+Service Endpoints for Marketplace listings are created once a pricing draft is submitted for approval. To get past this step, grant `cloud-commerce-procurement@system.gserviceaccount.com` the `roles/servicemanagement.admin` role at the project level. This role covers both the `serviceConsumer` and `serviceController` roles.
+

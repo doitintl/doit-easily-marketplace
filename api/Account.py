@@ -11,7 +11,7 @@ def handle_account(account_msg: dict, procurement_api: ProcurementApi):
     account_id = account_msg["id"]
 
     account = procurement_api.get_account(account_id)
-    logger.debug(f"got account", account=account)
+    logger.debug("got account", account=account)
     ############################## IMPORTANT ##############################
     ### In true integrations, Pub/Sub messages for new accounts should  ###
     ### be ignored. Account approvals are granted as a one-off action   ###
@@ -27,7 +27,7 @@ def handle_account(account_msg: dict, procurement_api: ProcurementApi):
             if account_approval["name"] == "signup":
                 approval = account_approval
                 break
-        logger.debug(f"found approval", approval=approval)
+        logger.debug("found approval", approval=approval)
 
         if approval:
             if approval["state"] == "PENDING":

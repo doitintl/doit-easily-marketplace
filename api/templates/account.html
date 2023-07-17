@@ -6,16 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Entitlement Requests</title>
+    <title>Account Detail</title>
 
     <link rel="icon" href="{{ url_for('static', filename='img/marketplace.svg') }}" type="image/x-icon">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|DM+Sans">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="{{ url_for('static', filename = 'approve.js') }}"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <style>
         :root {
@@ -88,8 +88,8 @@
                         </a>
                     </li>
                     <li>
-                        <a class="tooltipped" data-delay="50" data-position="bottom" data-tooltip="Home" href="">
-                            <span>Entitlement Requests</span>
+                        <a class="tooltipped" data-delay="50" data-position="bottom" data-tooltip="Home" href="/app">
+                            <span>Account {{account["name"].split("/")[-1]}}</span>
                         </a>
                     </li>
                 </ul>
@@ -119,55 +119,27 @@
         </nav>
 
         <div class="row">
-            <div class="scroll">
-                <table class="bordered highlight">
-                    <thead>
-                        <tr>
-                            <th>Account ID</th>
-                            <th>Name</th>
-                            <th>Plan</th>
-                            <th>State</th>
-                            <th>Product</th>
-                            <th>Product Ext Name</th>
-                            <th>Provider</th>
-                            <th>Create Time</th>
-                            <th>Update Time</th>
-                            <th>Usage Reporting ID</th>
-                            <th>Approve/Reject</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for entity in entitlements %}
-                        <tr>
-                            <td><a class="tooltipped" data-delay="50" data-position="bottom" data-tooltip="Account Detail"
-                                href="app/account/{{entity['account'].split('/')[-1]}}" >
-                                {{ entity['account'].split('/')[-1] }}
-                            </a></td>
-                            <td>{{ entity['name'].split('/')[-1] }}</td>
-                            <td>{{ entity['plan'] }}</td>
-                            <td>{{ entity['state'] }}</td>
-                            <td>{{ entity['product'] }}</td>
-                            <td>{{ entity['productExternalName'] }}</td>
-                            <td>{{ entity['provider'] }}</td>
-                            <td>{{ entity['createTime'] }}</td>
-                            <td>{{ entity['updateTime'] }}</td>
-                            <td>{{ entity['usageReportingId'] }}</td>
-                            <td>
-                                <button class="btn-floating tooltipped" data-delay="50" data-position="bottom"
-                                    data-tooltip="Approve" onClick="approve('{{ entity['name'].split('/')[-1] }}')">
-                                    <i class="material-icons">check</i>
-                                </button>
-                                <button class="btn-floating red tooltipped" data-delay="50" data-position="bottom"
-                                    data-tooltip="Decline"
-                                    onClick="reject('{{ entity['name'].split('/')[-1] }}', 'cancelled from UI')">
-                                    <i class="material-icons">clear</i>
-                                </button>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+            <!-- <div>ID: {{ account["name"].split("/")[-1] }}</div> -->
+            <div>
+                Approved:
+                {% block content %}
+                    {% if not account["is_approved"] %}
+                    <a class="tooltipped" data-delay="50" 
+                        data-position="bottom" 
+                        data-tooltip="Procurement Account NOT approved">
+                        <i class="small material-icons" style="color:red">warning</i>
+                    </a>
+                    {% else %}
+                    <a class="tooltipped" data-delay="50" 
+                        data-position="bottom" 
+                        data-tooltip="Procurement Account approved">
+                        <i class="small material-icons" style="color:green">check_circle</i>
+                    </a>
+                    {% endif %}
+                {% endblock content %}
+                
             </div>
+            
         </div>
 
     </div>
@@ -179,10 +151,5 @@
             var element = document.getElementById("layout");
             element.classList.toggle("container");
         }
-
-        // document.addEventListener('DOMContentLoaded', function () {
-        //     var elems = document.querySelectorAll('select');
-        //     var instances = M.FormSelect.init(elems, {});
-        // });
     </script>
 </body>

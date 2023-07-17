@@ -169,7 +169,7 @@ def is_account_approved(account: dict) -> bool:
         if account_approval["name"] == "signup":
             approval = account_approval
             break
-    logger.debug(f"found approval", approval=approval)
+    logger.debug("found approval", approval=approval)
 
     if approval:
         if approval["state"] == "PENDING":

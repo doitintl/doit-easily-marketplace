@@ -83,7 +83,7 @@ def handle_entitlement(
 
     entitlement["id"] = entitlement_id
     logger.debug(
-        f"checked procurement api for entitlement",
+        "checked procurement api for entitlement",
         entitlement=entitlement,
         entitlement_id=entitlement_id,
     )
@@ -113,12 +113,11 @@ def handle_entitlement(
         return
 
     entitlement_state = entitlement["state"]
-    logger.debug(f"entitlement state", state=entitlement_state)
+    logger.debug("entitlement state", state=entitlement_state)
 
     # NOTE: because we don't persist any of this info to a local DB, there isn't much to do in this app.
     if event_type == "ENTITLEMENT_CREATION_REQUESTED":
         if entitlement_state == "ENTITLEMENT_ACTIVATION_REQUESTED":
-            logger.debug(f"HERE {product_settings.marketplace_project}")
             if product_settings.auto_approve_entitlements:
                 logger.debug("auto approving entitlement")
                 procurement_api.approve_entitlement(entitlement_id)

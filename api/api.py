@@ -1,11 +1,12 @@
 import base64
 import os
 import json
+import uuid
 from flask import request, Flask, render_template
-from middleware import logger
+from middleware import logger, add_request_context_to_log
 import traceback
 
-from procurement_api import ProcurementApi
+from procurement_api import ProcurementApi, is_account_approved
 from Account import handle_account
 from Entitlement import handle_entitlement
 
@@ -35,6 +36,7 @@ entitlement_states = [
 @app.route(f"/app")
 def entitlements():
     try:
+        add_request_context_to_log(str(uuid.uuid4()))
         state = request.args.get('state', "ACTIVATION_REQUESTED")
         page_context = {}
         logger.debug("loading index")
@@ -43,7 +45,7 @@ def entitlements():
             entitlement_response = procurement_api.list_entitlements()
         else:
             entitlement_response = procurement_api.list_entitlements(state=state)
-        logger.debug(f"entitlements: {entitlement_response}")
+        logger.debug("entitlements loaded", entitlements=entitlement_response)
         page_context["entitlements"] = list(
             entitlement_response['entitlements']) if 'entitlements' in entitlement_response else []
 
@@ -51,13 +53,35 @@ def entitlements():
     except Exception as e:
         logger.error(e)
         return {"error": "Loading failed"}, 500
-        
+
+@app.route(f"/app/account/<account_id>")
+def show_account(account_id):
+    try:
+        add_request_context_to_log(str(uuid.uuid4()))
+        page_context = {}
+        logger.debug("loading account page")
+
+        if account_id is None:
+            page_context = {"error": "no account id provided"}
+        account = procurement_api.get_account(account_id)
+
+        if not account:
+            page_context = {"error": "account not found"}
+
+        page_context["account"] = account
+        page_context["account"]["is_approved"] = is_account_approved(account)
+
+        return render_template("account.html", **page_context)
+    except Exception as e:
+        logger.error(e)
+        return {"error": "Loading failed"}, 500 
 
 @app.route("/login", methods=["POST"])
 @app.route("/activate", methods=["POST"])
 def login():
+    add_request_context_to_log(str(uuid.uuid4()))
     encoded = request.form.get("x-gcp-marketplace-token")
-    logger.debug(f'encoded token {encoded}')
+    logger.debug('encoded token', token=encoded)
     if not encoded:
         return "invalid header", 401
     header = jwt.get_unverified_header(encoded)
@@ -95,7 +119,7 @@ def login():
         return "sub empty", 401
 
     # JWT validated, approve account
-    logger.debug(f'approving account {decoded["sub"]}')
+    logger.debug('approving account', account=decoded["sub"])
     try:
         response = procurement_api.approve_account(decoded["sub"])
         logger.info("procurement api approve complete", response={})
@@ -117,7 +141,7 @@ def login():
 # curl localhost:5000/v1/entitlement?state=CREATION_REQUESTED|ACTIVE|PLAN_CHANGE_REQUESTED|PLAN_CHANGED|PLAN_CHANGE_CANCELLED|CANCELLED|PENDING_CANCELLATION|CANCELLATION_REVERTED|DELETED
 @app.route("/v1/entitlements", methods=["GET"])
 def index():
-    logger.info("loading index")
+    add_request_context_to_log(str(uuid.uuid4()))
     try:
         state = request.args.get("state", "ACTIVATION_REQUESTED")
         if state not in entitlement_states:
@@ -132,6 +156,7 @@ def index():
 # curl --request POST localhost:5000/v1/entitlement/49849f71-849b-49ad-9c0f-60389c1604e5/approve  --header "Content-Type: application/json"
 @app.route("/v1/entitlement/<entitlement_id>/approve", methods=["POST"])
 def entitlement_approve(entitlement_id):
+    add_request_context_to_log(str(uuid.uuid4()))
     logger.info("approve entitlement")
     try:
         procurement_api.approve_entitlement(entitlement_id)
@@ -144,6 +169,7 @@ def entitlement_approve(entitlement_id):
 # curl --request POST localhost:5000/v1/entitlement/49849f71-849b-49ad-9c0f-60389c1604e5/reject --data '{"reason":"reason for rejection"}' --header "Content-Type: application/json"
 @app.route("/v1/entitlement/<entitlement_id>/reject", methods=["POST"])
 def entitlement_reject(entitlement_id):
+    add_request_context_to_log(str(uuid.uuid4()))
     logger.info("reject entitlement")
     try:
         msg_json = request.json
@@ -159,6 +185,7 @@ def entitlement_reject(entitlement_id):
 # curl --request POST localhost:5000/v1/account/49849f71-849b-49ad-9c0f-60389c1604e5/approve --header "Content-Type: application/json"
 @app.route("/v1/account/<account_id>/approve", methods=["POST"])
 def account_approve(account_id):
+    add_request_context_to_log(str(uuid.uuid4()))
     logger.info("approve account")
     try:
         response = procurement_api.approve_account(account_id)
@@ -172,6 +199,7 @@ def account_approve(account_id):
 # curl --request POST localhost:5000/v1/account/49849f71-849b-49ad-9c0f-60389c1604e5/reset --header "Content-Type: application/json"
 @app.route("/v1/account/<account_id>/reset", methods=["POST"])
 def account_reset(account_id):
+    add_request_context_to_log(str(uuid.uuid4()))
     logger.info("reset account")
     try:
         response = procurement_api.reset_account(account_id)
@@ -185,6 +213,7 @@ def account_reset(account_id):
 # A notification handler route that decodes messages from Pub/Sub
 @app.route("/v1/notification", methods=["POST"])
 def handle_subscription_message():
+    add_request_context_to_log(str(uuid.uuid4()))
     logger.debug("event received")
     try:
         envelope = request.json

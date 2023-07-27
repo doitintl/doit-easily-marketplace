@@ -21,6 +21,7 @@ def get_json_logger() -> structlog._config.BoundLoggerLazyProxy:
     # extend using https://www.structlog.org/en/stable/processors.html
     structlog.configure(
         processors=[
+            structlog.contextvars.merge_contextvars,
             structlog.stdlib.add_log_level,
             structlog.stdlib.PositionalArgumentsFormatter(),
             field_name_modifier,
@@ -38,3 +39,7 @@ logger = get_json_logger()
 def logging_flush() -> None:
     # Setting PYTHONUNBUFFERED in Dockerfile ensured no buffering
     pass
+
+def add_request_context_to_log(request_id):
+    structlog.contextvars.clear_contextvars()
+    structlog.contextvars.bind_contextvars(request_id=request_id)

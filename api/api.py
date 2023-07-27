@@ -108,7 +108,7 @@ def login():
                 entitlement_id = procurement_api.get_entitlement_id(pcr["name"])
                 logger.info("approving entitlement", entitlement_id=entitlement_id)
                 procurement_api.approve_entitlement(entitlement_id)
-        return "You're account has been approved. You can close this window.", 200
+        return "Your account has been approved. You can close this window.", 200
     except Exception as e:
         logger.error("an exception occurred approving accounts", exception=traceback.format_exc())
         return {"error": "failed to approve account"}, 500

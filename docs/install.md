@@ -17,6 +17,7 @@ We recommend the first approach, using the requested variables.
 ## Setup
 
 Note: These steps can be accomplished by applying this [Terraform][6] or [gcloud][7].
+[Terraform][6] is preferred way to execute the setup.
 
 1. Create a project to hold your listings and backend integration workloads. The project name should be in the format `ISV-public`.
 

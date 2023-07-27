@@ -74,18 +74,19 @@ def handle_entitlement(
     logger.debug("handle_entitlement", event_dict=event, event_type=event_type)
     entitlement_id = event["id"]
     entitlement = procurement_api.get_entitlement(entitlement_id)
-    entitlement["id"] = entitlement_id
-    logger.debug(
-        f"checked procurement api for entitlement",
-        entitlement=entitlement,
-        entitlement_id=entitlement_id,
-    )
 
     if not entitlement:
         # Do nothing. The entitlement has to be canceled to be deleted, so
         # this has already been handled by a cancellation message.
         logger.debug("entitlement not found in procurement api, nothing to do")
         return
+
+    entitlement["id"] = entitlement_id
+    logger.debug(
+        f"checked procurement api for entitlement",
+        entitlement=entitlement,
+        entitlement_id=entitlement_id,
+    )
 
     # Get the product name from the entitlement object
     product_name = entitlement["product"]

@@ -28,7 +28,7 @@ resource "google_compute_url_map" "url_map" {
     name = "allpaths"
     default_service = module.api-lb.backend_services["default"].self_link
     path_rule {
-      paths   = ["/login"]
+      paths   = ["/activate", "/login"]
       service = module.api-lb.backend_services["frontend"].self_link
     }
   }

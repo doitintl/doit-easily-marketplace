@@ -14,6 +14,7 @@ gcloud projects add-iam-policy-binding $COMPANY_NAME-public \
 --member="user:cloud-commerce-marketplace-onboarding@twosync-src.google.com" \
 --role=roles/servicemanagement.admin
 
+# If those are failing see ../../faq.md
 gcloud projects add-iam-policy-binding $COMPANY_NAME-public \
 --member="user:cloud-commerce-procurement@system.gserviceaccount.com" \
 --role=roles/servicemanagement.serviceConsumer

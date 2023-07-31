@@ -29,12 +29,6 @@ variable "region" {
   type        = string
 }
 
-variable "ssl" {
-  description = "Run load balancer on HTTPS and provision managed certificate with provided `domain`."
-  type        = bool
-  default     = true
-}
-
 variable "domain" {
   description = "Domain name to run the load balancer on. Used if `ssl` is `true`."
   type        = string
@@ -56,8 +50,6 @@ variable "log_sample_rate" {
   type = number
   default = 0
 }
-
-
 
 variable "brand_name" {
   description = "The name of the oauth brand"
@@ -89,7 +81,7 @@ variable "external_ip_name" {
 
 variable "topic_name" {
   default=""
-  description = "IF your topic name does not match your project name, you can set it here"
+  description = "If your topic name does not match your project name, you can set it here"
 }
 
 variable "secret_version" {

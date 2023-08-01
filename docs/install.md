@@ -74,7 +74,7 @@ Note: These steps can be accomplished by applying this [Terraform][8].
    ![Diagram](../img/proc-url-screen-cap.png)
    </details>  
 
-1. To test the integration, see our [detailed doc on testing](10)
+1. To test the integration, see our [detailed doc on testing][10]
 
 1. Submit the product details, pricing details, and technical integration for review by Google.
 

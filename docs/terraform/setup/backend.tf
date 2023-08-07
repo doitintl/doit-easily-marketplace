@@ -1,5 +1,6 @@
 terraform {
-#  backend "gcs" {
-#    bucket = "com-doit-public-terraform-state"
-#  }
+  backend "gcs" {
+    bucket = "talonone-terraform-state"
+    prefix = "terraform/marketplace"
+  }
 }

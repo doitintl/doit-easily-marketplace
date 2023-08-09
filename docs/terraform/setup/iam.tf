@@ -39,6 +39,13 @@ resource "google_service_account_iam_member" "doit_easily_token_creator" {
   service_account_id = google_service_account.doit_easily_backend_integration_sa.id
 }
 
+#allow doit-easily to create tokens as itself (required for push pubsub subscription authentication)
+resource "google_service_account_iam_member" "doit_easily_token_creator_alex" {
+  member             = "user:gotgelf@talon.one"
+  role               = "roles/iam.serviceAccountTokenCreator"
+  service_account_id = google_service_account.doit_easily_backend_integration_sa.id
+}
+
 #allow doit-easily to use itself (required for push pubsub subscription authentication)
 resource "google_service_account_iam_member" "doit_easily_sa_user" {
   member             = "serviceAccount:${google_service_account.doit_easily_backend_integration_sa.email}"

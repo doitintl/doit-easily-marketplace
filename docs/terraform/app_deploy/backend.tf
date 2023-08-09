@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket = "doit-test-davec-public-terraform"
-    
+    bucket = "talonone-terraform-state"
+    prefix = "terraform/marketplace-app"
   }
 }

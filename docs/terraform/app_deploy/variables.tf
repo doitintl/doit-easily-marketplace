@@ -89,9 +89,9 @@ variable "secret_version" {
 }
 
 locals {
-  demo_prefix = var.is_codelab ? "DEMO-" : ""
+  demo_prefix = ""
   topic = "projects/cloudcommerceproc-prod/topics/${local.demo_prefix}${var.topic_name != "" ? var.topic_name : var.project_id}"
   #  this module only handles a single installation, so either codelab SA or the one we created before....
-  service_account_email = var.is_codelab ? "saas-codelab@${var.project_id}.iam.gserviceaccount.com" : "doit-easily@${var.project_id}.iam.gserviceaccount.com"
-  codelab_suffix = var.is_codelab ? "-codelab" : ""
+  service_account_email = "doit-easily@${var.project_id}.iam.gserviceaccount.com"
+  codelab_suffix = ""
 }

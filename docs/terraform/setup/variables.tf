@@ -14,3 +14,7 @@ variable "folder_id" {
 variable "billing_id" {
   description = "The billing id of the billing account"  
 }
+
+variable "org_id" {
+  description = "Org ID"  
+}

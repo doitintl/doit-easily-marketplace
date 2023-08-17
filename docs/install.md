@@ -14,7 +14,7 @@ You can apply the modules using either one of the following methods:
 
 We recommend the first approach, using the requested variables.
 
-## Setup
+## Getting Started
 
 Note: These steps can be accomplished by applying this [Terraform][6] or [gcloud][7].
 [Terraform][6] is preferred way to execute the setup.
@@ -32,6 +32,8 @@ Note: These steps can be accomplished by applying this [Terraform][6] or [gcloud
 The following steps are completed in your web browser and Producer Portal.
 
 1. Submit your product information using this [Google Form][1].
+
+1. Once the Producer Portal is enabled, continue beyond this step
 
 1. Create a new SaaS listing in the [Producer Portal][2]. 
 
@@ -58,7 +60,9 @@ Note: These steps can be accomplished by applying this [Terraform][8].
 
 #### Please see the [README][11] for important instructions about deploying the app and its prerequisites.
 
-1. Deploy the application in Cloud Run. When finished, continue below.
+1. Build and publish the application [image][12]
+
+1. Deploy the application and related infrastructure. When finished, continue below.
 
 ## Finish and test the integration
 
@@ -90,3 +94,7 @@ Note: These steps can be accomplished by applying this [Terraform][8].
 [9]: terraform/setup/iam.tf
 [10]: testing.md
 [11]: terraform/app_deploy/README.md
+<<<<<<< Updated upstream
+=======
+[12]: ../api/README.md
+>>>>>>> Stashed changes

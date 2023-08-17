@@ -1,6 +1,7 @@
 # App Deploy Terraform
 
-This module deploys doit-easily into cloudrun, including all required infrastucture
+This module deploys doit-easily into cloudrun, including all required infrastucture  
+Before applying this module, the [setup module][1] must be applied (or equivilent resources applied)
 
 # iSaas Codelab vs Production
 This terraform should be deployed once for the iSaaS Codelab (with the `TF_VAR_is_codelab=true`)
@@ -13,11 +14,8 @@ Resources Created:
 - IAM policies
 - Load balancer, backend, managed SSL cert, A record
 
-### Terraform Variables
 
-
-
-### Pre-requisites
+### Pre-requisites to applying this terraform
 
 Before running this terraform verify the following:
 
@@ -27,6 +25,33 @@ Before running this terraform verify the following:
 * The [TOML formatted configuration](../../../api/README.md#configuration) is stored in the [provided custom-settings.toml file, which contains valid settings keys with blank values (and must be customized to contain values that are valid for your deployment, before deploying)](./custom-settings.toml)
 
 
+### Terraform Variables
+
+doit_easily_image = "your-repo/doit-easily:1.0"
+secret_version = "1"
+cloudrun_location = "us-central1"
+is_codelab = false
+project_id = "your-project-id"
+log_level = "info"
+audience = "you.website.example.com"
+region = "us-central1"
+ssl = true
+domain = "you.website.example.com"
+lb_name = "doit-test-davec-load-balancer"
+enable_logging = false
+log_sample_rate = 0
+brand_name = "DoiT Dave Test - Marketplace"
+project_number = 12345
+brand_support_email = "dave.c@doit-intl.com"
+iap_client_display_name = "DoiT Dave Test - Public"
+managed_zone_name = "doit-easily-cavaletto-dev"
+managed_zone_project = "your-project-id"
+external_ip_name = "your-project-id-public-ip"
+topic_name = "doit-test-dave-public"
+
 ### After deploying the app
 * grant users access to log into the backend UI via IAP
 * update the secret `settings-toml` with valid values
+
+
+[1]: ../setup/

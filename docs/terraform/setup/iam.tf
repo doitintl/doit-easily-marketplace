@@ -46,13 +46,6 @@ resource "google_service_account_iam_member" "doit_easily_sa_user" {
   service_account_id = google_service_account.doit_easily_backend_integration_sa.id
 }
 
-resource "google_project_iam_member" "doit_easily_pubsub_editor" {
-  member  = "serviceAccount:${google_service_account.doit_easily_backend_integration_sa.email}"
-  # because the subscription must be created in the marketplace project
-  project = var.project_id
-  role    = "roles/pubsub.editor"
-}
-
 #allow doit-easily to edit pubsub on this project
 resource "google_project_iam_member" "doit_easily_pubsub_editor" {
   member  = "serviceAccount:${google_service_account.doit_easily_backend_integration_sa.email}"

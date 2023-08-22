@@ -66,7 +66,6 @@ resource "google_secret_manager_secret" "settings_toml" {
 resource "google_secret_manager_secret_version" "settings_toml" {
   secret      = google_secret_manager_secret.settings_toml.id
   secret_data = file("${path.module}/custom-settings.toml")
-  enabled = false
 }
 
 

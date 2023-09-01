@@ -8,13 +8,6 @@ From the api directory you can build and publish the app using the following com
 
     gcloud builds submit  --tag <registry path>/doit-easily:1.0  .
 
-## API
-
-In this running mode the app runs a Flask server and acts as a proxy for the Procurement API.
-
-## Processor
-
-In this running mode the app listens for messages on a pull subscription and processes the messages.
 
 ## Configuration
 

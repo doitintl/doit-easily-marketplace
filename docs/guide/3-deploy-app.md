@@ -1,4 +1,22 @@
-# Install the app into Cloud Run
+# Deploy the App
+
+#### Please see the [README][11] for important instructions about deploying the app and its prerequisites.
+
+1. Build and publish the application [image][12]
+
+   cd api
+   gcloud build submit ....
+
+1. copy and update the example.tfvars file
+
+1. Deploy the application and related infrastructure. When finished, continue below.
+
+1. update the secret in Secret Manager
+
+1. bump the secret version in tfvars and redeploy the service
+
+
+Note: These steps can be accomplished by applying this [Terraform][8].
 
 The `app_deploy` terraform module will install & configure the following components/features:
 
@@ -21,3 +39,7 @@ This terraform assumes you have a DNS zone already created. See [loadbalancer.tf
 
 ### You need to update the secret setting-toml
 Either put your secrets in the `terraform/docs/app_deploy/custom-settings.toml` before applying the terraform OR after applying the terraform initially, manually update the secret in Secret Manager and then update the secret_version in your tfvar file
+
+# Next Steps
+
+[test the deployment](4-test-deployment.md)

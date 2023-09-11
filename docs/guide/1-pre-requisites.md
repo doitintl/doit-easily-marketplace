@@ -1,11 +1,10 @@
 # Pre-Requisites
 
-Note: These steps can be accomplished by applying this [Terraform][6] or [gcloud][7].
-[Terraform][6] is preferred way to execute the setup.
+Note: These steps can be accomplished by applying this [Terraform](../terraform/setup/).
 
-1. Create a project to hold your listings and backend integration workloads. The project name should be in the format `ISV-public`.
+1. Create a project to hold your listings and backend integration workloads. The project name should be in the format `ISV-public` or otherwise clear it is a marketplace project.
 
-1. Grant Google procurement user access to your listing project ([role detail][9]).
+1. Grant Google procurement user access to your listing project ([role detail](../terraform/setup/iam.tf)).
 
 1. Create a service account to run your integration workloads.
 

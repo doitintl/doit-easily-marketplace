@@ -1,16 +1,5 @@
 # Test deployment
 
-1. In the Producer Portal, add the frontend integration URL to the Technical Integration -> Frontend Integration `Sign up URL`.
-
-     1. (Optional.) Use a custom domain by setting up a load balancer in front of Cloud Run.
-
-     2. (Optional.) Add the SSO Login URL for your console, and support SSO. OR link to your website and disable SSO
-
-   <details>
-   <summary>Screen Capture</summary>
-
-   ![Diagram](../img/proc-url-screen-cap.png)
-   </details>  
 
 1. To test the integration, see our [detailed doc on testing][10]
 

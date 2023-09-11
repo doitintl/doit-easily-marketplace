@@ -4,11 +4,11 @@
 
 ## Architecture description
 
-TODO
+Doit-Easily is a the minimum required implementation for a SaaS backend listing. 
 
 ## How the data flows
 
-TODO
+
 
 ## Component Descriptions
 

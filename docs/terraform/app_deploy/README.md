@@ -5,7 +5,8 @@ Before applying this module, the [setup module][1] must be applied (or equivilen
 
 ## What this Terraform deploys
 
-TODO: a diagram showing all components deployed
+![Diagram](../../../img/component-arch.png)
+
 
 The `app_deploy` terraform module will install & configure the following components/features:
 

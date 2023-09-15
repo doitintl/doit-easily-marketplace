@@ -3,16 +3,9 @@
 This module deploys doit-easily into cloudrun, including all required infrastucture  
 Before applying this module, the [setup module][1] must be applied (or equivilent resources applied)
 
-## Important Notes About the Terraform
+## What this Terraform deploys
 
-### DNS Zone
-This terraform assumes you have a DNS zone already created. See [loadbalancer.tf](../docs/terraform/app_deploy/loadbalancer.tf) (line 3). If you need a new zone created, you'll need to modify the terraform to create the zone rather than reference one that exists.
-
-### You need to update the secret setting-toml
-Either put your secrets in the `terraform/docs/app_deploy/custom-settings.toml` before applying the terraform OR after applying the terraform initially, manually update the secret in Secret Manager and then update the secret_version in your tfvar file
-
-### Summary
-
+TODO: a diagram showing all components deployed
 
 The `app_deploy` terraform module will install & configure the following components/features:
 
@@ -29,17 +22,26 @@ The `app_deploy` terraform module will install & configure the following compone
 * Create a default secret `settings-toml` which contains a default config
 
 
-### Pre-requisites to applying this terraform
+# Important Notes About the module
 
-Before running this terraform verify the following:
+### You need an existing DNS zone
+This terraform assumes you have a DNS zone already created. See [loadbalancer.tf](../docs/terraform/app_deploy/loadbalancer.tf) (line 3). If you need a new zone created, you'll need to modify the terraform to create the zone rather than reference one that exists.
 
-* The user or service account that runs this terraform needs to have `serviceAccountTokenCreator` on the `doit-easily` SA created in the setup terraform
-* Build and publish the application image to GCR or Artifact Registry. See the API [README][1] for instructions. If you don't have an existing registry, you need to create one. 
-* grant the Cloud Run Service Agent pull access to the registry where your doit-easily image is published
-* The [TOML formatted configuration](../../../api/README.md#configuration) is stored in the [provided custom-settings.toml file, which contains valid settings keys with blank values (and must be customized to contain values that are valid for your deployment, before deploying)](./custom-settings.toml)
+### You need to update the secret setting-toml
+
+This module creates a secret in Secret Manager named [settings-toml](../app_deploy/app.tf#L58) which is mounted to your Cloud Run service. The secret contains [initial](./custom-settings.toml) _default values_ which must be updated for DoiT-Easily to run correctly.
+
+You must either:
+
+*  put your secrets in the [custom-settings.toml](./custom-settings.toml) before applying the terraform 
+*  after applying the terraform initially, manually update the secret in Secret Manager and then update the [secret_version](./example.tfvars#L2) in your tfvar file
+
+### Granting users access to the backend UI
+
+users need to be granted the `IAP-secured Web App User` role on the [IAP console](https://console.cloud.google.com/security/iap)
 
 
-### Terraform Variables
+# Terraform Variable Descriptions
 
 |variable | example value | description|
 |--|--|--|
@@ -64,19 +66,11 @@ Before running this terraform verify the following:
 |external_ip_name | your-project-id-public-ip | the name for the IP address used for the Load Balancer|
 |topic_name | topic-name-created-by-google | the name of the topic as defined in the Producer Portal (created by Google)|
 
-### After deploying the app
-* grant users access to log into the backend UI via IAP
-* update the secret `settings-toml` with valid values
 
 # iSaas Codelab vs Production
 |This terraform should be deployed once for the iSaaS Codelab (with the `TF_VAR_is_codelab|true`) | desc|
 It should be deployed separately for a production version of Doit-easily (with the `TF_VAR_is_codelab` omitted (`false`))
 
-Resources Created:
-- pubsub subscription from Google Marketplace topic
-- event topic (optional)
-- cloud run service
-- IAM policies
-- Load balancer, backend, managed SSL cert, A record
+
 
 [1]: ../setup/

@@ -1,7 +1,7 @@
 # Pre-Requisites
 
-TODO
+TODO: What are the final steps here? 
 
 # Next Steps
 
-Done
+Done! Now go outside and touch some grass!

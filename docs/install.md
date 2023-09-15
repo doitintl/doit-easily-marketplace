@@ -14,8 +14,7 @@ You can apply the modules using either one of the following methods:
 
 - Copying the pertinent files to your own terraform modules and apply them there.
 
-We recommend the first approach, using the requested variables.
-
+How you incorporate these files into your CICD system is up to you. While we strive to not make breaking changes the Terraform modules, we can't promise we won't.
 
 ## The Install Process
 

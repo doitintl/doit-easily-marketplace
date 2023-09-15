@@ -2,13 +2,13 @@
 
 Application repo for Doit-Easily. A simple python app for interacting with the Procurement API and Marketplace Topic messages.
 
-# Building the Image
+# Build and publish the image
 From the api directory you can build and publish the app using the following command. You need to have a gcr or artifact registry to push the image to. Proper IAMs configurations are required to submit the build and publish the image.
 
     gcloud builds submit  --tag <registry path>/doit-easily:1.0  .
 
 
-## Configuration
+# Configuration
 
 The configuration is managed by [DynaConf](https://www.dynaconf.com) and should be configured in the following way:
 

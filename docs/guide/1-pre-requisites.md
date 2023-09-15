@@ -1,6 +1,10 @@
 # Pre-Requisites
 
-Note: These steps can be accomplished by applying this [Terraform](../terraform/setup/).
+## Terraform
+
+These steps can be accomplished by applying this [Terraform](../terraform/setup/) module.
+
+## The Process
 
 1. Create a project to hold your listings and backend integration workloads. The project name should be in the format `ISV-public` or otherwise clear it is a marketplace project.
 

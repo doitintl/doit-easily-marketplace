@@ -91,7 +91,7 @@ def handle_entitlement(
     # Get the product name from the entitlement object
     product_name = entitlement["product"]
     logger.info("entitlement for", product_name=product_name)
-    # Get the first substring from a split using . as the separator. Should be safe for prod and Codelab
+    # Get the first substring from a split using . as the separator.
     product_name = product_name.split(".")[0]
     # Load DynaConf settings for the product
     product_settings = settings.from_env(product_name)

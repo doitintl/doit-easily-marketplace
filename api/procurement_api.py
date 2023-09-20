@@ -11,8 +11,6 @@ from unittest import mock
 from config import settings
 
 PROCUREMENT_API = "cloudcommerceprocurement"
-# TODO: what is the prefix in prod
-PROJECT_PREFIX = "DEMO-" if settings["is_codelab"] else ""
 logger.info(f"project prefix", project_prefix=PROJECT_PREFIX)
 
 FIFTEEN_MINUTES = 900
@@ -31,10 +29,10 @@ class ProcurementApi(object):
 
     def get_account_id(self, name):
         # name is of format "providers/DEMO-project_id/accounts/12345"
-        return name[len(f"providers/{PROJECT_PREFIX}{self.project_id}/accounts/") :]
+        return name[len(f"providers/{self.project_id}/accounts/") :]
 
     def get_account_name(self, account_id):
-        return f"providers/{PROJECT_PREFIX}{self.project_id}/accounts/{account_id}"
+        return f"providers/{self.project_id}/accounts/{account_id}"
 
     @on_exception(expo, RateLimitException, max_tries=8)
     @limits(calls=15, period=FIFTEEN_MINUTES)
@@ -79,7 +77,7 @@ class ProcurementApi(object):
 
     def _get_entitlement_name(self, entitlement_id):
         return (
-            f"providers/{PROJECT_PREFIX}{self.project_id}/entitlements/{entitlement_id}"
+            f"providers/{self.project_id}/entitlements/{entitlement_id}"
         )
     
     def get_entitlement_id(self, name):
@@ -150,7 +148,7 @@ class ProcurementApi(object):
             self.service.providers()
             .entitlements()
             .list(
-                parent=f"providers/{PROJECT_PREFIX}{self.project_id}",
+                parent=f"providers/{self.project_id}",
                 filter=f"state={state}{account_filter}",
             )
         )

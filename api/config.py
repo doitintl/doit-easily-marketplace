@@ -21,8 +21,6 @@ settings.validators.register(
     Validator("slack_webhook", eq=None) | Validator("slack_webhook", is_type_of=str),
     # optional. If set, google pubsub will be used.
     Validator("event_topic", eq=None) | Validator("event_topic", is_type_of=str),
-    # not optional. If set, codelab mode is enabled.
-    Validator("is_codelab", must_exist=True, is_type_of=bool),
 )
 
 settings.validators.validate_all()

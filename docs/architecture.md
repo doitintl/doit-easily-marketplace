@@ -6,10 +6,6 @@
 
 Doit-Easily demonstrates the minimum required implementation for a SaaS backend listing. 
 
-## How the data flows
-
-TODO: data flow diagram
-
 ## Component Descriptions
 
 ### GCP owned
@@ -35,3 +31,7 @@ TODO: data flow diagram
 * **usage-reporter**: An optional service (only required for usage-based billing, not provided by this repository) that reports usage metrics to Google's Service API.
 
 * **service account**: The doit-easily service account that runs your backend-integration. This service account has roles to interact with the procurement API and subscribe to the isv-public topic.
+
+## How the data flows
+
+![Diagram](../img/flow-chart.png)

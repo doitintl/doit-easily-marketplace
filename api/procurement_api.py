@@ -11,7 +11,6 @@ from unittest import mock
 from config import settings
 
 PROCUREMENT_API = "cloudcommerceprocurement"
-logger.info(f"project prefix", project_prefix=PROJECT_PREFIX)
 
 FIFTEEN_MINUTES = 900
 

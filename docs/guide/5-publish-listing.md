@@ -1,6 +1,6 @@
-# Pre-Requisites
+# Publish Listing
 
-TODO: What are the final steps here? 
+After all testing is completed, submit the listing to Google to publish. 
 
 # Next Steps
 

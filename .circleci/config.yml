@@ -1,0 +1,29 @@
+version: 2.1
+orbs: 
+  gcp-gcr: circleci/gcp-gcr@0.15.0
+jobs:
+  deploy:
+    machine:
+      image: ubuntu-2004:202201-02
+      docker_layer_caching: true
+    steps:
+      - gcp-gcr/gcr-auth
+      - checkout
+      - gcp-gcr/build-image:
+          image: doit-easily
+          dockerfile: Dockerfile
+          tag: $CIRCLE_SHA1
+          registry-url: gcr.io
+      - gcp-gcr/push-image:
+          image: doit-easily
+          tag: $CIRCLE_SHA1
+          registry-url: gcr.io
+workflows:
+  build_and_push_image:
+    jobs:
+      - deploy:
+          context:
+            - gcp-retail-deployment
+          filters:
+            branches:
+              only: main

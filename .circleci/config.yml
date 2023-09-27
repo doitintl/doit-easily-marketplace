@@ -11,7 +11,8 @@ jobs:
       - checkout
       - gcp-gcr/build-image:
           image: doit-easily
-          dockerfile: Dockerfile
+          docker-context: ./api/
+          dockerfile: api/Dockerfile
           tag: $CIRCLE_SHA1
           registry-url: gcr.io
       - gcp-gcr/push-image:

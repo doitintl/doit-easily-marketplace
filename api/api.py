@@ -32,6 +32,7 @@ entitlement_states = [
     "DELETED",
 ]
 
+
 # NOTE: we could just make this an SPA...then we don't need a server at all
 @app.route(f"/app")
 def entitlements():
@@ -54,6 +55,7 @@ def entitlements():
         logger.error(e)
         return {"error": "Loading failed"}, 500
 
+
 @app.route(f"/app/account/<account_id>")
 def show_account(account_id):
     try:
@@ -74,7 +76,8 @@ def show_account(account_id):
         return render_template("account.html", **page_context)
     except Exception as e:
         logger.error(e)
-        return {"error": "Loading failed"}, 500 
+        return {"error": "Loading failed"}, 500
+
 
 @app.route("/login", methods=["POST"])
 @app.route("/activate", methods=["POST"])
@@ -260,7 +263,7 @@ def handle_subscription_message():
 
 @app.route("/alive")
 def alive():
-    return "", 200
+    return "OK", 200
 
 
 if __name__ == "__main__":

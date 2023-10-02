@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang=en xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Entitlement Requests</title>
+
+    <link rel="icon" href="{{ url_for('static', filename='img/marketplace.svg') }}" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|DM+Sans">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="{{ url_for('static', filename = 'approve.js') }}"></script>
+
+    <style>
+        :root {
+            --border-color: #d0d0d0;
+            --icon_size: 36px;
+            --sticky-bg-color: #fff;
+        }
+
+        body {
+            font-family: "Open Sans";
+            padding: 0;
+            position: relative;
+            width: 100%;
+        }
+
+        .container {
+            max-width: 1080px;
+        }
+
+        #layout {
+            padding-top: 30px;
+        }
+
+        .pt-3 {
+            padding-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+<div id="layout" class="container">
+
+    <div class="row">
+        <form id="form" action="/register" method="post">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Register your account with Adeptmind</span>
+                    <div class="row pt-3">
+                        <div class="input-field col s6">
+                            <input id="name" name="name" type="text" class="validate"
+                                   value="Adeptmind"
+                                   required>
+                            <label for="name">Company name</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input placeholder="https://adeptmind.ai" id="domain" name="domain" type="url"
+                                   value="https://adeptmind.ai"
+                                   class="validate" required>
+                            <label for="domain">Domain</label>
+                        </div>
+                    </div>
+                    <input id="data" name="data" type="hidden">
+                </div>
+                <div class="card-action">
+                    <button class="btn waves-effect waves-light" type="submit" name="action">Register</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<script>
+  const data = {{ data|tojson }};
+  document.getElementById('form').onsubmit = () => {
+    document.getElementById('data').value = JSON.stringify(data);
+  };
+</script>
+</body>

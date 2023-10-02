@@ -1,8 +1,11 @@
 import base64
-import os
 import json
 import uuid
+from urllib.parse import urlparse
+
 from flask import request, Flask, render_template
+
+from constants import PORT, DLP_STORE_BASE
 from middleware import logger, add_request_context_to_log
 import traceback
 
@@ -135,10 +138,39 @@ def login():
                 entitlement_id = procurement_api.get_entitlement_id(pcr["name"])
                 logger.info("approving entitlement", entitlement_id=entitlement_id)
                 procurement_api.approve_entitlement(entitlement_id)
-        return "Your account has been approved. You can close this window.", 200
+        page_context = {
+            "data": decoded
+        }
+        return render_template("register.html", **page_context)
     except Exception as e:
         logger.error("an exception occurred approving accounts", exception=traceback.format_exc())
         return {"error": "failed to approve account"}, 500
+
+
+@app.route("/register", methods=["POST"])
+def register():
+    if DLP_STORE_BASE is None:
+        return "Could not find the DLP Store API, please contact support.", 200
+    try:
+        form = request.form
+        name = form["name"]
+        url = urlparse(form["domain"])
+        domain = f"https://{url.hostname}"
+        path = url.path if url.path else "/"
+        data = json.loads(request.form["data"])
+        resp = requests.post(f"{DLP_STORE_BASE}/api/v1/page/customer/", json=dict(
+            name=name,
+            domain=domain,
+            path=path,
+            platform="non_shopify",
+            gcp_marketplace_account_id=data["sub"],
+            platform_data=data,
+        ))
+        if 200 <= resp.status_code < 300:
+            return "Your account has been approved. You can close this tab now.", 200
+    except:
+        pass
+    return "Could not complete registration successfully. Please contact support.", 200
 
 
 # curl localhost:5000/v1/entitlement?state=CREATION_REQUESTED|ACTIVE|PLAN_CHANGE_REQUESTED|PLAN_CHANGED|PLAN_CHANGE_CANCELLED|CANCELLED|PENDING_CANCELLATION|CANCELLATION_REVERTED|DELETED
@@ -267,4 +299,4 @@ def alive():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
+    app.run(debug=True, host="0.0.0.0", port=PORT)

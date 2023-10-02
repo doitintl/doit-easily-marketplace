@@ -10,6 +10,8 @@ From the api directory you can build and publish the app using the following com
 
 # Configuration
 
+NOTE: this configuration file is mounted via a Secret Manager secret, see this note in the  [deployment instructions](../docs/terraform/app_deploy/README.md#you-need-to-update-the-secret-setting-toml) and the [Terraform](../docs/terraform/app_deploy/app.tf#L19) 
+
 The configuration is managed by [DynaConf](https://www.dynaconf.com) and should be configured in the following way:
 
 A file in TOML format stores the configuration and it should be mount inside the container as a volume. The default location is `/config/custom-settings.toml`, but can be changed by setting the `DOITEZ_SETTINGS_FILE` environment variable.

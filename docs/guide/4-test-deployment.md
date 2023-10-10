@@ -1,3 +1,6 @@
+# Test deployment
+
+
 # Testing your listing manually
 To test your listing you should create a direct billing account and project associated to the billing account. This BA and project should only be used for testing your listing. 
 
@@ -29,3 +32,10 @@ Google requires you to run their automated integration testing before publishing
 
 1. Make sure to grant the role `Commerce Producer Viewer role (roles/commerceproducer.viewer)` to the service account `cloud-commerce-saastester@system.gserviceaccount.com` before running the test
 2. If you are not automatically approving Entitlement Creation Requests, make sure to approve the requests Google submits.
+
+
+
+# Next Steps
+
+
+[publish](5-publish-listing.md)

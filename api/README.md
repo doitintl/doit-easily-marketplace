@@ -1,22 +1,16 @@
 # Doit-Easily
 
 Application repo for Doit-Easily. A simple python app for interacting with the Procurement API and Marketplace Topic messages.
-The application is a single docker image with two running modes, api & processor.
 
-# Building the Image
+# Build and publish the image
 From the api directory you can build and publish the app using the following command. You need to have a gcr or artifact registry to push the image to. Proper IAMs configurations are required to submit the build and publish the image.
 
     gcloud builds submit  --tag <registry path>/doit-easily:1.0  .
 
-## API
 
-In this running mode the app runs a Flask server and acts as a proxy for the Procurement API.
+# Configuration
 
-## Processor
-
-In this running mode the app listens for messages on a pull subscription and processes the messages.
-
-## Configuration
+NOTE: this configuration file is mounted via a Secret Manager secret, see this note in the  [deployment instructions](../docs/terraform/app_deploy/README.md#you-need-to-update-the-secret-setting-toml) and the [Terraform](../docs/terraform/app_deploy/app.tf#L19) 
 
 The configuration is managed by [DynaConf](https://www.dynaconf.com) and should be configured in the following way:
 
@@ -46,5 +40,3 @@ auto_approve_entitlements = true
 - EVENT_TOPIC - The topic to publish create/update/delete events on. This is the topic the ISV listens on to know when to create their infra
 - BACKEND_PROJECT - The project this backend runs in. Can be the same as the MARKETPLACE_PROJECT
 - IS_CODELAB - Internal. Flag to run in codelab mode. Enables approving accounts because codelab has no frontend integration
-
-

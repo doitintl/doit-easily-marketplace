@@ -11,7 +11,6 @@ from unittest import mock
 from config import settings
 
 PROCUREMENT_API = "cloudcommerceprocurement"
-# TODO: what is the prefix in prod
 PROJECT_PREFIX = "DEMO-" if settings["is_codelab"] else ""
 logger.info(f"project prefix", project_prefix=PROJECT_PREFIX)
 

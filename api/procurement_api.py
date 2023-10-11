@@ -11,7 +11,6 @@ from unittest import mock
 from config import settings
 
 PROCUREMENT_API = "cloudcommerceprocurement"
-
 FIFTEEN_MINUTES = 900
 
 

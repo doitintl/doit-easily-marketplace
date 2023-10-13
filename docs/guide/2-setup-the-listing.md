@@ -4,7 +4,7 @@ The following steps are completed in your web browser and Producer Portal.
 
 1. Submit your product information using this [Google Form][1].
 
-1. Once the Producer Portal is enabled, continue beyond this step
+1. Once the Producer Portal is enabled, continue beyond this step (Note, you can find details on the IAM permissions users need to access the producer portal in the [Producer Portal Documentation][3]
 
 1. Create a new SaaS listing in the [Producer Portal][2]. 
 
@@ -29,3 +29,4 @@ The following steps are completed in your web browser and Producer Portal.
 
 [1]: https://docs.google.com/forms/d/e/1FAIpQLSfddn4mwKnqtLNQ-m7IgRZ-bgTz4BOsrEDWCf3XBjc_ogKNnA/viewform
 [2]: https://console.cloud.google.com/producer-portal
+[3]: https://cloud.google.com/marketplace/docs/partners/access-control

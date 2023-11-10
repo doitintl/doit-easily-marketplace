@@ -9,3 +9,4 @@ ratelimit==2.2.1
 backoff==2.1.2
 dynaconf==3.1.9
 pyjwt[crypto]==2.3.0
+Werkzeug==2.2.2

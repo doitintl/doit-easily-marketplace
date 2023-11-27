@@ -6,4 +6,4 @@ slack_webhook = '@none None'       # Optional. The webhook URL to send Slack mes
 audience = 'api.dns_zone_name'     # This should be set to match the configured DNS name
 
 [global] # global will override everything
-is_codelab = false
+

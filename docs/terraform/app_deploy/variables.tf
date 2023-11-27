@@ -11,10 +11,7 @@ variable "cloudrun_location" {
 variable "doit_easily_image" {
   description = "The image path of doit-easily to deploy"
 }
-variable "is_codelab" {
-  default = false
-  description = "Env variable for cloud run service. Flag to run in codelab mode. Enables approving accounts because codelab has no frontend integration"
-}
+
 variable "project_id" {
   description = "Env variable for cloud run service. The project id where your listing resides (and marketplace subscription)"
 }
@@ -89,9 +86,7 @@ variable "secret_version" {
 }
 
 locals {
-  demo_prefix = var.is_codelab ? "DEMO-" : ""
-  topic = "projects/cloudcommerceproc-prod/topics/${local.demo_prefix}${var.topic_name != "" ? var.topic_name : var.project_id}"
-  #  this module only handles a single installation, so either codelab SA or the one we created before....
-  service_account_email = var.is_codelab ? "saas-codelab@${var.project_id}.iam.gserviceaccount.com" : "doit-easily@${var.project_id}.iam.gserviceaccount.com"
-  codelab_suffix = var.is_codelab ? "-codelab" : ""
+  topic = "projects/cloudcommerceproc-prod/topics/${var.topic_name != "" ? var.topic_name : var.project_id}"
+  service_account_email = "doit-easily@${var.project_id}.iam.gserviceaccount.com"
+
 }

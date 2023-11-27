@@ -67,11 +67,4 @@ users need to be granted the `IAP-secured Web App User` role on the [IAP console
 |external_ip_name | your-project-id-public-ip | the name for the IP address used for the Load Balancer|
 |topic_name | topic-name-created-by-google | the name of the topic as defined in the Producer Portal (created by Google)|
 
-
-# iSaas Codelab vs Production
-|This terraform should be deployed once for the iSaaS Codelab (with the `TF_VAR_is_codelab|true`) | desc|
-It should be deployed separately for a production version of Doit-easily (with the `TF_VAR_is_codelab` omitted (`false`))
-
-
-
 [1]: ../setup/

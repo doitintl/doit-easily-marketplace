@@ -12,6 +12,12 @@ resource "google_project_iam_member" "cloud-commerce-marketplace_admin" {
   role    = "roles/servicemanagement.admin"
 }
 
+resource "google_project_iam_member" "cloud-commerce-produer-config-editor" {
+  project = google_project.gcp-marketplace-public.id
+  member  = "serviceAccount:cloud-commerce-producer@system.gserviceaccount.com"
+  role    = "roles/servicemanagement.configEditor"
+}
+
 #give google access to this project
 resource "google_project_iam_member" "cloud-commerce-procurement_admin" {
   project = google_project.isv-public.id

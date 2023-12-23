@@ -33,7 +33,7 @@ entitlement_states = [
 ]
 
 # NOTE: we could just make this an SPA...then we don't need a server at all
-@app.route(f"/app")
+@app.route("/app")
 def entitlements():
     try:
         add_request_context_to_log(str(uuid.uuid4()))
@@ -54,7 +54,7 @@ def entitlements():
         logger.error(e)
         return {"error": "Loading failed"}, 500
 
-@app.route(f"/app/account/<account_id>")
+@app.route("/app/account/<account_id>")
 def show_account(account_id):
     try:
         add_request_context_to_log(str(uuid.uuid4()))
@@ -261,6 +261,11 @@ def handle_subscription_message():
 @app.route("/alive")
 def alive():
     return "", 200
+
+# redirects `/` -> `/app`
+@app.route("/", methods=["GET"])
+def redirect_index():
+    return redirect(url_for('app'))
 
 
 if __name__ == "__main__":

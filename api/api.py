@@ -39,7 +39,7 @@ def entitlements():
         add_request_context_to_log(str(uuid.uuid4()))
         state = request.args.get('state', "ACTIVATION_REQUESTED")
         page_context = {}
-        logger.debug("loading index")
+        logger.debug("loading app")
         state = request.args.get("state", "ACTIVATION_REQUESTED")
         if state not in entitlement_states:
             entitlement_response = procurement_api.list_entitlements()
@@ -265,6 +265,7 @@ def alive():
 # redirects `/` -> `/app`
 @app.route("/", methods=["GET"])
 def redirect_index():
+    logger.debug("loading '/' index, redirects to '/app'")
     return redirect(url_for('app'))
 
 

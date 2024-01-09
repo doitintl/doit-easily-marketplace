@@ -2,7 +2,7 @@
 
 ## Terraform
 
-These steps can be accomplished by applying this [Terraform](../terraform/setup/) module.
+These steps can be accomplished by applying  [this Terraform module](../terraform/setup/)  (directory `setup`).
 
 ## The Process
 

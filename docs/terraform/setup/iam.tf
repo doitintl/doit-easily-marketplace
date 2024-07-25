@@ -53,24 +53,3 @@ resource "google_project_iam_member" "doit_easily_pubsub_editor" {
   project = var.project_id
   role    = "roles/pubsub.editor"
 }
-
-#the SA used for the saas-codelab
-resource "google_service_account" "saas_codelab_backend_integration_sa" {
-  account_id = "saas-codelab"
-  description = "Saas codelab backend integration"
-  project = var.project_id
-}
-
-#allowsaas-codelab to create tokens as itself (required for push pubsub subscription authentication)
-resource "google_service_account_iam_member" "saas_codelab_token_creator" {
-  member             = "serviceAccount:${google_service_account.saas_codelab_backend_integration_sa.email}"
-  role               = "roles/iam.serviceAccountTokenCreator"
-  service_account_id = google_service_account.saas_codelab_backend_integration_sa.id
-}
-
-#allow saas-codelab to use itself (required for push pubsub subscription authentication)
-resource "google_service_account_iam_member" "saas_codelab_sa_user" {
-  member             = "serviceAccount:${google_service_account.saas_codelab_backend_integration_sa.email}"
-  role               = "roles/iam.serviceAccountUser"
-  service_account_id = google_service_account.saas_codelab_backend_integration_sa.id
-}

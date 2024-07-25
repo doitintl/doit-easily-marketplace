@@ -1,7 +1,7 @@
 #the doit-easily cloud run service
 resource "google_cloud_run_service" "doit_easily_cloudrun_service" {
   location = var.cloudrun_location
-  name     = "doit-easily${local.codelab_suffix}"
+  name     = "doit-easily"
   project = var.project_id
   template {
     spec {

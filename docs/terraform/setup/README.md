@@ -6,6 +6,5 @@ Apply this Terraform once to create your project and service accounts required t
 
 Resources Created: 
 - GCP project
-- saas-codelab service account
 - doit-easily service account
 - IAM access for Google accounts

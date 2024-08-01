@@ -59,7 +59,7 @@ resource "google_secret_manager_secret" "settings_toml" {
   project = var.project_id
   secret_id = "settings-toml"
   replication {
-    automatic = true
+    auto {}
   }
 }
 

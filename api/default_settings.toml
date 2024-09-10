@@ -1,5 +1,5 @@
 [default]
-marketplace_project = 'doit-test-dave-public' # This should be set to the name of the project you want to use, otherwise an error will be thrown.
+marketplace_project = '@none None' # This should be set to the name of the project you want to use, otherwise an error will be thrown.
 auto_approve_entitlements = false  # This should be set to true if you want to auto-approve entitlements.
 private_offers_only = false  # This should be set to true if you want to auto-approve accounts and are only offering private offers.
 event_topic = '@none None'         # Optional. The name of the topic to publish events to.

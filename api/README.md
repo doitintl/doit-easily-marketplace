@@ -12,7 +12,7 @@ From the api directory you can build and publish the app using the following com
     cd api
     docker build . -t doit-easily:local 
     gcloud auth login --cred-file='path/to/SA_key.json' 
-    gcloud auth application-default login --impersonate-service-account=doit-easily@doit-test-davec-public.iam.gserviceaccount.com
+    gcloud auth application-default login --impersonate-service-account=doit-easily@<GCP-PROJECT-ID>.iam.gserviceaccount.com
     docker run -e PORT=8080 -v ./default_settings.toml:/config/custom-settings.toml -e GOOGLE_APPLICATION_CREDENTIALS=/creds.json -v $GOOGLE_APPLICATION_CREDENTIALS:/creds.json -p 8080:8080 -e LOG_LEVEL=debug docker.io/library/doit-easily:local
 
 # Configuration

@@ -26,7 +26,7 @@ def handle_account(account_msg: dict, procurement_api: ProcurementApi):
                     procurement_api.approve_account(account_id)
 
                 elif approval["state"] == "APPROVED":
-                    logger.info("account is approved")
+                    logger.info("account is already approved, no action performed")
             else:
                 logger.debug("no approval found")
                 # The account has been deleted

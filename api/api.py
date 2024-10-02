@@ -77,72 +77,75 @@ def show_account(account_id):
         logger.error(e)
         return {"error": "Loading failed"}, 500 
 
-if not settings.private_offers_only:
-    @app.route("/login", methods=["POST"])
-    @app.route("/activate", methods=["POST"])
-    @app.route("/login", methods=["GET"])
-    @app.route("/activate", methods=["GET"])
-    def login():
-        add_request_context_to_log(str(uuid.uuid4()))
-        if request.method == "GET":
-            return "Hello, World!", 200
-        
-        encoded = request.form.get("x-gcp-marketplace-token")
-        logger.debug('encoded token', token=encoded)
-        if not encoded:
-            return "invalid header", 401
-        header = jwt.get_unverified_header(encoded)
-        key_id = header["kid"]
-        # only to get the iss value
-        unverified_decoded = jwt.decode(encoded, options={"verify_signature": False})
-        url = unverified_decoded["iss"]
 
-        # Verify that the iss claim is https://www.googleapis.com/robot/v1/metadata/x509/cloud-commerce-partner@system.gserviceaccount.com.
-        if url != "https://www.googleapis.com/robot/v1/metadata/x509/cloud-commerce-partner@system.gserviceaccount.com":
-            logger.error('oh no! bad public key url')
-            return "", 401
+@app.route("/login", methods=["POST"])
+@app.route("/activate", methods=["POST"])
+@app.route("/login", methods=["GET"])
+@app.route("/activate", methods=["GET"])
+def login():
+    add_request_context_to_log(str(uuid.uuid4()))
+    if settings.private_offers_only:
+        return "This listing is only sold through custom pricing. Please contact the vendor.", 200
 
-        # get the cert from the iss url, and resolve it to a public key
-        certs = requests.get(url=url).json()
-        cert = certs[key_id]
-        cert_obj = load_pem_x509_certificate(bytes(cert, 'utf-8'))
-        public_key = cert_obj.public_key()
+    if request.method == "GET":
+        return "This integration is running.", 200
+    
+    encoded = request.form.get("x-gcp-marketplace-token")
+    logger.debug('encoded token', token=encoded)
+    if not encoded:
+        return "invalid header", 401
+    header = jwt.get_unverified_header(encoded)
+    key_id = header["kid"]
+    # only to get the iss value
+    unverified_decoded = jwt.decode(encoded, options={"verify_signature": False})
+    url = unverified_decoded["iss"]
 
-        # Verify that the JWT signature is using the public key from Google.
-        try:
-            decoded = jwt.decode(encoded, public_key, algorithms=["RS256"], audience=settings.AUDIENCE, )
-        except jwt.exceptions.InvalidAudienceError:
-            #     Verify that the aud claim is the correct domain for your product.
-            logger.error('oh no! audience mismatch')
-            return "audience mismatch", 401
-        except jwt.exceptions.ExpiredSignatureError:
-            #  Verify that the JWT has not expired, by checking the exp claim.
-            logger.error('oh no! jwt expired')
-            return "JWT expired", 401
+    # Verify that the iss claim is https://www.googleapis.com/robot/v1/metadata/x509/cloud-commerce-partner@system.gserviceaccount.com.
+    if url != "https://www.googleapis.com/robot/v1/metadata/x509/cloud-commerce-partner@system.gserviceaccount.com":
+        logger.error('oh no! bad public key url')
+        return "", 401
 
-        # Verify that sub is not empty.
-        if decoded["sub"] is None or decoded["sub"] == "":
-            logger.error('oh no! sub is empty')
-            return "sub empty", 401
+    # get the cert from the iss url, and resolve it to a public key
+    certs = requests.get(url=url).json()
+    cert = certs[key_id]
+    cert_obj = load_pem_x509_certificate(bytes(cert, 'utf-8'))
+    public_key = cert_obj.public_key()
 
-        # JWT validated, approve account
-        logger.debug('approving account', account=decoded["sub"])
-        try:
-            response = procurement_api.approve_account(decoded["sub"])
-            logger.info("procurement api approve complete", response={})
-            if settings.auto_approve_entitlements:
-                # look for any pending entitlement creation requests and approve them
-                pending_creation_requests = procurement_api.list_entitlements(account_id=decoded["sub"])
-                logger.debug("pending requests", pending_creation_requests=pending_creation_requests)
-                for pcr in pending_creation_requests["entitlements"]:
-                    logger.debug("pending creation request", pcr=pcr)
-                    entitlement_id = procurement_api.get_entitlement_id(pcr["name"])
-                    logger.info("approving entitlement", entitlement_id=entitlement_id)
-                    procurement_api.approve_entitlement(entitlement_id)
-            return "Your account has been approved. You can close this window.", 200
-        except Exception as e:
-            logger.error("an exception occurred approving accounts", exception=traceback.format_exc())
-            return {"error": "failed to approve account"}, 500
+    # Verify that the JWT signature is using the public key from Google.
+    try:
+        decoded = jwt.decode(encoded, public_key, algorithms=["RS256"], audience=settings.AUDIENCE, )
+    except jwt.exceptions.InvalidAudienceError:
+        #     Verify that the aud claim is the correct domain for your product.
+        logger.error('oh no! audience mismatch')
+        return "audience mismatch", 401
+    except jwt.exceptions.ExpiredSignatureError:
+        #  Verify that the JWT has not expired, by checking the exp claim.
+        logger.error('oh no! jwt expired')
+        return "JWT expired", 401
+
+    # Verify that sub is not empty.
+    if decoded["sub"] is None or decoded["sub"] == "":
+        logger.error('oh no! sub is empty')
+        return "sub empty", 401
+
+    # JWT validated, approve account
+    logger.debug('approving account', account=decoded["sub"])
+    try:
+        response = procurement_api.approve_account(decoded["sub"])
+        logger.info("procurement api approve complete", response={})
+        if settings.auto_approve_entitlements:
+            # look for any pending entitlement creation requests and approve them
+            pending_creation_requests = procurement_api.list_entitlements(account_id=decoded["sub"])
+            logger.debug("pending requests", pending_creation_requests=pending_creation_requests)
+            for pcr in pending_creation_requests["entitlements"]:
+                logger.debug("pending creation request", pcr=pcr)
+                entitlement_id = procurement_api.get_entitlement_id(pcr["name"])
+                logger.info("approving entitlement", entitlement_id=entitlement_id)
+                procurement_api.approve_entitlement(entitlement_id)
+        return "Your account has been approved. You can close this window.", 200
+    except Exception as e:
+        logger.error("an exception occurred approving accounts", exception=traceback.format_exc())
+        return {"error": "failed to approve account"}, 500
 
 
 # curl localhost:5000/v1/entitlement?state=CREATION_REQUESTED|ACTIVE|PLAN_CHANGE_REQUESTED|PLAN_CHANGED|PLAN_CHANGE_CANCELLED|CANCELLED|PENDING_CANCELLATION|CANCELLATION_REVERTED|DELETED

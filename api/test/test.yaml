@@ -1,5 +1,5 @@
 steps:
-  - name: python:3.7
+  - name: python:3.8
     entrypoint: pip
     args: [ "install", "-r", "api/requirements.txt","-r", "api/test/requirements.txt", "--user" ]
   - name: python:3.7

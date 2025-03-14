@@ -34,6 +34,13 @@ resource "google_compute_url_map" "url_map" {
   }
 }
 
+resource "google_compute_ssl_policy" "ssl_policy_modern_tls12" {
+  project         = var.project_id
+  name            = "ssl-policy-modern-tls12"
+  profile         = "MODERN"
+  min_tls_version = "TLS_1_2"
+}
+
 module "api-lb" {
   source  = "GoogleCloudPlatform/lb-http/google//modules/serverless_negs"
   version = "~> 6.3"
@@ -47,6 +54,7 @@ module "api-lb" {
   url_map                         = google_compute_url_map.url_map.self_link
   create_url_map = false
   address                         = google_compute_global_address.external_ip.address
+  ssl_policy                      = google_compute_ssl_policy.ssl_policy_modern_tls12.self_link
   create_address                  = false
   backends = {
     default = {

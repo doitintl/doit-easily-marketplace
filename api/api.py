@@ -51,6 +51,7 @@ def entitlements():
 
         return render_template("index.html", **page_context)
     except Exception as e:
+        logger.debug("an exception occurred loading index", exception=traceback.format_exc())
         logger.error(e)
         return {"error": "Loading failed"}, 500
 
@@ -76,10 +77,19 @@ def show_account(account_id):
         logger.error(e)
         return {"error": "Loading failed"}, 500 
 
+
 @app.route("/login", methods=["POST"])
 @app.route("/activate", methods=["POST"])
+@app.route("/login", methods=["GET"])
+@app.route("/activate", methods=["GET"])
 def login():
     add_request_context_to_log(str(uuid.uuid4()))
+    if settings.private_offers_only:
+        return "This listing is only sold through custom pricing. Please contact the vendor.", 200
+
+    if request.method == "GET":
+        return "This integration is running.", 200
+    
     encoded = request.form.get("x-gcp-marketplace-token")
     logger.debug('encoded token', token=encoded)
     if not encoded:

@@ -16,11 +16,14 @@ settings.validators.register(
     Validator("marketplace_project", must_exist=True, is_type_of=str),
     # the domain that hosts your product, such as `example-pro.com`
     Validator("audience", must_exist=True, is_type_of=str),
+    Validator("private_offers_only", must_exist=True, is_type_of=bool),
+    # optional. If set, slack notifications will be sent.
     Validator("auto_approve_entitlements", must_exist=True, is_type_of=bool),
     # optional. If set, slack notifications will be sent.
     Validator("slack_webhook", eq=None) | Validator("slack_webhook", is_type_of=str),
     # optional. If set, google pubsub will be used.
     Validator("event_topic", eq=None) | Validator("event_topic", is_type_of=str),
+
 )
 
 settings.validators.validate_all()
